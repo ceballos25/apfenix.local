@@ -100,13 +100,15 @@ include_once ROOT_PATH . "/includes/head.php";
                                 <h5 class="fw-bold mb-1"><i class="ti ti-flame text-danger me-1"></i> Avance de venta</h5>
                                 <small class="text-muted" id="avanceRifaTitulo">Cargando rifa...</small>
                             </div>
-                            <span class="badge bg-primary fs-5 px-3 py-2" id="avanceRifaPct">0%</span>
+                            <span class="badge rounded-pill fs-5 px-3 py-2 bg-dark text-warning border border-warning" id="avanceRifaPct">0,00%</span>
                         </div>
-                        <div class="progress" style="height: 30px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
-                                 id="avanceRifaBar" role="progressbar" style="width: 0%;"
-                                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                <span class="fw-bold" id="avanceRifaBarText">0%</span>
+                        <div class="position-relative rounded-pill overflow-hidden border border-2 border-dark" style="height: 40px; background-color: #1a1a2e;">
+                            <div id="avanceRifaBar" role="progressbar"
+                                 style="height: 100%; width: 0%; background: linear-gradient(90deg, #ea580c 0%, #fbbf24 100%); transition: width 0.45s ease;"
+                                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center pointer-events-none">
+                                <span class="fw-bold text-white" id="avanceRifaBarText"
+                                      style="font-size: 1.05rem; letter-spacing: 0.03em; text-shadow: 0 1px 4px rgba(0,0,0,0.95), 0 0 8px rgba(0,0,0,0.6);">0,00%</span>
                             </div>
                         </div>
                         <small class="text-muted d-block mt-2" id="avanceRifaDetalle">—</small>

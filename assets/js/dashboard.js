@@ -93,32 +93,25 @@ function renderKPIs(kpis) {
     document.getElementById('kpiDisponibles').innerText = fmtNum(kpis.numerosDisponibles);
 
     const avance = kpis.avanceRifa || {};
-    const pct = Math.min(100, Number(avance.porcentaje) || 0);
-    const pctLabel = pct % 1 === 0 ? pct : pct.toFixed(1);
+    const pctRaw = Number(avance.porcentaje) || 0;
+    const pctBar = Math.min(100, pctRaw);
+    const pctLabel = pctRaw.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     const titulo = avance.titulo || 'Sin rifa activa';
     const vendidos = Number(avance.vendidos) || 0;
+    const reservados = Number(avance.reservados) || 0;
     const total = Number(avance.total) || 0;
     const disponibles = Number(avance.disponibles) || 0;
 
     document.getElementById('avanceRifaTitulo').textContent = titulo;
     document.getElementById('avanceRifaPct').textContent = pctLabel + '%';
     document.getElementById('avanceRifaDetalle').textContent = total > 0
-        ? `${fmtNum(vendidos)} vendidos de ${fmtNum(total)} números · ${fmtNum(disponibles)} disponibles`
+        ? `${fmtNum(vendidos)} vendidos · ${fmtNum(reservados)} reservados · ${fmtNum(disponibles)} libres · ${fmtNum(total)} total`
         : 'No hay datos de avance para la rifa seleccionada';
 
     const barra = document.getElementById('avanceRifaBar');
-    barra.style.width = pct + '%';
-    barra.setAttribute('aria-valuenow', pct);
+    barra.style.width = pctBar + '%';
+    barra.setAttribute('aria-valuenow', pctBar);
     document.getElementById('avanceRifaBarText').textContent = pctLabel + '%';
-
-    barra.classList.remove('bg-success', 'bg-primary', 'bg-warning');
-    if (pct >= 100) {
-        barra.classList.add('bg-primary');
-    } else if (pct >= 50) {
-        barra.classList.add('bg-success');
-    } else {
-        barra.classList.add('bg-warning');
-    }
 }
 
 // Configuración Base Donut

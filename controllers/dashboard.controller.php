@@ -18,11 +18,12 @@ class DashboardController {
                 'numerosDisponibles' => 0,
                 'totalClientes' => 0,
                 'avanceRifa' => [
-                    'titulo'     => '',
-                    'porcentaje' => 0,
-                    'vendidos'   => 0,
-                    'total'      => 0,
-                    'disponibles'=> 0,
+                    'titulo'      => '',
+                    'porcentaje'  => 0,
+                    'vendidos'    => 0,
+                    'reservados'  => 0,
+                    'total'       => 0,
+                    'disponibles' => 0,
                 ],
             ],
             'graficas' => [
@@ -259,8 +260,8 @@ class DashboardController {
     }
 
     /**
-     * % real vendido de la rifa (total boletos vs disponibles).
-     * Si no hay filtro de rifa, usa la rifa activa más reciente.
+     * % vendido de la rifa contando solo tickets con status 1 (vendido).
+     * Status: 0 = libre, 1 = vendido, 2 = reservado.
      */
     private static function calcularAvanceRifa(string $idRaffle): array
     {
@@ -268,6 +269,7 @@ class DashboardController {
             'titulo'      => '',
             'porcentaje'  => 0,
             'vendidos'    => 0,
+            'reservados'  => 0,
             'total'       => 0,
             'disponibles' => 0,
         ];
@@ -303,28 +305,36 @@ class DashboardController {
             return $vacío;
         }
 
-        $resDisp = ApiRequest::get('tickets', [
-            'linkTo'  => 'id_raffle_ticket,status_ticket',
-            'equalTo' => $idRifa . ',0',
-            'select'  => 'id_ticket',
-            'startAt' => 0,
-            'endAt'   => 100000,
-        ]);
-
-        $disponibles = (ApiRequest::isSuccess($resDisp) && !empty($resDisp->results))
-            ? count(is_array($resDisp->results) ? $resDisp->results : [$resDisp->results])
-            : 0;
-
-        $vendidos   = max(0, $total - $disponibles);
-        $porcentaje = round(($vendidos / $total) * 100, 1);
+        $libres     = self::contarTicketsPorEstado($idRifa, 0);
+        $vendidos   = self::contarTicketsPorEstado($idRifa, 1);
+        $reservados = self::contarTicketsPorEstado($idRifa, 2);
+        $porcentaje = round(($vendidos / $total) * 100, 2);
 
         return [
             'titulo'      => trim($rifa->title_raffle ?? 'Rifa'),
             'porcentaje'  => $porcentaje,
             'vendidos'    => $vendidos,
+            'reservados'  => $reservados,
             'total'       => $total,
-            'disponibles' => $disponibles,
+            'disponibles' => $libres,
         ];
+    }
+
+    private static function contarTicketsPorEstado(int $idRifa, int $status): int
+    {
+        $res = ApiRequest::get('tickets', [
+            'linkTo'  => 'id_raffle_ticket,status_ticket',
+            'equalTo' => $idRifa . ',' . $status,
+            'select'  => 'id_ticket',
+            'startAt' => 0,
+            'endAt'   => 100000,
+        ]);
+
+        if (!ApiRequest::isSuccess($res) || empty($res->results)) {
+            return 0;
+        }
+
+        return count(is_array($res->results) ? $res->results : [$res->results]);
     }
 
     /**
