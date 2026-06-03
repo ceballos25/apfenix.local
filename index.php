@@ -17,7 +17,7 @@ $porcentaje_venta = 40.6;
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="assets/css/styles-v20.css?v=1">
+    <link rel="stylesheet" href="assets/css/styles-v20.css?v=6">
     <script src="https://t.contentsquare.net/uxa/8c88e0bc219df.js"></script>
 
 
@@ -73,9 +73,9 @@ $porcentaje_venta = 40.6;
     <!-- HERO -->
     <section class="py-3">
         <div class="container">
-            <div class="row g-4">
+            <div class="row g-3 align-items-start">
 
-                <div class="col-lg-6">
+                <div class="col-lg-6 hero-fotos-col">
 
                     <h1 class="hero-title mb-3">
                         ¡Gran combo <br><span class="millonario">Millonario 🤑</span>!
@@ -114,10 +114,25 @@ $porcentaje_venta = 40.6;
                         </div>
                     </section>
                     </div>
-            
+
+                    <!-- Progreso bajo fotos (desktop) -->
+                    <div class="card border-0 shadow-sm text-center mt-3 d-none d-lg-block">
+                        <div class="card-body py-3">
+                            <div class="d-flex justify-content-between fw-bold">
+                                <span>🔥 Vendidos</span>
+                                <span><?= $porcentaje_venta ?>%</span>
+                            </div>
+                            <div class="progress my-2">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                    style="width:<?= $porcentaje_venta ?>%"></div>
+                            </div>
+                            <small class="text-muted">Juega cuando lleguemos al 100% de las ventas</small>
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-6 hero-premios-col">
 
                     <div class="row g-3 mb-4">
 
@@ -169,8 +184,22 @@ $porcentaje_venta = 40.6;
                                 <div class="card-body">
 
                                     <h3 class="fw-bold mb-2">
-                                        10 Anticipados de <span class="color-dinero-premio"> $500.000</span>
+                                        10 Anticipados de <span class="color-dinero-premio">$500.000</span>
                                     </h3>
+
+                                    <div class="confirmados-panel confirmados-panel--anticipado text-start mt-3">
+                                        <p class="confirmados-panel__aviso small fw-bold mb-1">
+                                            <i class="ti ti-info-circle me-1"></i> 1 anticipado se acumuló
+                                        </p>
+                                        <p class="small fw-bold text-muted mb-2">2° anticipado quedó en $1.000.000</p>
+                                        <div class="confirmados-fila">
+                                            <span class="confirmados-fila__fecha">29 de mayo</span>
+                                            <span class="confirmados-fila__nombre">Laura Cortés</span>
+                                            <span class="confirmados-fila__extra color-dinero-premio">Bendición $1.000.000</span>
+                                            <span class="numero-apfenix numero-apfenix--bendecido">32985</span>
+                                        </div>
+                                        <p class="confirmados-fila__nota small text-muted mb-0 mt-2">Por la de Medellín 🎫</p>
+                                    </div>
 
                                     <small class="fw-bold text-muted d-none">
                                         Aprovecha nuestro primer anticipado éste viernes con la de Medellín 🎫 <br>
@@ -188,7 +217,7 @@ $porcentaje_venta = 40.6;
                                 <div class="card-body">
 
                                     <h3 class="fw-bold text-dark mb-1">
-                                        10 Afortunados de <span class="color-dinero-premio">$500.000</span>
+                                        10 Bendecidos de <span class="color-dinero-premio">$500.000</span>
                                     </h3>
                                     <button class="btn btn-success m-2 fw-bold tachado">30405</button>
                                     <button class="btn btn-success m-2 fw-bold">00007</button>
@@ -207,16 +236,50 @@ $porcentaje_venta = 40.6;
                                     </small>
                                     </div>
 
+                                    <div class="confirmados-panel text-start mt-2 pt-3 border-top">
+                                        <p class="confirmados-panel__resumen small fw-bold mb-2">
+                                            Quedan <span class="color-dinero-premio">8</span> anticipados y
+                                            <span class="color-dinero-premio">5</span> bendecidos por jugar
+                                        </p>
+                                        <h4 class="confirmados-panel__titulo fw-bold mb-2">✨ Bendecidos confirmados</h4>
+                                        <div class="confirmados-lista">
+                                            <div class="confirmados-fila">
+                                                <span class="confirmados-fila__fecha">16 de abril</span>
+                                                <span class="confirmados-fila__nombre">Henry Carrillo</span>
+                                                <span class="numero-apfenix numero-apfenix--bendecido">95585</span>
+                                            </div>
+                                            <div class="confirmados-fila">
+                                                <span class="confirmados-fila__fecha">23 de abril</span>
+                                                <span class="confirmados-fila__nombre">Fabio Gómez</span>
+                                                <span class="numero-apfenix numero-apfenix--bendecido">30405</span>
+                                            </div>
+                                            <div class="confirmados-fila">
+                                                <span class="confirmados-fila__fecha">07 de mayo</span>
+                                                <span class="confirmados-fila__nombre">Luz Goez</span>
+                                                <span class="numero-apfenix numero-apfenix--bendecido">82041</span>
+                                            </div>
+                                            <div class="confirmados-fila">
+                                                <span class="confirmados-fila__fecha">19 de mayo</span>
+                                                <span class="confirmados-fila__nombre">Migdonia García</span>
+                                                <span class="numero-apfenix numero-apfenix--bendecido">30068</span>
+                                            </div>
+                                            <div class="confirmados-fila">
+                                                <span class="confirmados-fila__fecha">24 de mayo</span>
+                                                <span class="confirmados-fila__nombre">Antonio Martínez</span>
+                                                <span class="numero-apfenix numero-apfenix--bendecido">12998</span>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </div>
                             </div>
-                        </div>                         
+                        </div>
 
                     </div>
 
 
-                    <!-- PROGRESO -->
-                    <div class="card border-0 shadow-sm text-center mb-4">
+                    <!-- PROGRESO (móvil / tablet) -->
+                    <div class="card border-0 shadow-sm text-center mb-3 d-lg-none">
                         <div class="card-body">
 
                             <div class="d-flex justify-content-between fw-bold">

@@ -416,9 +416,168 @@
     }
 
     img.premios-primer-sorteo {
-        height: 500px;
-        width: 450px;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        max-height: 420px;
+        object-fit: cover;
         border-radius: 20px;
+    }
+
+    .hero-fotos-col .card {
+        width: 100%;
+    }
+
+    #main-carousel,
+    #thumbnail-carousel {
+        max-width: 100%;
+    }
+
+    #thumbnail-carousel .splide__slide img {
+        height: 56px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    /* Historial / confirmados bajo bendecidos */
+    .confirmados-panel {
+        background: #f9f9f9;
+        border-radius: 10px;
+        padding: 10px 12px;
+        margin-top: 8px;
+    }
+
+    .confirmados-panel--anticipado {
+        background: #fff;
+        border: 1px dashed rgba(213, 0, 249, 0.25);
+    }
+
+    .confirmados-panel__resumen {
+        color: #444;
+        line-height: 1.35;
+    }
+
+    .confirmados-panel__titulo {
+        font-size: 0.85rem;
+        color: #222;
+    }
+
+    .confirmados-panel__aviso {
+        color: #555;
+        margin-bottom: 8px;
+    }
+
+    .confirmados-lista {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .confirmados-fila {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-rows: auto auto;
+        gap: 2px 10px;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #ececec;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .confirmados-fila:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .confirmados-fila__fecha {
+        font-weight: 800;
+        color: #666;
+        font-size: 0.72rem;
+        line-height: 1.2;
+    }
+
+    .confirmados-fila__nombre {
+        font-weight: 700;
+        color: #222;
+        line-height: 1.25;
+        word-break: break-word;
+    }
+
+    .confirmados-fila__extra {
+        font-size: 0.72rem;
+        font-weight: 800;
+        line-height: 1.2;
+    }
+
+    .confirmados-fila__nota {
+        font-size: 0.7rem;
+    }
+
+    .confirmados-fila .numero-apfenix {
+        grid-column: 2;
+        grid-row: 1 / span 3;
+        align-self: center;
+        min-width: 58px;
+        height: 32px;
+        font-size: 12px !important;
+    }
+
+    @media (min-width: 992px) {
+        .confirmados-fila {
+            grid-template-columns: 92px minmax(0, 1fr) auto;
+            grid-template-rows: auto;
+            gap: 4px 12px;
+            padding: 7px 0;
+            font-size: 0.75rem;
+        }
+
+        .confirmados-fila__fecha {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .confirmados-fila__nombre {
+            grid-column: 2;
+            grid-row: 1;
+        }
+
+        .confirmados-fila__extra {
+            grid-column: 2;
+            grid-row: 2;
+        }
+
+        .confirmados-fila .numero-apfenix {
+            grid-column: 3;
+            grid-row: 1 / span 2;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .confirmados-fila {
+            font-size: 0.72rem;
+        }
+
+        .confirmados-fila .numero-apfenix {
+            min-width: 52px;
+            height: 30px;
+            font-size: 11px !important;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .hero-fotos-col {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        img.premios-primer-sorteo {
+            max-height: 380px;
+        }
     }
 
     .ganador {
@@ -488,6 +647,30 @@
         color: #d500f9 !important;
     }
 
+    /* Números Ap Fenix (mismo estilo que ventas / btn-ticket-revelo) */
+    .numero-apfenix {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #ffffff !important;
+        border: 2px solid #1a1a1a !important;
+        color: #1a1a1a !important;
+        border-radius: 10px;
+        font-weight: 700 !important;
+        font-size: 13px !important;
+        min-width: 52px;
+        height: 38px;
+        padding: 0 8px;
+        flex-shrink: 0;
+        letter-spacing: 0.03em;
+    }
+
+    .numero-apfenix--bendecido {
+        background-color: #198754 !important;
+        border-color: #198754 !important;
+        color: #ffffff !important;
+    }
+
 
     h1.hero-title-dos.mb-3 {
         padding-top: 30px;
@@ -511,8 +694,10 @@
 
     @media (max-width: 768px) {
         img.premios-primer-sorteo {
-            height: 380px;
-            width: 333px;
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            max-height: 380px;
             border-radius: 20px;
             object-fit: cover;
         }

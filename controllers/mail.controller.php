@@ -86,7 +86,7 @@ class MailController {
             $mail->setFrom(MAIL_FROM, MAIL_FROM_NAME);
             $mail->addAddress(CORREO_INFORME);
 
-            $subject = 'Informe gerencial — ' . $datos['tipo_label'] . ' — ' . $datos['fecha_formateada'];
+            $subject = 'Informe de Ventas por Vendedor ' . $datos['tipo_label'] . ' — ' . $datos['fecha_formateada'];
 
             $mail->isHTML(true);
             $mail->Subject = $subject;
