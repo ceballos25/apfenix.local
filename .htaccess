@@ -1,0 +1,15 @@
+# Evitar listado de directorios (cuando no hay index)
+Options -Indexes
+
+# Cabeceras (CORS)
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+</IfModule>
+
+# Protección del archivo 403
+<Files "403.html">
+    Require all granted
+</Files>
+
+# Manejo de error 403 personalizado
+ErrorDocument 403 /403.html

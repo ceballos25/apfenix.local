@@ -1,0 +1,349 @@
+[31-May-2026 22:11:49 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[31-May-2026 22:11:49 America/Bogota] POST DATA: {"name_customer":"Luis Javier","lastname_customer":"Villalobos Bele\u00f1os","phone_customer":"3002438003","email_customer":"Luisguajiro1616@gmail.com","department_customer":"CUNDINAMARCA","city_customer":"BOGOTA","status_customer":1}
+[31-May-2026 22:11:49 America/Bogota] POST DATA encoded: name_customer=Luis+Javier&lastname_customer=Villalobos+Bele%C3%B1os&phone_customer=3002438003&email_customer=Luisguajiro1616%40gmail.com&department_customer=CUNDINAMARCA&city_customer=BOGOTA&status_customer=1
+[31-May-2026 22:11:49 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1155","comment":"The process was successful"}}
+[31-May-2026 22:11:49 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[31-May-2026 22:11:49 America/Bogota] POST DATA: {"id_customer_sale":1155,"id_raffle_sale":1,"code_sale":"AP178028350947038","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[31-May-2026 22:11:49 America/Bogota] POST DATA encoded: id_customer_sale=1155&id_raffle_sale=1&code_sale=AP178028350947038&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[31-May-2026 22:11:49 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1119","comment":"The process was successful"}}
+[01-Jun-2026 08:41:48 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[01-Jun-2026 08:41:48 America/Bogota] POST DATA: {"name_customer":"Jose","lastname_customer":"Rumie","phone_customer":"3168333327","email_customer":"jochorumie@hotmail.com","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[01-Jun-2026 08:41:48 America/Bogota] POST DATA encoded: name_customer=Jose&lastname_customer=Rumie&phone_customer=3168333327&email_customer=jochorumie%40hotmail.com&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[01-Jun-2026 08:41:48 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1156","comment":"The process was successful"}}
+[01-Jun-2026 08:41:48 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[01-Jun-2026 08:41:48 America/Bogota] POST DATA: {"id_customer_sale":1156,"id_raffle_sale":1,"code_sale":"AP178032130778689","quantity_sale":30,"total_sale":"27000","payment_method_sale":"Efectivo","status_sale":1,"id_admin_sale":3}
+[01-Jun-2026 08:41:48 America/Bogota] POST DATA encoded: id_customer_sale=1156&id_raffle_sale=1&code_sale=AP178032130778689&quantity_sale=30&total_sale=27000&payment_method_sale=Efectivo&status_sale=1&id_admin_sale=3
+[01-Jun-2026 08:41:48 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1120","comment":"The process was successful"}}
+[01-Jun-2026 10:03:57 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[01-Jun-2026 10:03:57 America/Bogota] POST DATA: {"name_customer":"Ana Joaquina","lastname_customer":"Ceballos Durango.","phone_customer":"3137069638","email_customer":"anajoa1959@gmail.com","department_customer":"CHOCO","city_customer":"QUIBDO","status_customer":1}
+[01-Jun-2026 10:03:57 America/Bogota] POST DATA encoded: name_customer=Ana+Joaquina&lastname_customer=Ceballos+Durango.&phone_customer=3137069638&email_customer=anajoa1959%40gmail.com&department_customer=CHOCO&city_customer=QUIBDO&status_customer=1
+[01-Jun-2026 10:03:57 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1157","comment":"The process was successful"}}
+[01-Jun-2026 10:03:57 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[01-Jun-2026 10:03:57 America/Bogota] POST DATA: {"id_customer_sale":1157,"id_raffle_sale":1,"code_sale":"AP178032623807821","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[01-Jun-2026 10:03:57 America/Bogota] POST DATA encoded: id_customer_sale=1157&id_raffle_sale=1&code_sale=AP178032623807821&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[01-Jun-2026 10:03:57 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1121","comment":"The process was successful"}}
+[01-Jun-2026 10:28:40 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[01-Jun-2026 10:28:40 America/Bogota] POST DATA: {"name_customer":"Samuel David","lastname_customer":"Simanca Cogollo","phone_customer":"3122130713","email_customer":"ssimanca01@hotmail.com","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[01-Jun-2026 10:28:40 America/Bogota] POST DATA encoded: name_customer=Samuel+David&lastname_customer=Simanca+Cogollo&phone_customer=3122130713&email_customer=ssimanca01%40hotmail.com&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[01-Jun-2026 10:28:40 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1158","comment":"The process was successful"}}
+[01-Jun-2026 10:28:40 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[01-Jun-2026 10:28:40 America/Bogota] POST DATA: {"id_customer_sale":1158,"id_raffle_sale":1,"code_sale":"AP178032772197073","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[01-Jun-2026 10:28:40 America/Bogota] POST DATA encoded: id_customer_sale=1158&id_raffle_sale=1&code_sale=AP178032772197073&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[01-Jun-2026 10:28:40 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1122","comment":"The process was successful"}}
+[01-Jun-2026 11:11:10 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[01-Jun-2026 11:11:10 America/Bogota] POST DATA: {"name_customer":"Amaury","lastname_customer":"Garcia Mendoza","phone_customer":"3135798367","email_customer":"amaurigarciamendoza4@gmail.com","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[01-Jun-2026 11:11:10 America/Bogota] POST DATA encoded: name_customer=Amaury&lastname_customer=Garcia+Mendoza&phone_customer=3135798367&email_customer=amaurigarciamendoza4%40gmail.com&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[01-Jun-2026 11:11:10 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1159","comment":"The process was successful"}}
+[01-Jun-2026 11:11:10 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[01-Jun-2026 11:11:10 America/Bogota] POST DATA: {"id_customer_sale":1159,"id_raffle_sale":1,"code_sale":"AP178033027126053","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[01-Jun-2026 11:11:10 America/Bogota] POST DATA encoded: id_customer_sale=1159&id_raffle_sale=1&code_sale=AP178033027126053&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[01-Jun-2026 11:11:10 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1123","comment":"The process was successful"}}
+[01-Jun-2026 11:13:46 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[01-Jun-2026 11:13:46 America/Bogota] POST DATA: {"name_customer":"Jose Ellas","lastname_customer":"Ramos C\u00e1rdenas","phone_customer":"3122957175","email_customer":"ramoscardenasjoseelias@gmail.com","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[01-Jun-2026 11:13:46 America/Bogota] POST DATA encoded: name_customer=Jose+Ellas&lastname_customer=Ramos+C%C3%A1rdenas&phone_customer=3122957175&email_customer=ramoscardenasjoseelias%40gmail.com&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[01-Jun-2026 11:13:46 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1160","comment":"The process was successful"}}
+[01-Jun-2026 11:13:46 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[01-Jun-2026 11:13:46 America/Bogota] POST DATA: {"id_customer_sale":1160,"id_raffle_sale":1,"code_sale":"AP178033042710610","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[01-Jun-2026 11:13:46 America/Bogota] POST DATA encoded: id_customer_sale=1160&id_raffle_sale=1&code_sale=AP178033042710610&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[01-Jun-2026 11:13:46 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1124","comment":"The process was successful"}}
+[01-Jun-2026 12:09:51 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[01-Jun-2026 12:09:51 America/Bogota] POST DATA: {"name_customer":"Jhan","lastname_customer":"Noriega","phone_customer":"3003721691","email_customer":"Noriegaherazo@gmail.com","department_customer":"CORDOBA","city_customer":"PUERTO LIBERTADOR","status_customer":1}
+[01-Jun-2026 12:09:51 America/Bogota] POST DATA encoded: name_customer=Jhan&lastname_customer=Noriega&phone_customer=3003721691&email_customer=Noriegaherazo%40gmail.com&department_customer=CORDOBA&city_customer=PUERTO+LIBERTADOR&status_customer=1
+[01-Jun-2026 12:09:51 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1161","comment":"The process was successful"}}
+[01-Jun-2026 12:09:51 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[01-Jun-2026 12:09:51 America/Bogota] POST DATA: {"id_customer_sale":1161,"id_raffle_sale":1,"code_sale":"AP178033379247991","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[01-Jun-2026 12:09:51 America/Bogota] POST DATA encoded: id_customer_sale=1161&id_raffle_sale=1&code_sale=AP178033379247991&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[01-Jun-2026 12:09:51 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1125","comment":"The process was successful"}}
+[01-Jun-2026 12:25:59 America/Bogota] POST URL: customers?token=no&except=id_customer
+[01-Jun-2026 12:25:59 America/Bogota] POST DATA: {"name_customer":"Yamile","lastname_customer":"Romero Martinez","phone_customer":"3016161114","email_customer":"mafekike1969@gmail.com","department_customer":"LA GUAJIRA","city_customer":"RIOHACHA","status_customer":1}
+[01-Jun-2026 12:25:59 America/Bogota] POST DATA encoded: name_customer=Yamile&lastname_customer=Romero+Martinez&phone_customer=3016161114&email_customer=mafekike1969%40gmail.com&department_customer=LA+GUAJIRA&city_customer=RIOHACHA&status_customer=1
+[01-Jun-2026 12:25:59 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1162","comment":"The process was successful"}}
+[01-Jun-2026 12:25:59 America/Bogota] POST URL: payment_backups?token=no&suffix=payment_backup&except=code_payment_backup
+[01-Jun-2026 12:25:59 America/Bogota] POST DATA: {"code_payment_backup":"PB-20260601122559693","id_raffle_payment_backup":1,"id_customer_payment_backup":1162,"quantity_payment_backup":20,"amount_payment_backup":"18000","currency_payment_backup":"COP","status_payment_backup":1}
+[01-Jun-2026 12:25:59 America/Bogota] POST DATA encoded: code_payment_backup=PB-20260601122559693&id_raffle_payment_backup=1&id_customer_payment_backup=1162&quantity_payment_backup=20&amount_payment_backup=18000&currency_payment_backup=COP&status_payment_backup=1
+[01-Jun-2026 12:25:59 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"673","comment":"The process was successful"}}
+[01-Jun-2026 12:52:18 America/Bogota] POST URL: customers?token=no&except=id_customer
+[01-Jun-2026 12:52:18 America/Bogota] POST DATA: {"name_customer":"Yaira","lastname_customer":"Banqueth Garc\u00eda","phone_customer":"3007473963","email_customer":"yairagarcia.13@gmail.com","department_customer":"CORDOBA","city_customer":"CERETE","status_customer":1}
+[01-Jun-2026 12:52:18 America/Bogota] POST DATA encoded: name_customer=Yaira&lastname_customer=Banqueth+Garc%C3%ADa&phone_customer=3007473963&email_customer=yairagarcia.13%40gmail.com&department_customer=CORDOBA&city_customer=CERETE&status_customer=1
+[01-Jun-2026 12:52:18 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1163","comment":"The process was successful"}}
+[01-Jun-2026 12:52:18 America/Bogota] POST URL: payment_backups?token=no&suffix=payment_backup&except=code_payment_backup
+[01-Jun-2026 12:52:18 America/Bogota] POST DATA: {"code_payment_backup":"PB-20260601125218476","id_raffle_payment_backup":1,"id_customer_payment_backup":1163,"quantity_payment_backup":20,"amount_payment_backup":"18000","currency_payment_backup":"COP","status_payment_backup":1}
+[01-Jun-2026 12:52:18 America/Bogota] POST DATA encoded: code_payment_backup=PB-20260601125218476&id_raffle_payment_backup=1&id_customer_payment_backup=1163&quantity_payment_backup=20&amount_payment_backup=18000&currency_payment_backup=COP&status_payment_backup=1
+[01-Jun-2026 12:52:18 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"674","comment":"The process was successful"}}
+[01-Jun-2026 13:23:04 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[01-Jun-2026 13:23:04 America/Bogota] POST DATA: {"name_customer":"Gilberto","lastname_customer":"Caldera Ramos","phone_customer":"3226576847","email_customer":"cfuentescaldera@gmail.com","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[01-Jun-2026 13:23:04 America/Bogota] POST DATA encoded: name_customer=Gilberto&lastname_customer=Caldera+Ramos&phone_customer=3226576847&email_customer=cfuentescaldera%40gmail.com&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[01-Jun-2026 13:23:04 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1164","comment":"The process was successful"}}
+[01-Jun-2026 13:23:04 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[01-Jun-2026 13:23:04 America/Bogota] POST DATA: {"id_customer_sale":1164,"id_raffle_sale":1,"code_sale":"AP178033818579818","quantity_sale":22,"total_sale":"19800","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[01-Jun-2026 13:23:04 America/Bogota] POST DATA encoded: id_customer_sale=1164&id_raffle_sale=1&code_sale=AP178033818579818&quantity_sale=22&total_sale=19800&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[01-Jun-2026 13:23:04 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1127","comment":"The process was successful"}}
+[01-Jun-2026 13:25:12 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[01-Jun-2026 13:25:12 America/Bogota] POST DATA: {"name_customer":"Yenis","lastname_customer":"Vargas Casta\u00f1eda","phone_customer":"3183589229","email_customer":"Yenisvargas89@gmail.com","department_customer":"LA GUAJIRA","city_customer":"RIOHACHA","status_customer":1}
+[01-Jun-2026 13:25:12 America/Bogota] POST DATA encoded: name_customer=Yenis&lastname_customer=Vargas+Casta%C3%B1eda&phone_customer=3183589229&email_customer=Yenisvargas89%40gmail.com&department_customer=LA+GUAJIRA&city_customer=RIOHACHA&status_customer=1
+[01-Jun-2026 13:25:12 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1165","comment":"The process was successful"}}
+[01-Jun-2026 13:25:12 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[01-Jun-2026 13:25:12 America/Bogota] POST DATA: {"id_customer_sale":1165,"id_raffle_sale":1,"code_sale":"AP178033831303039","quantity_sale":22,"total_sale":"19800","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[01-Jun-2026 13:25:12 America/Bogota] POST DATA encoded: id_customer_sale=1165&id_raffle_sale=1&code_sale=AP178033831303039&quantity_sale=22&total_sale=19800&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[01-Jun-2026 13:25:12 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1128","comment":"The process was successful"}}
+[01-Jun-2026 14:15:07 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[01-Jun-2026 14:15:07 America/Bogota] POST DATA: {"name_customer":"Maria Patricia","lastname_customer":"Museos Arrieta","phone_customer":"3003965200","email_customer":"Patriciamuskus@hotmail.com","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[01-Jun-2026 14:15:07 America/Bogota] POST DATA encoded: name_customer=Maria+Patricia&lastname_customer=Museos+Arrieta&phone_customer=3003965200&email_customer=Patriciamuskus%40hotmail.com&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[01-Jun-2026 14:15:07 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1166","comment":"The process was successful"}}
+[01-Jun-2026 14:15:07 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[01-Jun-2026 14:15:07 America/Bogota] POST DATA: {"id_customer_sale":1166,"id_raffle_sale":1,"code_sale":"AP17803413090453","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[01-Jun-2026 14:15:07 America/Bogota] POST DATA encoded: id_customer_sale=1166&id_raffle_sale=1&code_sale=AP17803413090453&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[01-Jun-2026 14:15:07 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1129","comment":"The process was successful"}}
+[01-Jun-2026 14:53:38 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[01-Jun-2026 14:53:38 America/Bogota] POST DATA: {"name_customer":"Juan","lastname_customer":"Villalobos Doria","phone_customer":"3008021713","email_customer":"juancbasvilla1@gmail.com","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[01-Jun-2026 14:53:38 America/Bogota] POST DATA encoded: name_customer=Juan&lastname_customer=Villalobos+Doria&phone_customer=3008021713&email_customer=juancbasvilla1%40gmail.com&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[01-Jun-2026 14:53:38 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1167","comment":"The process was successful"}}
+[01-Jun-2026 14:53:38 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[01-Jun-2026 14:53:38 America/Bogota] POST DATA: {"id_customer_sale":1167,"id_raffle_sale":1,"code_sale":"AP17803436197231","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[01-Jun-2026 14:53:38 America/Bogota] POST DATA encoded: id_customer_sale=1167&id_raffle_sale=1&code_sale=AP17803436197231&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[01-Jun-2026 14:53:38 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1130","comment":"The process was successful"}}
+[01-Jun-2026 15:02:33 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[01-Jun-2026 15:02:33 America/Bogota] POST DATA: {"name_customer":"Ever","lastname_customer":"Martinez","phone_customer":"3005614357","email_customer":"mever481@gmail.com","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[01-Jun-2026 15:02:33 America/Bogota] POST DATA encoded: name_customer=Ever&lastname_customer=Martinez&phone_customer=3005614357&email_customer=mever481%40gmail.com&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[01-Jun-2026 15:02:33 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1168","comment":"The process was successful"}}
+[01-Jun-2026 15:02:33 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[01-Jun-2026 15:02:33 America/Bogota] POST DATA: {"id_customer_sale":1168,"id_raffle_sale":1,"code_sale":"AP178034415391689","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[01-Jun-2026 15:02:33 America/Bogota] POST DATA encoded: id_customer_sale=1168&id_raffle_sale=1&code_sale=AP178034415391689&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[01-Jun-2026 15:02:33 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1131","comment":"The process was successful"}}
+[01-Jun-2026 15:07:10 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[01-Jun-2026 15:07:10 America/Bogota] POST DATA: {"name_customer":"Julio C\u00e9sar","lastname_customer":"Rodr\u00edguez Villazon","phone_customer":"3225438770","email_customer":"juliocesarrodriguezvillazon@30gml.com","department_customer":"CESAR","city_customer":"VALLEDUPAR","status_customer":1}
+[01-Jun-2026 15:07:10 America/Bogota] POST DATA encoded: name_customer=Julio+C%C3%A9sar&lastname_customer=Rodr%C3%ADguez+Villazon&phone_customer=3225438770&email_customer=juliocesarrodriguezvillazon%4030gml.com&department_customer=CESAR&city_customer=VALLEDUPAR&status_customer=1
+[01-Jun-2026 15:07:10 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1169","comment":"The process was successful"}}
+[01-Jun-2026 15:07:10 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[01-Jun-2026 15:07:10 America/Bogota] POST DATA: {"id_customer_sale":1169,"id_raffle_sale":1,"code_sale":"AP17803444314914","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[01-Jun-2026 15:07:10 America/Bogota] POST DATA encoded: id_customer_sale=1169&id_raffle_sale=1&code_sale=AP17803444314914&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[01-Jun-2026 15:07:10 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1132","comment":"The process was successful"}}
+[01-Jun-2026 15:07:19 America/Bogota] POST URL: customers?token=no&except=id_customer
+[01-Jun-2026 15:07:19 America/Bogota] POST DATA: {"name_customer":"Yulieth","lastname_customer":"Pitalua Montero","phone_customer":"3017882935","email_customer":"yepitalua06@hotmail.com","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[01-Jun-2026 15:07:19 America/Bogota] POST DATA encoded: name_customer=Yulieth&lastname_customer=Pitalua+Montero&phone_customer=3017882935&email_customer=yepitalua06%40hotmail.com&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[01-Jun-2026 15:07:19 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1170","comment":"The process was successful"}}
+[01-Jun-2026 15:07:20 America/Bogota] POST URL: payment_backups?token=no&suffix=payment_backup&except=code_payment_backup
+[01-Jun-2026 15:07:20 America/Bogota] POST DATA: {"code_payment_backup":"PB-20260601150719933","id_raffle_payment_backup":1,"id_customer_payment_backup":1170,"quantity_payment_backup":20,"amount_payment_backup":"18000","currency_payment_backup":"COP","status_payment_backup":1}
+[01-Jun-2026 15:07:20 America/Bogota] POST DATA encoded: code_payment_backup=PB-20260601150719933&id_raffle_payment_backup=1&id_customer_payment_backup=1170&quantity_payment_backup=20&amount_payment_backup=18000&currency_payment_backup=COP&status_payment_backup=1
+[01-Jun-2026 15:07:20 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"675","comment":"The process was successful"}}
+[01-Jun-2026 15:34:54 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[01-Jun-2026 15:34:54 America/Bogota] POST DATA: {"name_customer":"Francisco","lastname_customer":"Pacheco","phone_customer":"3135994163","email_customer":"javierealramos@gmail.com","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[01-Jun-2026 15:34:54 America/Bogota] POST DATA encoded: name_customer=Francisco&lastname_customer=Pacheco&phone_customer=3135994163&email_customer=javierealramos%40gmail.com&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[01-Jun-2026 15:34:54 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1171","comment":"The process was successful"}}
+[01-Jun-2026 15:34:54 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[01-Jun-2026 15:34:54 America/Bogota] POST DATA: {"id_customer_sale":1171,"id_raffle_sale":1,"code_sale":"AP178034609364896","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Efectivo","status_sale":1,"id_admin_sale":3}
+[01-Jun-2026 15:34:54 America/Bogota] POST DATA encoded: id_customer_sale=1171&id_raffle_sale=1&code_sale=AP178034609364896&quantity_sale=20&total_sale=18000&payment_method_sale=Efectivo&status_sale=1&id_admin_sale=3
+[01-Jun-2026 15:34:54 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1134","comment":"The process was successful"}}
+[01-Jun-2026 15:46:43 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[01-Jun-2026 15:46:43 America/Bogota] POST DATA: {"name_customer":"Dorian","lastname_customer":"Zambrano","phone_customer":"3013904226","email_customer":"Dorianzambrano@hotmail.com","department_customer":"BOLIVAR","city_customer":"CARTAGENA DE INDIAS","status_customer":1}
+[01-Jun-2026 15:46:43 America/Bogota] POST DATA encoded: name_customer=Dorian&lastname_customer=Zambrano&phone_customer=3013904226&email_customer=Dorianzambrano%40hotmail.com&department_customer=BOLIVAR&city_customer=CARTAGENA+DE+INDIAS&status_customer=1
+[01-Jun-2026 15:46:43 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1172","comment":"The process was successful"}}
+[01-Jun-2026 15:46:43 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[01-Jun-2026 15:46:43 America/Bogota] POST DATA: {"id_customer_sale":1172,"id_raffle_sale":1,"code_sale":"AP178034680456820","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[01-Jun-2026 15:46:43 America/Bogota] POST DATA encoded: id_customer_sale=1172&id_raffle_sale=1&code_sale=AP178034680456820&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[01-Jun-2026 15:46:43 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1135","comment":"The process was successful"}}
+[01-Jun-2026 16:32:56 America/Bogota] POST URL: customers?token=no&except=id_customer
+[01-Jun-2026 16:32:56 America/Bogota] POST DATA: {"name_customer":"Gustavo","lastname_customer":"Nava","phone_customer":"3014396709","email_customer":"gustavonava929@gmail.com","department_customer":"ATLANTICO","city_customer":"SOLEDAD","status_customer":1}
+[01-Jun-2026 16:32:56 America/Bogota] POST DATA encoded: name_customer=Gustavo&lastname_customer=Nava&phone_customer=3014396709&email_customer=gustavonava929%40gmail.com&department_customer=ATLANTICO&city_customer=SOLEDAD&status_customer=1
+[01-Jun-2026 16:32:56 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1173","comment":"The process was successful"}}
+[01-Jun-2026 16:32:56 America/Bogota] POST URL: payment_backups?token=no&suffix=payment_backup&except=code_payment_backup
+[01-Jun-2026 16:32:56 America/Bogota] POST DATA: {"code_payment_backup":"PB-20260601163256303","id_raffle_payment_backup":1,"id_customer_payment_backup":1173,"quantity_payment_backup":20,"amount_payment_backup":"18000","currency_payment_backup":"COP","status_payment_backup":1}
+[01-Jun-2026 16:32:56 America/Bogota] POST DATA encoded: code_payment_backup=PB-20260601163256303&id_raffle_payment_backup=1&id_customer_payment_backup=1173&quantity_payment_backup=20&amount_payment_backup=18000&currency_payment_backup=COP&status_payment_backup=1
+[01-Jun-2026 16:32:56 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"676","comment":"The process was successful"}}
+[01-Jun-2026 16:40:37 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[01-Jun-2026 16:40:37 America/Bogota] POST DATA: {"name_customer":"Aida Maria","lastname_customer":"C\u00f3rdoba","phone_customer":"3104106278","email_customer":"aidacordoba1234@gmail.com","department_customer":"CHOCO","city_customer":"QUIBDO","status_customer":1}
+[01-Jun-2026 16:40:37 America/Bogota] POST DATA encoded: name_customer=Aida+Maria&lastname_customer=C%C3%B3rdoba&phone_customer=3104106278&email_customer=aidacordoba1234%40gmail.com&department_customer=CHOCO&city_customer=QUIBDO&status_customer=1
+[01-Jun-2026 16:40:37 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1174","comment":"The process was successful"}}
+[01-Jun-2026 16:40:37 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[01-Jun-2026 16:40:37 America/Bogota] POST DATA: {"id_customer_sale":1174,"id_raffle_sale":1,"code_sale":"AP178035003974954","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[01-Jun-2026 16:40:37 America/Bogota] POST DATA encoded: id_customer_sale=1174&id_raffle_sale=1&code_sale=AP178035003974954&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[01-Jun-2026 16:40:37 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1137","comment":"The process was successful"}}
+[01-Jun-2026 16:43:18 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[01-Jun-2026 16:43:18 America/Bogota] POST DATA: {"name_customer":"Dimas Rafael","lastname_customer":"Quintero Galv\u00e1n","phone_customer":"3043389535","email_customer":"dimasquintero2308@gmail.com","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[01-Jun-2026 16:43:18 America/Bogota] POST DATA encoded: name_customer=Dimas+Rafael&lastname_customer=Quintero+Galv%C3%A1n&phone_customer=3043389535&email_customer=dimasquintero2308%40gmail.com&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[01-Jun-2026 16:43:18 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1175","comment":"The process was successful"}}
+[01-Jun-2026 16:43:18 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[01-Jun-2026 16:43:18 America/Bogota] POST DATA: {"id_customer_sale":1175,"id_raffle_sale":1,"code_sale":"AP178035020078627","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[01-Jun-2026 16:43:18 America/Bogota] POST DATA encoded: id_customer_sale=1175&id_raffle_sale=1&code_sale=AP178035020078627&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[01-Jun-2026 16:43:18 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1138","comment":"The process was successful"}}
+[01-Jun-2026 17:32:58 America/Bogota] POST URL: customers?token=no&except=id_customer
+[01-Jun-2026 17:32:58 America/Bogota] POST DATA: {"name_customer":"Miguel","lastname_customer":"Hern\u00e1ndez","phone_customer":"3001746688","email_customer":"miguel2003marzo31@gmail.com","department_customer":"SUCRE","city_customer":"SINCELEJO","status_customer":1}
+[01-Jun-2026 17:32:58 America/Bogota] POST DATA encoded: name_customer=Miguel&lastname_customer=Hern%C3%A1ndez&phone_customer=3001746688&email_customer=miguel2003marzo31%40gmail.com&department_customer=SUCRE&city_customer=SINCELEJO&status_customer=1
+[01-Jun-2026 17:32:58 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1176","comment":"The process was successful"}}
+[01-Jun-2026 17:32:58 America/Bogota] POST URL: transfers?token=no&table=transfers&suffix=transfer&except=id_transfer
+[01-Jun-2026 17:32:58 America/Bogota] POST DATA: {"code_transfer":"6942715367","id_raffle_transfer":1,"id_customer_transfer":1176,"quantity_transfer":20,"amount_transfer":"18000","currency_transfer":"COP","status_transfer":1}
+[01-Jun-2026 17:32:58 America/Bogota] POST DATA encoded: code_transfer=6942715367&id_raffle_transfer=1&id_customer_transfer=1176&quantity_transfer=20&amount_transfer=18000&currency_transfer=COP&status_transfer=1
+[01-Jun-2026 17:32:58 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"191","comment":"The process was successful"}}
+[01-Jun-2026 18:26:32 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[01-Jun-2026 18:26:32 America/Bogota] POST DATA: {"name_customer":"Ferney","lastname_customer":"Toloza","phone_customer":"3222176386","email_customer":"ferneyarmandotolosal@gmail.com","department_customer":"BOYACA","city_customer":"CUBARA","status_customer":1}
+[01-Jun-2026 18:26:32 America/Bogota] POST DATA encoded: name_customer=Ferney&lastname_customer=Toloza&phone_customer=3222176386&email_customer=ferneyarmandotolosal%40gmail.com&department_customer=BOYACA&city_customer=CUBARA&status_customer=1
+[01-Jun-2026 18:26:32 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1177","comment":"The process was successful"}}
+[01-Jun-2026 18:26:32 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[01-Jun-2026 18:26:32 America/Bogota] POST DATA: {"id_customer_sale":1177,"id_raffle_sale":1,"code_sale":"AP178035639088570","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[01-Jun-2026 18:26:32 America/Bogota] POST DATA encoded: id_customer_sale=1177&id_raffle_sale=1&code_sale=AP178035639088570&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[01-Jun-2026 18:26:32 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1139","comment":"The process was successful"}}
+[01-Jun-2026 18:37:49 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[01-Jun-2026 18:37:49 America/Bogota] POST DATA: {"id_customer_sale":1176,"id_raffle_sale":1,"code_sale":"AP178035706724075","quantity_sale":22,"total_sale":"19800","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[01-Jun-2026 18:37:49 America/Bogota] POST DATA encoded: id_customer_sale=1176&id_raffle_sale=1&code_sale=AP178035706724075&quantity_sale=22&total_sale=19800&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[01-Jun-2026 18:37:49 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1140","comment":"The process was successful"}}
+[01-Jun-2026 18:41:38 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[01-Jun-2026 18:41:38 America/Bogota] POST DATA: {"name_customer":"Luis Armando","lastname_customer":"Gonzales Blanco","phone_customer":"3144299546","email_customer":"notengo@gmail.com","department_customer":"META","city_customer":"PUERTO LLERAS","status_customer":1}
+[01-Jun-2026 18:41:38 America/Bogota] POST DATA encoded: name_customer=Luis+Armando&lastname_customer=Gonzales+Blanco&phone_customer=3144299546&email_customer=notengo%40gmail.com&department_customer=META&city_customer=PUERTO+LLERAS&status_customer=1
+[01-Jun-2026 18:41:38 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1178","comment":"The process was successful"}}
+[01-Jun-2026 18:41:38 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[01-Jun-2026 18:41:38 America/Bogota] POST DATA: {"id_customer_sale":1178,"id_raffle_sale":1,"code_sale":"AP178035729735622","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[01-Jun-2026 18:41:38 America/Bogota] POST DATA encoded: id_customer_sale=1178&id_raffle_sale=1&code_sale=AP178035729735622&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[01-Jun-2026 18:41:38 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1141","comment":"The process was successful"}}
+[01-Jun-2026 19:45:03 America/Bogota] POST URL: customers?token=no&except=id_customer
+[01-Jun-2026 19:45:03 America/Bogota] POST DATA: {"name_customer":"Eliana","lastname_customer":"Guevara","phone_customer":"3118064424","email_customer":"neimarmo1919@gmail.com","department_customer":"ANTIOQUIA","city_customer":"GUARNE","status_customer":1}
+[01-Jun-2026 19:45:03 America/Bogota] POST DATA encoded: name_customer=Eliana&lastname_customer=Guevara&phone_customer=3118064424&email_customer=neimarmo1919%40gmail.com&department_customer=ANTIOQUIA&city_customer=GUARNE&status_customer=1
+[01-Jun-2026 19:45:03 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1179","comment":"The process was successful"}}
+[01-Jun-2026 19:45:03 America/Bogota] POST URL: payment_backups?token=no&suffix=payment_backup&except=code_payment_backup
+[01-Jun-2026 19:45:03 America/Bogota] POST DATA: {"code_payment_backup":"PB-20260601194503180","id_raffle_payment_backup":1,"id_customer_payment_backup":1179,"quantity_payment_backup":7000,"amount_payment_backup":"6300000","currency_payment_backup":"COP","status_payment_backup":1}
+[01-Jun-2026 19:45:03 America/Bogota] POST DATA encoded: code_payment_backup=PB-20260601194503180&id_raffle_payment_backup=1&id_customer_payment_backup=1179&quantity_payment_backup=7000&amount_payment_backup=6300000&currency_payment_backup=COP&status_payment_backup=1
+[01-Jun-2026 19:45:03 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"677","comment":"The process was successful"}}
+[01-Jun-2026 19:52:43 America/Bogota] POST URL: payment_backups?token=no&suffix=payment_backup&except=code_payment_backup
+[01-Jun-2026 19:52:43 America/Bogota] POST DATA: {"code_payment_backup":"PB-20260601195243579","id_raffle_payment_backup":1,"id_customer_payment_backup":1179,"quantity_payment_backup":7000,"amount_payment_backup":"6300000","currency_payment_backup":"COP","status_payment_backup":1}
+[01-Jun-2026 19:52:43 America/Bogota] POST DATA encoded: code_payment_backup=PB-20260601195243579&id_raffle_payment_backup=1&id_customer_payment_backup=1179&quantity_payment_backup=7000&amount_payment_backup=6300000&currency_payment_backup=COP&status_payment_backup=1
+[01-Jun-2026 19:52:43 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"678","comment":"The process was successful"}}
+[01-Jun-2026 20:02:19 America/Bogota] POST URL: payment_backups?token=no&suffix=payment_backup&except=code_payment_backup
+[01-Jun-2026 20:02:19 America/Bogota] POST DATA: {"code_payment_backup":"PB-20260601200219708","id_raffle_payment_backup":1,"id_customer_payment_backup":733,"quantity_payment_backup":20,"amount_payment_backup":"18000","currency_payment_backup":"COP","status_payment_backup":1}
+[01-Jun-2026 20:02:19 America/Bogota] POST DATA encoded: code_payment_backup=PB-20260601200219708&id_raffle_payment_backup=1&id_customer_payment_backup=733&quantity_payment_backup=20&amount_payment_backup=18000&currency_payment_backup=COP&status_payment_backup=1
+[01-Jun-2026 20:02:19 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"679","comment":"The process was successful"}}
+[01-Jun-2026 22:29:08 America/Bogota] POST URL: payment_backups?token=no&suffix=payment_backup&except=code_payment_backup
+[01-Jun-2026 22:29:08 America/Bogota] POST DATA: {"code_payment_backup":"PB-20260601222908926","id_raffle_payment_backup":1,"id_customer_payment_backup":995,"quantity_payment_backup":20,"amount_payment_backup":"18000","currency_payment_backup":"COP","status_payment_backup":1}
+[01-Jun-2026 22:29:08 America/Bogota] POST DATA encoded: code_payment_backup=PB-20260601222908926&id_raffle_payment_backup=1&id_customer_payment_backup=995&quantity_payment_backup=20&amount_payment_backup=18000&currency_payment_backup=COP&status_payment_backup=1
+[01-Jun-2026 22:29:08 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"680","comment":"The process was successful"}}
+[01-Jun-2026 22:44:21 America/Bogota] POST URL: customers?token=no&except=id_customer
+[01-Jun-2026 22:44:21 America/Bogota] POST DATA: {"name_customer":"Michell","lastname_customer":"Ramos","phone_customer":"3150633387","email_customer":"stati5788@gmail.com","department_customer":"CESAR","city_customer":"VALLEDUPAR","status_customer":1}
+[01-Jun-2026 22:44:21 America/Bogota] POST DATA encoded: name_customer=Michell&lastname_customer=Ramos&phone_customer=3150633387&email_customer=stati5788%40gmail.com&department_customer=CESAR&city_customer=VALLEDUPAR&status_customer=1
+[01-Jun-2026 22:44:21 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1180","comment":"The process was successful"}}
+[01-Jun-2026 22:44:21 America/Bogota] POST URL: payment_backups?token=no&suffix=payment_backup&except=code_payment_backup
+[01-Jun-2026 22:44:21 America/Bogota] POST DATA: {"code_payment_backup":"PB-20260601224421354","id_raffle_payment_backup":1,"id_customer_payment_backup":1180,"quantity_payment_backup":20,"amount_payment_backup":"18000","currency_payment_backup":"COP","status_payment_backup":1}
+[01-Jun-2026 22:44:21 America/Bogota] POST DATA encoded: code_payment_backup=PB-20260601224421354&id_raffle_payment_backup=1&id_customer_payment_backup=1180&quantity_payment_backup=20&amount_payment_backup=18000&currency_payment_backup=COP&status_payment_backup=1
+[01-Jun-2026 22:44:21 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"681","comment":"The process was successful"}}
+[01-Jun-2026 22:46:40 America/Bogota] POST URL: payment_backups?token=no&suffix=payment_backup&except=code_payment_backup
+[01-Jun-2026 22:46:40 America/Bogota] POST DATA: {"code_payment_backup":"PB-20260601224640525","id_raffle_payment_backup":1,"id_customer_payment_backup":1180,"quantity_payment_backup":20,"amount_payment_backup":"18000","currency_payment_backup":"COP","status_payment_backup":1}
+[01-Jun-2026 22:46:40 America/Bogota] POST DATA encoded: code_payment_backup=PB-20260601224640525&id_raffle_payment_backup=1&id_customer_payment_backup=1180&quantity_payment_backup=20&amount_payment_backup=18000&currency_payment_backup=COP&status_payment_backup=1
+[01-Jun-2026 22:46:40 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"682","comment":"The process was successful"}}
+[02-Jun-2026 08:16:06 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[02-Jun-2026 08:16:06 America/Bogota] POST DATA: {"id_customer_sale":11,"id_raffle_sale":1,"code_sale":"AP178040616557786","quantity_sale":30,"total_sale":"27000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":3}
+[02-Jun-2026 08:16:06 America/Bogota] POST DATA encoded: id_customer_sale=11&id_raffle_sale=1&code_sale=AP178040616557786&quantity_sale=30&total_sale=27000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=3
+[02-Jun-2026 08:16:06 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1145","comment":"The process was successful"}}
+[02-Jun-2026 08:45:20 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[02-Jun-2026 08:45:20 America/Bogota] POST DATA: {"name_customer":"Gustavo Antonio","lastname_customer":"Villera Gonzales","phone_customer":"3042921274","email_customer":"Villerasgustavo6@gmail.com","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[02-Jun-2026 08:45:20 America/Bogota] POST DATA encoded: name_customer=Gustavo+Antonio&lastname_customer=Villera+Gonzales&phone_customer=3042921274&email_customer=Villerasgustavo6%40gmail.com&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[02-Jun-2026 08:45:20 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1181","comment":"The process was successful"}}
+[02-Jun-2026 08:45:20 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[02-Jun-2026 08:45:20 America/Bogota] POST DATA: {"id_customer_sale":1181,"id_raffle_sale":1,"code_sale":"AP178040792112756","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[02-Jun-2026 08:45:20 America/Bogota] POST DATA encoded: id_customer_sale=1181&id_raffle_sale=1&code_sale=AP178040792112756&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[02-Jun-2026 08:45:20 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1146","comment":"The process was successful"}}
+[02-Jun-2026 08:54:45 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[02-Jun-2026 08:54:45 America/Bogota] POST DATA: {"name_customer":"Dayana Sofia","lastname_customer":"Villen De La Rosa","phone_customer":"3008768504","email_customer":"villeradayana082@gmail.com","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[02-Jun-2026 08:54:45 America/Bogota] POST DATA encoded: name_customer=Dayana+Sofia&lastname_customer=Villen+De+La+Rosa&phone_customer=3008768504&email_customer=villeradayana082%40gmail.com&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[02-Jun-2026 08:54:45 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1182","comment":"The process was successful"}}
+[02-Jun-2026 08:54:45 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[02-Jun-2026 08:54:45 America/Bogota] POST DATA: {"id_customer_sale":1182,"id_raffle_sale":1,"code_sale":"AP178040848621045","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[02-Jun-2026 08:54:45 America/Bogota] POST DATA encoded: id_customer_sale=1182&id_raffle_sale=1&code_sale=AP178040848621045&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[02-Jun-2026 08:54:45 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1147","comment":"The process was successful"}}
+[02-Jun-2026 09:01:08 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[02-Jun-2026 09:01:08 America/Bogota] POST DATA: {"name_customer":"Omar Yesid","lastname_customer":"Aguilar Vega","phone_customer":"3217962446","email_customer":"aguilarvegaomaryesid@gmail.com","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[02-Jun-2026 09:01:08 America/Bogota] POST DATA encoded: name_customer=Omar+Yesid&lastname_customer=Aguilar+Vega&phone_customer=3217962446&email_customer=aguilarvegaomaryesid%40gmail.com&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[02-Jun-2026 09:01:08 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1183","comment":"The process was successful"}}
+[02-Jun-2026 09:01:08 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[02-Jun-2026 09:01:08 America/Bogota] POST DATA: {"id_customer_sale":1183,"id_raffle_sale":1,"code_sale":"AP178040886846246","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[02-Jun-2026 09:01:08 America/Bogota] POST DATA encoded: id_customer_sale=1183&id_raffle_sale=1&code_sale=AP178040886846246&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[02-Jun-2026 09:01:08 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1148","comment":"The process was successful"}}
+[02-Jun-2026 09:10:05 America/Bogota] POST URL: customers?token=no&except=id_customer
+[02-Jun-2026 09:10:05 America/Bogota] POST DATA: {"name_customer":"Yelis","lastname_customer":"L\u00f3pez","phone_customer":"3234519490","email_customer":"yelislopez97@gmail.com","department_customer":"ANTIOQUIA","city_customer":"MEDELLIN","status_customer":1}
+[02-Jun-2026 09:10:05 America/Bogota] POST DATA encoded: name_customer=Yelis&lastname_customer=L%C3%B3pez&phone_customer=3234519490&email_customer=yelislopez97%40gmail.com&department_customer=ANTIOQUIA&city_customer=MEDELLIN&status_customer=1
+[02-Jun-2026 09:10:05 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1184","comment":"The process was successful"}}
+[02-Jun-2026 09:10:05 America/Bogota] POST URL: payment_backups?token=no&suffix=payment_backup&except=code_payment_backup
+[02-Jun-2026 09:10:05 America/Bogota] POST DATA: {"code_payment_backup":"PB-20260602091005255","id_raffle_payment_backup":1,"id_customer_payment_backup":1184,"quantity_payment_backup":20,"amount_payment_backup":"18000","currency_payment_backup":"COP","status_payment_backup":1}
+[02-Jun-2026 09:10:05 America/Bogota] POST DATA encoded: code_payment_backup=PB-20260602091005255&id_raffle_payment_backup=1&id_customer_payment_backup=1184&quantity_payment_backup=20&amount_payment_backup=18000&currency_payment_backup=COP&status_payment_backup=1
+[02-Jun-2026 09:10:05 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"683","comment":"The process was successful"}}
+[02-Jun-2026 09:14:10 America/Bogota] POST URL: payment_backups?token=no&suffix=payment_backup&except=code_payment_backup
+[02-Jun-2026 09:14:10 America/Bogota] POST DATA: {"code_payment_backup":"PB-20260602091410227","id_raffle_payment_backup":1,"id_customer_payment_backup":1184,"quantity_payment_backup":20,"amount_payment_backup":"18000","currency_payment_backup":"COP","status_payment_backup":1}
+[02-Jun-2026 09:14:10 America/Bogota] POST DATA encoded: code_payment_backup=PB-20260602091410227&id_raffle_payment_backup=1&id_customer_payment_backup=1184&quantity_payment_backup=20&amount_payment_backup=18000&currency_payment_backup=COP&status_payment_backup=1
+[02-Jun-2026 09:14:10 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"684","comment":"The process was successful"}}
+[02-Jun-2026 09:37:48 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[02-Jun-2026 09:37:48 America/Bogota] POST DATA: {"name_customer":"Maria Zenidia","lastname_customer":"Caicedo Cetre","phone_customer":"3126320619","email_customer":"marcelacaicedo842@gmail.com","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[02-Jun-2026 09:37:48 America/Bogota] POST DATA encoded: name_customer=Maria+Zenidia&lastname_customer=Caicedo+Cetre&phone_customer=3126320619&email_customer=marcelacaicedo842%40gmail.com&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[02-Jun-2026 09:37:48 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1185","comment":"The process was successful"}}
+[02-Jun-2026 09:37:48 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[02-Jun-2026 09:37:48 America/Bogota] POST DATA: {"id_customer_sale":1185,"id_raffle_sale":1,"code_sale":"AP178041106803057","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[02-Jun-2026 09:37:48 America/Bogota] POST DATA encoded: id_customer_sale=1185&id_raffle_sale=1&code_sale=AP178041106803057&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[02-Jun-2026 09:37:48 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1150","comment":"The process was successful"}}
+[02-Jun-2026 09:39:49 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[02-Jun-2026 09:39:49 America/Bogota] POST DATA: {"name_customer":"Wilendy","lastname_customer":"Avil\u00e9s Hernandez","phone_customer":"3027988261","email_customer":"hwilendy@gmail.com","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[02-Jun-2026 09:39:49 America/Bogota] POST DATA encoded: name_customer=Wilendy&lastname_customer=Avil%C3%A9s+Hernandez&phone_customer=3027988261&email_customer=hwilendy%40gmail.com&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[02-Jun-2026 09:39:49 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1186","comment":"The process was successful"}}
+[02-Jun-2026 09:39:49 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[02-Jun-2026 09:39:49 America/Bogota] POST DATA: {"id_customer_sale":1186,"id_raffle_sale":1,"code_sale":"AP178041118900630","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[02-Jun-2026 09:39:49 America/Bogota] POST DATA encoded: id_customer_sale=1186&id_raffle_sale=1&code_sale=AP178041118900630&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[02-Jun-2026 09:39:49 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1151","comment":"The process was successful"}}
+[02-Jun-2026 09:41:36 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[02-Jun-2026 09:41:36 America/Bogota] POST DATA: {"name_customer":"Nicolasa Maria","lastname_customer":"Montalvo Sanchez","phone_customer":"3126463194","email_customer":"montalvonico60@gmail.com","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[02-Jun-2026 09:41:36 America/Bogota] POST DATA encoded: name_customer=Nicolasa+Maria&lastname_customer=Montalvo+Sanchez&phone_customer=3126463194&email_customer=montalvonico60%40gmail.com&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[02-Jun-2026 09:41:36 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1187","comment":"The process was successful"}}
+[02-Jun-2026 09:41:36 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[02-Jun-2026 09:41:36 America/Bogota] POST DATA: {"id_customer_sale":1187,"id_raffle_sale":1,"code_sale":"AP178041129611472","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[02-Jun-2026 09:41:36 America/Bogota] POST DATA encoded: id_customer_sale=1187&id_raffle_sale=1&code_sale=AP178041129611472&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[02-Jun-2026 09:41:36 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1152","comment":"The process was successful"}}
+[02-Jun-2026 09:43:34 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[02-Jun-2026 09:43:34 America/Bogota] POST DATA: {"name_customer":"Albert","lastname_customer":"Villera Gonzales","phone_customer":"3012688718","email_customer":"albertvillera783@gmail.com","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[02-Jun-2026 09:43:34 America/Bogota] POST DATA encoded: name_customer=Albert&lastname_customer=Villera+Gonzales&phone_customer=3012688718&email_customer=albertvillera783%40gmail.com&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[02-Jun-2026 09:43:34 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1188","comment":"The process was successful"}}
+[02-Jun-2026 09:43:34 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[02-Jun-2026 09:43:34 America/Bogota] POST DATA: {"id_customer_sale":1188,"id_raffle_sale":1,"code_sale":"AP178041141435462","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[02-Jun-2026 09:43:34 America/Bogota] POST DATA encoded: id_customer_sale=1188&id_raffle_sale=1&code_sale=AP178041141435462&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[02-Jun-2026 09:43:34 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1153","comment":"The process was successful"}}
+[02-Jun-2026 09:44:32 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[02-Jun-2026 09:44:32 America/Bogota] POST DATA: {"name_customer":"Camilo","lastname_customer":"Montiel Alvarez","phone_customer":"3014299620","email_customer":"kamiloandres.67@gmail.com","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[02-Jun-2026 09:44:32 America/Bogota] POST DATA encoded: name_customer=Camilo&lastname_customer=Montiel+Alvarez&phone_customer=3014299620&email_customer=kamiloandres.67%40gmail.com&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[02-Jun-2026 09:44:32 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1189","comment":"The process was successful"}}
+[02-Jun-2026 09:44:32 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[02-Jun-2026 09:44:32 America/Bogota] POST DATA: {"id_customer_sale":1189,"id_raffle_sale":1,"code_sale":"AP178041147204971","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[02-Jun-2026 09:44:32 America/Bogota] POST DATA encoded: id_customer_sale=1189&id_raffle_sale=1&code_sale=AP178041147204971&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[02-Jun-2026 09:44:32 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1154","comment":"The process was successful"}}
+[02-Jun-2026 11:24:02 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[02-Jun-2026 11:24:02 America/Bogota] POST DATA: {"name_customer":"Karina Luz","lastname_customer":"Paternina Arroyo","phone_customer":"3009839301","email_customer":"Karinapaternina05@gmail.com","department_customer":"CORDOBA","city_customer":"CHINU","status_customer":1}
+[02-Jun-2026 11:24:02 America/Bogota] POST DATA encoded: name_customer=Karina+Luz&lastname_customer=Paternina+Arroyo&phone_customer=3009839301&email_customer=Karinapaternina05%40gmail.com&department_customer=CORDOBA&city_customer=CHINU&status_customer=1
+[02-Jun-2026 11:24:02 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1190","comment":"The process was successful"}}
+[02-Jun-2026 11:24:02 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[02-Jun-2026 11:24:02 America/Bogota] POST DATA: {"id_customer_sale":1190,"id_raffle_sale":1,"code_sale":"AP178041744177598","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[02-Jun-2026 11:24:02 America/Bogota] POST DATA encoded: id_customer_sale=1190&id_raffle_sale=1&code_sale=AP178041744177598&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[02-Jun-2026 11:24:02 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1155","comment":"The process was successful"}}
+[02-Jun-2026 13:18:57 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[02-Jun-2026 13:18:57 America/Bogota] POST DATA: {"name_customer":"Manuel","lastname_customer":"Escudero Urango","phone_customer":"3106449916","email_customer":"Escudero1970mm@gmail.com>","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[02-Jun-2026 13:18:57 America/Bogota] POST DATA encoded: name_customer=Manuel&lastname_customer=Escudero+Urango&phone_customer=3106449916&email_customer=Escudero1970mm%40gmail.com%3E&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[02-Jun-2026 13:18:57 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1191","comment":"The process was successful"}}
+[02-Jun-2026 13:18:57 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[02-Jun-2026 13:18:57 America/Bogota] POST DATA: {"id_customer_sale":1191,"id_raffle_sale":1,"code_sale":"AP178042433525739","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[02-Jun-2026 13:18:57 America/Bogota] POST DATA encoded: id_customer_sale=1191&id_raffle_sale=1&code_sale=AP178042433525739&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[02-Jun-2026 13:18:57 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1156","comment":"The process was successful"}}
+[02-Jun-2026 13:18:57 America/Bogota] PHP Warning:  file_put_contents(/home/apfenixc/public_html/controllers/../logs/mail.log): Failed to open stream: No such file or directory in /home/apfenixc/public_html/controllers/mail.controller.php on line 57
+[02-Jun-2026 13:20:41 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[02-Jun-2026 13:20:41 America/Bogota] POST DATA: {"name_customer":"Gustavo","lastname_customer":"Hoyos Sanchez","phone_customer":"3004092628","email_customer":"Gustahoy2@gmail.com","department_customer":"CORDOBA","city_customer":"MONTERIA","status_customer":1}
+[02-Jun-2026 13:20:41 America/Bogota] POST DATA encoded: name_customer=Gustavo&lastname_customer=Hoyos+Sanchez&phone_customer=3004092628&email_customer=Gustahoy2%40gmail.com&department_customer=CORDOBA&city_customer=MONTERIA&status_customer=1
+[02-Jun-2026 13:20:41 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1192","comment":"The process was successful"}}
+[02-Jun-2026 13:20:41 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[02-Jun-2026 13:20:41 America/Bogota] POST DATA: {"id_customer_sale":1192,"id_raffle_sale":1,"code_sale":"AP178042444039035","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[02-Jun-2026 13:20:41 America/Bogota] POST DATA encoded: id_customer_sale=1192&id_raffle_sale=1&code_sale=AP178042444039035&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[02-Jun-2026 13:20:41 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1157","comment":"The process was successful"}}
+[02-Jun-2026 14:41:39 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[02-Jun-2026 14:41:39 America/Bogota] POST DATA: {"name_customer":"Ivan Enrique","lastname_customer":"Medrano","phone_customer":"3237175580","email_customer":"Medranoivan325@gmail.com","department_customer":"CASANARE","city_customer":"YOPAL","status_customer":1}
+[02-Jun-2026 14:41:39 America/Bogota] POST DATA encoded: name_customer=Ivan+Enrique&lastname_customer=Medrano&phone_customer=3237175580&email_customer=Medranoivan325%40gmail.com&department_customer=CASANARE&city_customer=YOPAL&status_customer=1
+[02-Jun-2026 14:41:39 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1193","comment":"The process was successful"}}
+[02-Jun-2026 14:41:39 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[02-Jun-2026 14:41:39 America/Bogota] POST DATA: {"id_customer_sale":1193,"id_raffle_sale":1,"code_sale":"AP178042929863554","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[02-Jun-2026 14:41:39 America/Bogota] POST DATA encoded: id_customer_sale=1193&id_raffle_sale=1&code_sale=AP178042929863554&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[02-Jun-2026 14:41:39 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1158","comment":"The process was successful"}}
+[02-Jun-2026 15:08:36 America/Bogota] POST URL: customers?token=no&suffix=customer&except=name_customer
+[02-Jun-2026 15:08:36 America/Bogota] POST DATA: {"name_customer":"Alvaro","lastname_customer":"Urubia","phone_customer":"3116947125","email_customer":"urianaalnavaro28@gmail.com","department_customer":"LA GUAJIRA","city_customer":"BARRANCAS","status_customer":1}
+[02-Jun-2026 15:08:36 America/Bogota] POST DATA encoded: name_customer=Alvaro&lastname_customer=Urubia&phone_customer=3116947125&email_customer=urianaalnavaro28%40gmail.com&department_customer=LA+GUAJIRA&city_customer=BARRANCAS&status_customer=1
+[02-Jun-2026 15:08:36 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1194","comment":"The process was successful"}}
+[02-Jun-2026 15:08:36 America/Bogota] POST URL: sales?token=no&suffix=sale&except=code_sale
+[02-Jun-2026 15:08:36 America/Bogota] POST DATA: {"id_customer_sale":1194,"id_raffle_sale":1,"code_sale":"AP178043091559468","quantity_sale":20,"total_sale":"18000","payment_method_sale":"Transferencia","status_sale":1,"id_admin_sale":2}
+[02-Jun-2026 15:08:36 America/Bogota] POST DATA encoded: id_customer_sale=1194&id_raffle_sale=1&code_sale=AP178043091559468&quantity_sale=20&total_sale=18000&payment_method_sale=Transferencia&status_sale=1&id_admin_sale=2
+[02-Jun-2026 15:08:36 America/Bogota] POST RESPONSE: {"status":200,"results":{"lastId":"1159","comment":"The process was successful"}}
