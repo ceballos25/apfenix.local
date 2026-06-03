@@ -6,9 +6,10 @@
 .env.*
 !.env.example
 
-# Logs
+# Logs (mantener carpeta logs/ en el servidor)
 *.log
-/logs/
+/logs/*
+!/logs/.gitkeep
 
 # Archivos subidos por usuarios
 /uploads/comprobantes/*

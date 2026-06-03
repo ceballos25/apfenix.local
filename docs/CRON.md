@@ -97,7 +97,12 @@ Copiar desde `cron/crontab.produccion.txt` o pegar directamente:
 ## Importante
 
 - **No ejecutar scripts de prueba en producción.**
-- Logs: `public_html/logs/informe-gerencial.log` y `public_html/logs/mail.log`.
+- Logs:
+  - `public_html/logs/cron-informe.log` — **siempre** escribe el cron (inicio, errores, OK). Si este archivo no cambia, el job de cPanel **no está corriendo** o la ruta PHP/comando es incorrecta.
+  - `public_html/logs/informe-gerencial.log` — detalle del informe
+  - `public_html/logs/mail.log` — errores SMTP
+
+Tras cada ejecución deberías ver en `cron-informe.log` líneas como `[informe-cron] === Inicio job ===`.
 
 ---
 

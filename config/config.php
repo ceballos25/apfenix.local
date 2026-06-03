@@ -1,8 +1,27 @@
 <?php
 require_once __DIR__ . '/envLoader.php';
 
-$envLoader = new EnvLoader(__DIR__ . '/../../.env-ap');
-$envLoader->load();
+$envCandidates = [
+    __DIR__ . '/../../.env-ap', // producción: /home/usuario/.env-ap (fuera de public_html)
+    __DIR__ . '/../.env-ap',    // alternativa: raíz del proyecto
+];
+
+$envLoaded = false;
+foreach ($envCandidates as $envPath) {
+    if (is_readable($envPath)) {
+        $envLoader = new EnvLoader($envPath);
+        $envLoader->load();
+        define('ENV_FILE_LOADED', $envPath);
+        $envLoaded = true;
+        break;
+    }
+}
+
+if (!$envLoaded) {
+    throw new Exception(
+        'No se encontró .env-ap legible. Rutas probadas: ' . implode(', ', $envCandidates)
+    );
+}
 
 /**
  * ===============================
@@ -119,13 +138,15 @@ $isCli = (php_sapi_name() === 'cli');
 
 /**
  * ===============================
- * CONFIGURACIÓN Y MANEJO DE SESIÓN
+ * CONFIGURACIÓN Y MANEJO DE SESIÓN (solo HTTP)
  * ===============================
  */
+if (!$isCli) {
 ini_set('session.cookie_httponly', env('SESSION_COOKIE_HTTPONLY') ? '1' : '0');
 ini_set('session.cookie_secure', env('SESSION_COOKIE_SECURE') ? '1' : '0');
 ini_set('session.cookie_lifetime', env('SESSION_LIFETIME'));
 ini_set('session.gc_maxlifetime', env('SESSION_LIFETIME'));
+}
 
 if (!$isCli && env('SESSION_AUTO_START') && session_status() === PHP_SESSION_NONE) {
     session_name(env('SESSION_NAME'));
