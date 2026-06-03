@@ -19,7 +19,7 @@ function isOpen($files, $currentPage) {
 ?>
 
 <aside class="left-sidebar">
-  <div>
+  <div class="sidebar-inner">
     <div class="brand-logo d-flex align-items-center justify-content-between">
       <a href="<?= $dashboardLink ?>" class="text-nowrap logo-img" style="display:flex; justify-content:center; width:100%;">
         <img  style="width:80%; margin-top:10px;" class="d-flex" src="<?= ASSETS_URL ?>/images/logos/logo.jpg" alt="<?php echo SITE_NAME; ?>" />
@@ -29,7 +29,7 @@ function isOpen($files, $currentPage) {
       </div>
     </div>
 
-    <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+    <nav class="sidebar-nav scroll-sidebar">
       <ul id="sidebarnav">
 
         <!-- PRINCIPAL -->

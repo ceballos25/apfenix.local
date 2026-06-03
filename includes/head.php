@@ -7,6 +7,7 @@
   <title><?php echo isset($page_title) ? $page_title . ' - ' . SITE_NAME : 'Ap Fenix'; ?></title>
   <link rel="shortcut icon" type="image/png" href="<?= ASSETS_URL ?>/images/logos/logo.ico" />
   <link rel="stylesheet" href="<?= ASSETS_URL ?>/css/styles.min.css" />
+  <link rel="stylesheet" href="<?= ASSETS_URL ?>/css/sidebar-fix.css?v=1" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
   <!-- AlertifyJS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>

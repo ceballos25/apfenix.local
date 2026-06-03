@@ -352,11 +352,21 @@ async function procesarVenta() {
                     body: fd
                 });
 
-                const json = await res.json();
+                const text = await res.text();
+                let json;
+                try {
+                    json = JSON.parse(text);
+                } catch (parseErr) {
+                    console.error('Respuesta no JSON:', text.slice(0, 400));
+                    throw new Error('Error en el servidor');
+                }
 
                 if (json.success) {
 
-                    alertify.success("Venta Exitosa");
+                    alertify.success("Venta exitosa");
+                    if (json.warning) {
+                        alertify.warning(json.warning);
+                    }
                     generarReciboFinal(json.id_sale);
 
                 } else {

@@ -15636,34 +15636,41 @@ textarea.form-control-lg {
   z-index: 99;
   transition: 0.2s ease-in;
   position: fixed;
+  top: 0;
   left: 0;
-  right: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.left-sidebar .sidebar-inner {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
   height: 100%;
 }
 .left-sidebar .sidebartoggler {
   color: var(--bs-dark-text-emphasis);
 }
 .left-sidebar .scroll-sidebar {
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 0 24px;
-  height: calc(100vh - 310px);
+  padding-bottom: 24px;
   border-radius: 7px;
-}
-.left-sidebar .scroll-sidebar .simplebar-track.simplebar-horizontal {
-  visibility: hidden !important;
-}
-
-.simplebar-scrollbar:before {
-  background: rgba(0, 0, 0, 0.5) !important;
 }
 
 .brand-logo {
   min-height: 70px;
   padding: 0 24px;
+  flex-shrink: 0;
 }
 
 .nav-small-cap {
-  margin-top: 24px;
+  margin-top: 12px;
   color: var(--bs-link-color);
   font-size: 12px;
   font-weight: 700;
@@ -15965,7 +15972,9 @@ body {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   }
   .left-sidebar .scroll-sidebar {
-    height: calc(100vh - 240px);
+    flex: 1;
+    min-height: 0;
+    height: auto;
   }
 }
 * {

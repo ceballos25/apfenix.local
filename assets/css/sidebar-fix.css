@@ -1,0 +1,38 @@
+/**
+ * Sidebar — usa todo el alto de pantalla; scroll solo si el menú no cabe.
+ */
+.left-sidebar {
+  top: 0 !important;
+  right: auto !important;
+  height: 100vh !important;
+  overflow: hidden !important;
+}
+
+.left-sidebar .sidebar-inner {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  min-height: 0 !important;
+  height: 100% !important;
+}
+
+.left-sidebar .brand-logo {
+  flex-shrink: 0 !important;
+}
+
+.left-sidebar .scroll-sidebar {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+.left-sidebar .nav-small-cap {
+  margin-top: 12px;
+}
+
+.left-sidebar #sidebarnav > li.nav-small-cap:first-child {
+  margin-top: 0;
+}

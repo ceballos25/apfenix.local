@@ -238,16 +238,39 @@ class VentasController {
         }
 
         /* ===============================
-        ENVIAR CORREO
+        ENVIAR CORREO (no debe fallar la venta)
         =============================== */
 
-        require_once __DIR__ . '/mail.controller.php';
-        MailController::enviarCorreoVenta((int)$idVenta);
+        $mailSent = false;
+        $warning  = null;
 
-        return [
+        try {
+            if (!file_exists(ROOT_PATH . '/vendor/autoload.php')) {
+                $warning = 'Venta registrada. Correo no enviado: falta vendor/ (composer install en el servidor).';
+                self::logAvisoVenta($warning);
+            } else {
+                require_once __DIR__ . '/mail.controller.php';
+                $mailSent = MailController::enviarCorreoVenta((int) $idVenta);
+                if (!$mailSent) {
+                    $warning = 'Venta registrada. No se pudo enviar el correo de confirmación.';
+                }
+            }
+        } catch (Throwable $e) {
+            $warning = 'Venta registrada. Error al enviar correo.';
+            self::logAvisoVenta($e->getMessage());
+        }
+
+        $response = [
             'success' => true,
-            'id_sale' => $idVenta
+            'id_sale' => $idVenta,
+            'mail_sent' => $mailSent,
         ];
+
+        if ($warning) {
+            $response['warning'] = $warning;
+        }
+
+        return $response;
     }
             
 
@@ -852,6 +875,19 @@ public static function obtenerAdmins() {
         }
 
         return ['success' => true];
+    }
+
+    private static function logAvisoVenta(string $message): void
+    {
+        $dir = ROOT_PATH . '/logs';
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+        file_put_contents(
+            $dir . '/ventas.log',
+            '[' . date('Y-m-d H:i:s') . '] ' . $message . PHP_EOL,
+            FILE_APPEND
+        );
     }
 
     }
