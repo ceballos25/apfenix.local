@@ -1,5 +1,4 @@
-# Dependencias (generar localmente y subir vendor/ por FTP — ver docs/DEPLOY_HOSTING_COMPARTIDO.md)
-/vendor/
+# vendor/ va incluido en Git (hosting compartido sin Composer en servidor). Ver docs/DEPLOY_GIT.md
 /deploy/
 
 # Variables de entorno (por si se copian localmente)

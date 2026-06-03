@@ -1,11 +1,31 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\Exception as MailException;
 
 class MailController {
+
+    /**
+     * Carga Composer solo al enviar correo. Retorna false si vendor/ no existe.
+     */
+    private static function boot(): bool
+    {
+        static $loaded = false;
+
+        if ($loaded) {
+            return true;
+        }
+
+        $autoload = ROOT_PATH . '/vendor/autoload.php';
+        if (!is_readable($autoload)) {
+            self::logMailError('vendor/autoload.php no encontrado en el servidor.');
+            return false;
+        }
+
+        require_once $autoload;
+        $loaded = true;
+        return true;
+    }
 
     private static function configureSmtp(PHPMailer $mail): void
     {
@@ -37,14 +57,22 @@ class MailController {
         );
     }
 
-    public static function enviarCorreoVenta(int $idSale): bool {
+    public static function enviarCorreoVenta(int $idSale): bool
+    {
+        if (!self::boot()) {
+            return false;
+        }
 
         $venta = VentasController::consultarVenta($idSale);
-        if (!$venta) return false;
+        if (!$venta) {
+            return false;
+        }
 
         $tickets = VentasController::consultarTicketsVenta($idSale);
         $html = VentasController::generarRecibo($venta, $tickets);
-        if (!$html) return false;
+        if (!$html) {
+            return false;
+        }
 
         $mail = new PHPMailer(true);
 
@@ -64,17 +92,18 @@ class MailController {
             $mail->send();
             return true;
 
-        } catch (Exception $e) {
+        } catch (MailException $e) {
             self::logMailError($e->getMessage());
             return false;
         }
     }
 
-    /**
-     * Envía informe gerencial PDF al destinatario configurado en CORREO_INFORME.
-     */
     public static function enviarInformeGerencial(string $pdfPath, array $datos): bool
     {
+        if (!self::boot()) {
+            return false;
+        }
+
         if (!file_exists($pdfPath) || empty(CORREO_INFORME)) {
             return false;
         }
@@ -98,7 +127,7 @@ class MailController {
             $mail->send();
             return true;
 
-        } catch (Exception $e) {
+        } catch (MailException $e) {
             self::logMailError('[Informe gerencial] ' . $e->getMessage());
             return false;
         }
