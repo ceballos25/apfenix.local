@@ -114,6 +114,7 @@ class MailController {
             self::configureSmtp($mail);
             $mail->setFrom(MAIL_FROM, MAIL_FROM_NAME);
             $mail->addAddress(CORREO_INFORME);
+            self::addInformeCopiasOcultas($mail);
 
             $subject = 'Informe de Ventas por Vendedor ' . $datos['tipo_label'] . ' — ' . $datos['fecha_formateada'];
 
@@ -130,6 +131,22 @@ class MailController {
         } catch (MailException $e) {
             self::logMailError('[Informe gerencial] ' . $e->getMessage());
             return false;
+        }
+    }
+
+    private static function addInformeCopiasOcultas(PHPMailer $mail): void
+    {
+        if (empty(CORREO_INFORME_BCC)) {
+            return;
+        }
+
+        $principal = strtolower(trim(CORREO_INFORME));
+        foreach (explode(',', CORREO_INFORME_BCC) as $bcc) {
+            $bcc = trim($bcc);
+            if ($bcc === '' || strtolower($bcc) === $principal) {
+                continue;
+            }
+            $mail->addBCC($bcc);
         }
     }
 

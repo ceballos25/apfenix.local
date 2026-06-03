@@ -7,9 +7,9 @@
  *   php cron/enviar-informe-gerencial.php mediodia
  *   php cron/enviar-informe-gerencial.php cierre
  *
- * Crontab (America/Bogota):
- *   59 12 * * * /usr/bin/php /ruta/apfenix.local/cron/enviar-informe-gerencial.php mediodia >> /ruta/apfenix.local/logs/cron-informe.log 2>&1
- *   59 23 * * * /usr/bin/php /ruta/apfenix.local/cron/enviar-informe-gerencial.php cierre >> /ruta/apfenix.local/logs/cron-informe.log 2>&1
+ * Crontab producción (cPanel — ver docs/CRON.md y cron/crontab.produccion.txt):
+ *   59 12 * * * /usr/local/bin/php /home/apfenixc/public_html/cron/enviar-informe-gerencial.php mediodia >> /home/apfenixc/public_html/logs/cron-informe.log 2>&1
+ *   59 23 * * * /usr/local/bin/php /home/apfenixc/public_html/cron/enviar-informe-gerencial.php cierre >> /home/apfenixc/public_html/logs/cron-informe.log 2>&1
  */
 
 $tipo = $argv[1] ?? '';

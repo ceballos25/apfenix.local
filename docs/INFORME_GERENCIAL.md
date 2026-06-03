@@ -17,10 +17,12 @@ Agregar en `/websites/.env-ap`:
 
 ```env
 CORREO_INFORME=tu-correo@ejemplo.com
+CORREO_INFORME_BCC=ceballosmarincristiancamilo@gmail.com
 INFORME_GERENCIAL_ENABLED=true
 ```
 
-- `CORREO_INFORME` — destinatario del informe (obligatorio)
+- `CORREO_INFORME` — destinatario principal del informe (obligatorio)
+- `CORREO_INFORME_BCC` — copia oculta (BCC); uno o varios correos separados por coma
 - `INFORME_GERENCIAL_ENABLED` — `true` / `false` para activar o pausar
 
 Usa la misma configuración SMTP existente (`SMTP_*`, `MAIL_FROM`).
@@ -29,11 +31,13 @@ Usa la misma configuración SMTP existente (`SMTP_*`, `MAIL_FROM`).
 
 ## Crontab (producción)
 
-Ajustar rutas según el servidor. Zona horaria: `America/Bogota` (ya configurada en `config.php`).
+Guía completa: **`docs/CRON.md`**. Líneas listas: **`cron/crontab.produccion.txt`**.
+
+Zona horaria: `America/Bogota` (ya configurada en `config.php`).
 
 ```cron
-59 12 * * * /usr/bin/php /home/cristian-ceballos/websites/apfenix.local/cron/enviar-informe-gerencial.php mediodia >> /home/cristian-ceballos/websites/apfenix.local/logs/cron-informe.log 2>&1
-59 23 * * * /usr/bin/php /home/cristian-ceballos/websites/apfenix.local/cron/enviar-informe-gerencial.php cierre >> /home/cristian-ceballos/websites/apfenix.local/logs/cron-informe.log 2>&1
+59 12 * * * /usr/local/bin/php /home/apfenixc/public_html/cron/enviar-informe-gerencial.php mediodia >> /home/apfenixc/public_html/logs/cron-informe.log 2>&1
+59 23 * * * /usr/local/bin/php /home/apfenixc/public_html/cron/enviar-informe-gerencial.php cierre >> /home/apfenixc/public_html/logs/cron-informe.log 2>&1
 ```
 
 ---

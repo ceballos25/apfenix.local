@@ -1,0 +1,12 @@
+# AP Fenix — Crontab producción (America/Bogota)
+# Copiar en cPanel → Cron Jobs (una línea = un job)
+#
+# Requisitos:
+#   - public_html/logs/ existe y es escribible
+#   - .env-ap con CORREO_INFORME e INFORME_GERENCIAL_ENABLED=true
+#   - vendor/autoload.php presente
+#
+# PHP: /usr/local/bin/php  (ajustar si cPanel usa otra ruta)
+
+59 12 * * * /usr/local/bin/php /home/apfenixc/public_html/cron/enviar-informe-gerencial.php mediodia >> /home/apfenixc/public_html/logs/cron-informe.log 2>&1
+59 23 * * * /usr/local/bin/php /home/apfenixc/public_html/cron/enviar-informe-gerencial.php cierre >> /home/apfenixc/public_html/logs/cron-informe.log 2>&1

@@ -49,7 +49,11 @@ class InformeGerencialController
             }
 
             if ($enviado) {
-                InformeLogger::info("Informe {$tipo} enviado a " . CORREO_INFORME);
+                $destino = CORREO_INFORME;
+                if (!empty(CORREO_INFORME_BCC)) {
+                    $destino .= ' (BCC: ' . CORREO_INFORME_BCC . ')';
+                }
+                InformeLogger::info("Informe {$tipo} enviado a {$destino}");
             }
 
             return $enviado;

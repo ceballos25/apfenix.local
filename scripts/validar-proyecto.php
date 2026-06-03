@@ -53,6 +53,9 @@ if (empty(CORREO_INFORME)) {
 } else {
     pass('CORREO_INFORME configurado');
 }
+if (!empty(CORREO_INFORME_BCC)) {
+    pass('CORREO_INFORME_BCC configurado: ' . CORREO_INFORME_BCC);
+}
 
 // ── 3. Conectividad API ──
 $apiPing = ApiRequest::get('raffles', ['startAt' => 0, 'endAt' => 1, 'select' => 'id_raffle']);

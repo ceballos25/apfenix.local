@@ -47,6 +47,7 @@ define('MAIL_BCC', env('MAIL_BCC'));
  * ===============================
  */
 define('CORREO_INFORME', env('CORREO_INFORME'));
+define('CORREO_INFORME_BCC', env('CORREO_INFORME_BCC', env('CORREO_INFORME_CC', '')));
 define('INFORME_GERENCIAL_ENABLED', filter_var(env('INFORME_GERENCIAL_ENABLED', true), FILTER_VALIDATE_BOOLEAN));
 
 /**
