@@ -30,6 +30,17 @@ try {
 
   $action = isset($_POST['action']) ? trim((string)$_POST['action']) : '';
 
+  // Acciones públicas: ninguna. Buscar clientes requiere sesión (vender).
+  Auth::requireLogin();
+
+  // CRUD completo solo administrador
+  $adminOnly = ['crear', 'actualizar', 'eliminar'];
+  if (in_array($action, $adminOnly, true) && !Auth::isAdmin()) {
+    http_response_code(403);
+    echo json_encode(['success' => false, 'message' => 'Acceso denegado']);
+    exit;
+  }
+
   if ($action === '') {
     http_response_code(400);
     echo json_encode(['success' => false, 'message' => 'Action requerida']);

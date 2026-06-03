@@ -11,10 +11,15 @@ header('Content-Type: application/json; charset=utf-8');
 require_once "../../config/config.php";
 require_once "../../controllers/apiRequest.controller.php"; 
 require_once "../../controllers/ventas.controller.php";
-require_once "../../controllers/numeros.controller.php"; // <--- IMPORTANTE: Incluir esto
+require_once "../../controllers/numeros.controller.php";
+
+/** Acciones públicas (sin sesión) */
+const PUBLIC_ACTIONS = ['obtener_por_celular'];
+
+/** Acciones solo administrador */
+const ADMIN_ACTIONS = ['anular', 'obtener_admins', 'numeros_vendidos'];
 
 const ALLOWED_ACTIONS = [
-    // VentasController
     'obtener'             => ['VentasController', 'obtenerVentas', []],
     'obtener_rifas'       => ['VentasController', 'listarRifas', []],
     'crear_venta'         => ['VentasController', 'crearVenta', ['data' => '$_POST']],
@@ -23,14 +28,26 @@ const ALLOWED_ACTIONS = [
     'detalle_venta'       => ['VentasController', 'obtenerDetalleVenta', ['id_sale' => null]],
     'obtener_por_celular' => ['VentasController', 'buscarTicketsPorCelular', ['phone_customer' => null]],    
     'numeros_vendidos'    => ['NumerosController', 'obtenerNumerosVendidos', []],
-    'obtener_admins' => ['VentasController', 'obtenerAdmins', []],    
-    'anular' => ['VentasController', 'anularVenta', ['id_sale' => null]]
+    'obtener_admins'      => ['VentasController', 'obtenerAdmins', []],    
+    'anular'              => ['VentasController', 'anularVenta', ['id_sale' => null]]
 ];
 
 try {
     $action = $_POST['action'] ?? '';
     
     if (!isset(ALLOWED_ACTIONS[$action])) throw new Exception('Acción no válida');
+
+    if (!in_array($action, PUBLIC_ACTIONS, true)) {
+        Auth::requireLogin();
+    }
+
+    if (in_array($action, ADMIN_ACTIONS, true)) {
+        if (!Auth::isAdmin()) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'message' => 'Acceso denegado']);
+            exit;
+        }
+    }
     
     [$class, $method, $paramsConfig] = ALLOWED_ACTIONS[$action];
     

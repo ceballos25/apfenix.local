@@ -22,7 +22,7 @@ $email = trim($_POST['email'] ?? '');
 $pass  = trim($_POST['password'] ?? '');
 
 if ($email === '' || $pass === '') {
-    header("Location: ../index.php?error=missing");
+    header("Location: ../dash.php?error=missing");
     exit;
 }
 
@@ -71,7 +71,7 @@ curl_close($ch);
 // 7. VALIDAR RESPUESTA CURL
 // ============================================
 if ($response === false) {
-    header("Location: ../index.php?error=curl&detail=" . urlencode($curlError));
+    header("Location: ../dash.php?error=curl&detail=" . urlencode($curlError));
     exit;
 }
 
@@ -81,7 +81,7 @@ if ($response === false) {
 $data = json_decode($response, true);
 
 if (json_last_error() !== JSON_ERROR_NONE) {
-    header("Location: ../index.php?error=json&detail=" . urlencode(json_last_error_msg()));
+    header("Location: ../dash.php?error=json&detail=" . urlencode(json_last_error_msg()));
     exit;
 }
 
@@ -89,13 +89,13 @@ if (json_last_error() !== JSON_ERROR_NONE) {
 // 9. VALIDAR ESTRUCTURA DE RESPUESTA
 // ============================================
 if (!is_array($data)) {
-    header("Location: ../index.php?error=invalid_response");
+    header("Location: ../dash.php?error=invalid_response");
     exit;
 }
 
 if (($data["status"] ?? 0) != 200) {
     $errorMsg = $data["results"] ?? "Credenciales incorrectas";
-    header("Location: ../index.php?error=bad_credentials&detail=" . urlencode($errorMsg));
+    header("Location: ../dash.php?error=bad_credentials&detail=" . urlencode($errorMsg));
     exit;
 }
 
@@ -105,8 +105,20 @@ if (($data["status"] ?? 0) != 200) {
 $admin = $data["results"][0] ?? null;
 
 if (!$admin || empty($admin["token_admin"])) {
-    header("Location: ../index.php?error=no_token");
+    header("Location: ../dash.php?error=no_token");
     exit;
+}
+
+// Usuario inactivo
+if ((int)($admin["status_admin"] ?? 1) !== 1) {
+    header("Location: ../dash.php?error=inactive");
+    exit;
+}
+
+// Normalizar rol
+$rol = trim($admin["rol_admin"] ?? '');
+if ($rol === '') {
+    $rol = 'administrador';
 }
 
 // ============================================
@@ -116,15 +128,23 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$_SESSION["user_id"]         = $admin["id_admin"] ?? null;
-$_SESSION["user_role"]       = $admin["rol_admin"] ?? "vendedor";
-$_SESSION["token_admin"]     = $admin["token_admin"];
-$_SESSION["token_exp_admin"] = $admin["token_exp_admin"] ?? null;
-$_SESSION["email_admin"]     = $admin["email_admin"] ?? $email;
-$_SESSION["id_branch"]       = $admin["id_branch"] ?? null;
+$_SESSION["user_id"]          = $admin["id_admin"] ?? null;
+$_SESSION["user_role"]        = $rol;
+$_SESSION["token_admin"]      = $admin["token_admin"];
+$_SESSION["token_exp_admin"]   = $admin["token_exp_admin"] ?? null;
+$_SESSION["email_admin"]       = $admin["email_admin"] ?? $email;
+$_SESSION["name_admin"]        = $admin["name_admin"] ?? $admin["email_admin"] ?? $email;
+$_SESSION["goal_type_admin"]   = $admin["goal_type_admin"] ?? 'ventas';
+$_SESSION["goal_value_admin"]  = (int)($admin["goal_value_admin"] ?? 0);
+$_SESSION["status_admin"]      = (int)($admin["status_admin"] ?? 1);
+$_SESSION["id_branch"]         = $admin["id_branch"] ?? null;
 
 // ============================================
-// 12. REDIRECCIONAR AL DASHBOARD
+// 12. REDIRECCIONAR SEGÚN ROL
 // ============================================
-header("Location: ../front/dashboard.php");
+if ($rol === 'vendedor') {
+    header("Location: ../front/dashboard-vendedor.php");
+} else {
+    header("Location: ../front/dashboard.php");
+}
 exit;

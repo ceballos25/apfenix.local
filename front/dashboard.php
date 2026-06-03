@@ -1,5 +1,8 @@
 <?php
 require_once "../config/config.php";
+if (!Auth::isAdmin()) {
+    Auth::redirectToDashboard();
+}
 $page_title = "Dashboard Principal";
 include_once ROOT_PATH . "/includes/head.php";
 ?>

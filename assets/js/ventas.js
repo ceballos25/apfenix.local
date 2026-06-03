@@ -3,6 +3,7 @@
  */
 let ventasCache = [], paginaActual = 1;
 const registrosPorPagina = 10;
+const isAdmin = window.APP_USER?.isAdmin ?? true;
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -12,8 +13,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // 2. Cargar Ventas Iniciales
     cargarVentas();
 
-    // 3. Cargar admins
-    cargarAdminsSelect();
+    // 3. Cargar admins (solo administrador)
+    if (isAdmin) {
+        cargarAdminsSelect();
+    }
 
     // Método de pago
     document.getElementById('filterMetodoPago')?.addEventListener('change', () => {
@@ -293,13 +296,13 @@ function renderTabla(ventas) {
                         style="width: 32px; height: 32px;">
                     <i class="ti ti-eye fs-7"></i>
                 </button>
-
+                ${isAdmin ? `
                 <button class="btn btn-icon btn-sm btn-outline-danger border-0 rounded-circle shadow-sm ms-1"
                         onclick="anularVenta(${v.id_sale})"
                         title="Anular venta"
                         style="width: 32px; height: 32px;">
                     <i class="ti ti-trash fs-7"></i>
-                </button>
+                </button>` : ''}
             </td>
         </tr>`;
     }).join('');
@@ -317,6 +320,8 @@ function verRecibo(id) {
             if (res.success) {
                 document.getElementById('cuerpoRecibo').innerHTML = res.html_recibo;
                 new bootstrap.Modal(document.getElementById('modalRecibo')).show();
+            } else {
+                Swal.fire('Error', res.message || 'No se pudo cargar el comprobante', 'error');
             }
         });
 }

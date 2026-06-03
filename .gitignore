@@ -18,6 +18,7 @@
 *.tmp
 *.swp
 *~
+/storage/tmp/
 
 # Sistema operativo
 .DS_Store

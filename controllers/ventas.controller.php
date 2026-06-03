@@ -33,6 +33,9 @@ class VentasController {
 
         // Capturar filtros
         $filtros = self::obtenerFiltros();
+
+        // Vendedor: solo sus ventas (ignora manipulación de POST)
+        Auth::enforceSellerFilter($filtros);
         
         // Determinar columnas de búsqueda
         $columnas = self::determinarColumnasBusqueda($filtros['search']);
@@ -203,7 +206,7 @@ class VentasController {
             'total_sale'          => $data['total_sale'],
             'payment_method_sale' => $data['payment_method_sale'],
             'status_sale'         => 1,
-            'id_admin_sale' => $data['id_admin'] ?? $_SESSION['user_id'] ?? null
+            'id_admin_sale' => Auth::resolveSellerIdForSale($data)
         ];
 
         $resVenta = ApiRequest::post(
@@ -261,6 +264,10 @@ class VentasController {
         $venta = self::consultarVenta($idVenta);
         if (!$venta) {
             return ['success' => false, 'message' => 'Venta no encontrada'];
+        }
+
+        if (!Auth::canAccessSale($venta)) {
+            return ['success' => false, 'message' => 'Acceso denegado'];
         }
         
         // Obtener tickets
@@ -481,7 +488,7 @@ public static function obtenerAdmins() {
         $params = [
             'rel' => 'sales,customers,raffles',
             'type' => 'sale,customer,raffle',
-            'select' => 'id_sale,date_created_sale,total_sale,name_customer,lastname_customer,code_sale,quantity_sale,title_raffle,email_customer',
+            'select' => 'id_sale,id_admin_sale,date_created_sale,total_sale,name_customer,lastname_customer,code_sale,quantity_sale,title_raffle,email_customer',
             'linkTo' => 'id_sale',
             'equalTo' => $idVenta
         ];
@@ -675,6 +682,7 @@ public static function obtenerAdmins() {
                         quantity_sale,
                         date_created_sale,
                         payment_method_sale,
+                        id_admin_sale,
                         name_customer,
                         lastname_customer,
                         email_customer,
@@ -693,6 +701,10 @@ public static function obtenerAdmins() {
                 }
 
                 $venta = $res->results[0];
+
+                if (!Auth::canAccessSale($venta)) {
+                    return ['success' => false, 'message' => 'Acceso denegado'];
+                }
 
                 // Traer tickets
                 $tickets = ApiRequest::get('tickets', [
@@ -784,6 +796,10 @@ public static function obtenerAdmins() {
     {
         if (empty($id_sale)) {
             return ['success' => false, 'message' => 'ID inválido'];
+        }
+
+        if (!Auth::isAdmin()) {
+            return ['success' => false, 'message' => 'Solo administradores pueden anular ventas'];
         }
 
         // 🔹 1. LIBERAR TICKETS

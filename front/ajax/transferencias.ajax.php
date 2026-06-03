@@ -3,6 +3,8 @@ require_once "../../config/config.php";
 require_once "../../controllers/apiRequest.controller.php";
 require_once "../../controllers/transfersController.php";
 
+Auth::requireAdmin();
+
 const ALLOWED_ACTIONS = [
 
     'obtener' => ['TransfersController', 'obtenerTransferencias', []],

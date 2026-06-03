@@ -1,8 +1,13 @@
 <?php
 require_once "../config/config.php";
-$page_title = "Gestión de Ventas";
+$page_title = Auth::isVendedor() ? "Mis Ventas" : "Gestión de Ventas";
+$isAdminUser = Auth::isAdmin();
 include_once ROOT_PATH . "/includes/head.php";
 ?>
+
+<script>
+    window.APP_USER = { isAdmin: <?= $isAdminUser ? 'true' : 'false' ?> };
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -55,7 +60,7 @@ include_once ROOT_PATH . "/includes/head.php";
                                     <option value="">Todas las rifas</option>
                                 </select>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2<?= $isAdminUser ? '' : ' d-none' ?>" id="colFilterAdmin">
                                 <label class="form-label small fw-bold">Vendedor</label>
                                 <select id="filterAdmin" class="form-select form-select-sm">
                                     <option value="">Todos</option>

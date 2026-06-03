@@ -7,6 +7,8 @@ require_once "../../config/config.php";
 require_once "../../controllers/apiRequest.controller.php"; 
 require_once "../../controllers/dashboard.controller.php";
 
+Auth::requireAdmin();
+
 const ALLOWED_ACTIONS = [
     'obtener_dashboard' => ['DashboardController', 'obtenerDashboard', []], // POST params handled inside
     'obtener_rifas'     => ['DashboardController', 'listarRifas', []]

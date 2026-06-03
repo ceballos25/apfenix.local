@@ -43,6 +43,14 @@ define('MAIL_BCC', env('MAIL_BCC'));
 
 /**
  * ===============================
+ * INFORME GERENCIAL
+ * ===============================
+ */
+define('CORREO_INFORME', env('CORREO_INFORME'));
+define('INFORME_GERENCIAL_ENABLED', filter_var(env('INFORME_GERENCIAL_ENABLED', true), FILTER_VALIDATE_BOOLEAN));
+
+/**
+ * ===============================
  * OPENPAY
  * ===============================
  */
@@ -106,6 +114,8 @@ if (env('DISPLAY_ERRORS')) {
 define('SALE_PREFIX', env('SALE_PREFIX') ?? 'CR');
 define('SALE_PAD', (int)(env('SALE_PAD') ?? 6));
 
+$isCli = (php_sapi_name() === 'cli');
+
 /**
  * ===============================
  * CONFIGURACIÓN Y MANEJO DE SESIÓN
@@ -116,19 +126,21 @@ ini_set('session.cookie_secure', env('SESSION_COOKIE_SECURE') ? '1' : '0');
 ini_set('session.cookie_lifetime', env('SESSION_LIFETIME'));
 ini_set('session.gc_maxlifetime', env('SESSION_LIFETIME'));
 
-if (env('SESSION_AUTO_START') && session_status() === PHP_SESSION_NONE) {
+if (!$isCli && env('SESSION_AUTO_START') && session_status() === PHP_SESSION_NONE) {
     session_name(env('SESSION_NAME'));
     session_start();
 }
 
+require_once ROOT_PATH . '/includes/auth.php';
+
 /**
  * ===============================
- * PROTECCIÓN DE RUTAS
+ * PROTECCIÓN DE RUTAS (solo HTTP)
  * ===============================
- * Solo protege si NO estamos en páginas públicas
  */
+if (!$isCli) {
 $currentScript = basename($_SERVER['SCRIPT_FILENAME']);
-$publicPages = ['index.php', 'login.php', 'dash.php', 'index_.php', 'webhook.php', 'numeros.ajax.php', 'ventas.ajax.php', 'web.ajax.php','clientes.ajax.php', 'success.php']; // Páginas sin protección
+$publicPages = ['index.php', 'login.php', 'dash.php', 'logout.php', 'index_.php', 'webhook.php', 'numeros.ajax.php', 'ventas.ajax.php', 'web.ajax.php','clientes.ajax.php', 'success.php']; // Páginas sin protección
 
 $isPublicPage = in_array($currentScript, $publicPages);
 
@@ -149,4 +161,7 @@ if (!$isPublicPage) {
             exit;
         }
     }
+
+    Auth::enforcePageAccess($currentScript);
+}
 }

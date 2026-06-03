@@ -410,6 +410,8 @@ async function generarReciboFinal(idVenta) {
                 </div>`;
 
             window.scrollTo(0, 0);
+        } else {
+            alertify.error(json.message || 'No se pudo cargar el comprobante');
         }
 
     } catch (e) {
