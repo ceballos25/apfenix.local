@@ -54,8 +54,16 @@
         </tr>
     </table>
 
+    <?php
+        $recaudoGlobal = $datos['totales']['recaudo'] ?? [
+            'total' => $datos['totales']['dinero'] ?? 0,
+            'transferencia' => 0,
+            'efectivo' => 0,
+            'otros' => 0,
+        ];
+    ?>
     <!-- ══════════════ RESUMEN GLOBAL ══════════════ -->
-    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 32px;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 16px;">
         <tr>
             <td width="32%" style="padding: 14px 16px; border: 1px solid #dddddd; background-color: #fafafa;">
                 <div style="font-size: 8px; color: #888888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Ventas totales</div>
@@ -68,10 +76,47 @@
             </td>
             <td width="2%"></td>
             <td width="32%" style="padding: 14px 16px; border: 1px solid #dddddd; background-color: #fafafa;">
-                <div style="font-size: 8px; color: #888888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Total vendido</div>
-                <div style="font-size: 20px; font-weight: bold; color: #2d6a4f;">$<?= number_format($datos['totales']['dinero'], 0, ',', '.') ?></div>
+                <div style="font-size: 8px; color: #888888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Total recaudado</div>
+                <div style="font-size: 20px; font-weight: bold; color: #2d6a4f;">$<?= number_format($recaudoGlobal['total'], 0, ',', '.') ?></div>
             </td>
         </tr>
+    </table>
+
+    <!-- ══════════════ CONSOLIDADO RECAUDO ══════════════ -->
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 32px;">
+        <tr>
+            <td style="font-size: 9px; font-weight: bold; color: #444444; text-transform: uppercase; letter-spacing: 0.5px; padding-bottom: 8px;">
+                Consolidado general de recaudo
+                <?php if (!empty($datos['periodo_desde']) && !empty($datos['periodo_hasta'])): ?>
+                <span style="font-weight: normal; color: #888888; text-transform: none;">
+                    — <?= htmlspecialchars($datos['periodo_desde']) ?> a <?= htmlspecialchars($datos['periodo_hasta']) ?>
+                </span>
+                <?php endif; ?>
+            </td>
+        </tr>
+        <tr>
+            <td width="32%" style="padding: 12px 14px; border: 1px solid #dddddd; background-color: #f8faf8;">
+                <div style="font-size: 8px; color: #888888; text-transform: uppercase; margin-bottom: 4px;">Por transferencia</div>
+                <div style="font-size: 16px; font-weight: bold; color: #1d4ed8;">$<?= number_format($recaudoGlobal['transferencia'], 0, ',', '.') ?></div>
+            </td>
+            <td width="2%"></td>
+            <td width="32%" style="padding: 12px 14px; border: 1px solid #dddddd; background-color: #f8faf8;">
+                <div style="font-size: 8px; color: #888888; text-transform: uppercase; margin-bottom: 4px;">En efectivo</div>
+                <div style="font-size: 16px; font-weight: bold; color: #15803d;">$<?= number_format($recaudoGlobal['efectivo'], 0, ',', '.') ?></div>
+            </td>
+            <td width="2%"></td>
+            <td width="32%" style="padding: 12px 14px; border: 1px solid #dddddd; background-color: #fffbeb;">
+                <div style="font-size: 8px; color: #888888; text-transform: uppercase; margin-bottom: 4px;">Total consolidado</div>
+                <div style="font-size: 16px; font-weight: bold; color: #222222;">$<?= number_format($recaudoGlobal['total'], 0, ',', '.') ?></div>
+            </td>
+        </tr>
+        <?php if (($recaudoGlobal['otros'] ?? 0) > 0): ?>
+        <tr>
+            <td colspan="5" style="padding-top: 6px; font-size: 8px; color: #888888;">
+                Otros métodos: $<?= number_format($recaudoGlobal['otros'], 0, ',', '.') ?>
+            </td>
+        </tr>
+        <?php endif; ?>
     </table>
 
     <!-- ══════════════ TÍTULO SECCIÓN ══════════════ -->
@@ -99,13 +144,15 @@
     <!-- ══════════════ TABLA PRINCIPAL ══════════════ -->
     <table class="tabla-vendedores" width="100%" cellpadding="0" cellspacing="0" border="0" style="border: 1px solid #cccccc;">
         <tr style="background-color: #f0f0f0;">
-            <td style="padding: 10px 12px; font-size: 8px; font-weight: bold; color: #444444; text-transform: uppercase; border-bottom: 1px solid #cccccc; width: 22%;">Vendedor</td>
-            <td style="padding: 10px 10px; font-size: 8px; font-weight: bold; color: #444444; text-transform: uppercase; border-bottom: 1px solid #cccccc; text-align: center; width: 12%;">Meta</td>
-            <td style="padding: 10px 10px; font-size: 8px; font-weight: bold; color: #444444; text-transform: uppercase; border-bottom: 1px solid #cccccc; text-align: center; width: 11%;">Avance</td>
-            <td style="padding: 10px 10px; font-size: 8px; font-weight: bold; color: #444444; text-transform: uppercase; border-bottom: 1px solid #cccccc; text-align: center; width: 9%;">Ventas</td>
-            <td style="padding: 10px 10px; font-size: 8px; font-weight: bold; color: #444444; text-transform: uppercase; border-bottom: 1px solid #cccccc; text-align: center; width: 9%;">Números</td>
-            <td style="padding: 10px 10px; font-size: 8px; font-weight: bold; color: #444444; text-transform: uppercase; border-bottom: 1px solid #cccccc; text-align: right; width: 14%;">Total</td>
-            <td style="padding: 10px 12px; font-size: 8px; font-weight: bold; color: #444444; text-transform: uppercase; border-bottom: 1px solid #cccccc; text-align: center; width: 23%;">Cumplimiento</td>
+            <td style="padding: 10px 12px; font-size: 8px; font-weight: bold; color: #444444; text-transform: uppercase; border-bottom: 1px solid #cccccc; width: 18%;">Vendedor</td>
+            <td style="padding: 10px 8px; font-size: 8px; font-weight: bold; color: #444444; text-transform: uppercase; border-bottom: 1px solid #cccccc; text-align: center; width: 9%;">Meta</td>
+            <td style="padding: 10px 8px; font-size: 8px; font-weight: bold; color: #444444; text-transform: uppercase; border-bottom: 1px solid #cccccc; text-align: center; width: 8%;">Avance</td>
+            <td style="padding: 10px 8px; font-size: 8px; font-weight: bold; color: #444444; text-transform: uppercase; border-bottom: 1px solid #cccccc; text-align: center; width: 7%;">Ventas</td>
+            <td style="padding: 10px 8px; font-size: 8px; font-weight: bold; color: #444444; text-transform: uppercase; border-bottom: 1px solid #cccccc; text-align: center; width: 7%;">Núm.</td>
+            <td style="padding: 10px 8px; font-size: 8px; font-weight: bold; color: #444444; text-transform: uppercase; border-bottom: 1px solid #cccccc; text-align: right; width: 11%;">Transfer.</td>
+            <td style="padding: 10px 8px; font-size: 8px; font-weight: bold; color: #444444; text-transform: uppercase; border-bottom: 1px solid #cccccc; text-align: right; width: 11%;">Efectivo</td>
+            <td style="padding: 10px 8px; font-size: 8px; font-weight: bold; color: #444444; text-transform: uppercase; border-bottom: 1px solid #cccccc; text-align: right; width: 12%;">Total</td>
+            <td style="padding: 10px 10px; font-size: 8px; font-weight: bold; color: #444444; text-transform: uppercase; border-bottom: 1px solid #cccccc; text-align: center; width: 17%;">Cumplimiento</td>
         </tr>
 
         <?php foreach ($datos['vendedores'] as $i => $v): ?>
@@ -115,6 +162,12 @@
             $barW     = max(1, min(100, (int)round($pct)));
             $barRest  = 100 - $barW;
             $bgRow    = ($i % 2 === 0) ? '#ffffff' : '#fafafa';
+            $recV     = $v['recaudo'] ?? [
+                'total' => $v['total_dinero'] ?? 0,
+                'transferencia' => 0,
+                'efectivo' => 0,
+                'otros' => 0,
+            ];
         ?>
         <tr style="background-color: <?= $bgRow ?>;">
             <td style="padding: 9px 12px; border-bottom: 1px solid #e5e5e5; vertical-align: middle;">
@@ -136,11 +189,17 @@
             <td style="padding: 9px 10px; border-bottom: 1px solid #e5e5e5; text-align: center; vertical-align: middle; font-size: 11px; font-weight: bold;">
                 <?= (int)$v['cantidad_ventas'] ?>
             </td>
-            <td style="padding: 9px 10px; border-bottom: 1px solid #e5e5e5; text-align: center; vertical-align: middle; font-size: 11px; font-weight: bold;">
+            <td style="padding: 9px 8px; border-bottom: 1px solid #e5e5e5; text-align: center; vertical-align: middle; font-size: 11px; font-weight: bold;">
                 <?= (int)$v['cantidad_numeros'] ?>
             </td>
-            <td style="padding: 9px 10px; border-bottom: 1px solid #e5e5e5; text-align: right; vertical-align: middle; font-size: 11px; font-weight: bold; color: #2d6a4f;">
-                $<?= number_format($v['total_dinero'], 0, ',', '.') ?>
+            <td style="padding: 9px 8px; border-bottom: 1px solid #e5e5e5; text-align: right; vertical-align: middle; font-size: 10px; font-weight: bold; color: #1d4ed8;">
+                $<?= number_format($recV['transferencia'], 0, ',', '.') ?>
+            </td>
+            <td style="padding: 9px 8px; border-bottom: 1px solid #e5e5e5; text-align: right; vertical-align: middle; font-size: 10px; font-weight: bold; color: #15803d;">
+                $<?= number_format($recV['efectivo'], 0, ',', '.') ?>
+            </td>
+            <td style="padding: 9px 8px; border-bottom: 1px solid #e5e5e5; text-align: right; vertical-align: middle; font-size: 11px; font-weight: bold; color: #2d6a4f;">
+                $<?= number_format($recV['total'], 0, ',', '.') ?>
             </td>
             <td style="padding: 9px 12px; border-bottom: 1px solid #e5e5e5; vertical-align: middle;">
                 <table width="100%" cellpadding="0" cellspacing="0" border="0">

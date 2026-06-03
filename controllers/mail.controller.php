@@ -154,7 +154,10 @@ class MailController {
     {
         $ventas = (int)$datos['totales']['ventas_count'];
         $numeros = (int)$datos['totales']['numeros_count'];
-        $dinero = number_format($datos['totales']['dinero'], 0, ',', '.');
+        $recaudo = $datos['totales']['recaudo'] ?? ['total' => $datos['totales']['dinero'] ?? 0, 'transferencia' => 0, 'efectivo' => 0];
+        $dinero = number_format($recaudo['total'], 0, ',', '.');
+        $transfer = number_format($recaudo['transferencia'], 0, ',', '.');
+        $efectivo = number_format($recaudo['efectivo'], 0, ',', '.');
 
         return '
             <div style="font-family:Arial,sans-serif;color:#1a1a1a;max-width:600px;">
@@ -166,7 +169,12 @@ class MailController {
                     <tr>
                         <td style="padding:8px;border:1px solid #eee;"><strong>Ventas</strong><br>' . $ventas . '</td>
                         <td style="padding:8px;border:1px solid #eee;"><strong>Números</strong><br>' . $numeros . '</td>
-                        <td style="padding:8px;border:1px solid #eee;"><strong>Total</strong><br>$' . $dinero . '</td>
+                        <td style="padding:8px;border:1px solid #eee;"><strong>Total recaudado</strong><br>$' . $dinero . '</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px;border:1px solid #eee;"><strong>Transferencia</strong><br>$' . $transfer . '</td>
+                        <td style="padding:8px;border:1px solid #eee;"><strong>Efectivo</strong><br>$' . $efectivo . '</td>
+                        <td style="padding:8px;border:1px solid #eee;"><strong>Consolidado</strong><br>$' . $dinero . '</td>
                     </tr>
                 </table>
                 <p>El detalle completo por vendedor se encuentra adjunto en PDF.</p>

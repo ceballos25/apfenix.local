@@ -17,6 +17,13 @@ class InformeGerencialController
     const TIPO_MEDIODIA = 'mediodia';
     const TIPO_CIERRE   = 'cierre';
 
+    /** status_sale = 1 → venta aprobada / pagada / confirmada (POS) */
+    const STATUS_VENTA_APROBADA = 1;
+
+    const HORA_INICIO_DIA = '00:00:00';
+    const HORA_FIN_MEDIODIA = '12:59:59';
+    const HORA_FIN_CIERRE   = '23:59:59';
+
     /**
      * Punto de entrada del cron.
      */
@@ -72,14 +79,15 @@ class InformeGerencialController
     public static function construirDatosInforme(string $tipo, ?string $fecha = null): array
     {
         $fecha = $fecha ?? date('Y-m-d');
-        $horaCorte = ($tipo === self::TIPO_MEDIODIA) ? '12:59:59' : '23:59:59';
+        $horaInicio = self::HORA_INICIO_DIA;
+        $horaCorte = ($tipo === self::TIPO_MEDIODIA) ? self::HORA_FIN_MEDIODIA : self::HORA_FIN_CIERRE;
         $horaCorteLabel = ($tipo === self::TIPO_MEDIODIA) ? '12:59 PM' : '11:59 PM';
         $tipoLabel = ($tipo === self::TIPO_MEDIODIA)
             ? 'Corte medio día'
             : 'Corte cierre diario';
 
         $vendedores = self::obtenerVendedoresActivos();
-        $ventas     = self::obtenerVentasDelPeriodo($fecha, $horaCorte);
+        $ventas     = self::obtenerVentasDelPeriodo($fecha, $horaInicio, $horaCorte);
 
         $mapVendedores = [];
         foreach ($vendedores as $v) {
@@ -104,6 +112,7 @@ class InformeGerencialController
             'numeros_count' => 0,
             'dinero'        => 0.0,
             'metodos'       => [],
+            'recaudo'       => self::recaudoVacio(),
         ];
 
         foreach ($vendedores as $v) {
@@ -114,35 +123,17 @@ class InformeGerencialController
                 continue;
             }
 
-            $cantidadVentas = count($ventasV);
-            $cantidadNumeros = 0;
-            $totalDinero = 0.0;
-            $metodos = [];
-
-            foreach ($ventasV as $venta) {
-                $qty = (int)($venta->quantity_sale ?? 0);
-                $monto = (float)($venta->total_sale ?? 0);
-                $metodo = trim($venta->payment_method_sale ?? '') ?: 'Otros';
-
-                $cantidadNumeros += $qty;
-                $totalDinero += $monto;
-                $metodos[$metodo] = ($metodos[$metodo] ?? 0) + 1;
-
-                $totales['ventas_count']++;
-                $totales['numeros_count'] += $qty;
-                $totales['dinero'] += $monto;
-                $totales['metodos'][$metodo] = ($totales['metodos'][$metodo] ?? 0) + 1;
-            }
+            $stats = self::agregarVentasAlResumen($ventasV);
 
             $goalType  = $v->goal_type_admin ?? 'ventas';
             $goalValue = (int)($v->goal_value_admin ?? 0);
-            $progreso  = ($goalType === 'numeros') ? $cantidadNumeros : $cantidadVentas;
+            $progreso  = ($goalType === 'numeros') ? $stats['numeros_count'] : $stats['ventas_count'];
             $metaLabel = ($goalType === 'numeros') ? 'Números' : 'Ventas';
             $porcentaje = ($goalValue > 0)
                 ? min(100, round(($progreso / $goalValue) * 100, 1))
                 : 0;
 
-            ksort($metodos);
+            ksort($stats['metodos']);
 
             $filas[] = [
                 'id_admin'         => $id,
@@ -153,11 +144,20 @@ class InformeGerencialController
                 'goal_value'       => $goalValue,
                 'progreso'         => $progreso,
                 'porcentaje'       => $porcentaje,
-                'cantidad_ventas'  => $cantidadVentas,
-                'cantidad_numeros' => $cantidadNumeros,
-                'total_dinero'     => $totalDinero,
-                'metodos_pago'     => $metodos,
+                'cantidad_ventas'  => $stats['ventas_count'],
+                'cantidad_numeros' => $stats['numeros_count'],
+                'total_dinero'     => $stats['recaudo']['total'],
+                'metodos_pago'     => $stats['metodos'],
+                'recaudo'          => $stats['recaudo'],
             ];
+
+            self::sumarRecaudo($totales['recaudo'], $stats['recaudo']);
+            $totales['ventas_count']  += $stats['ventas_count'];
+            $totales['numeros_count'] += $stats['numeros_count'];
+            $totales['dinero']        += $stats['recaudo']['total'];
+            foreach ($stats['metodos'] as $metodo => $cnt) {
+                $totales['metodos'][$metodo] = ($totales['metodos'][$metodo] ?? 0) + $cnt;
+            }
         }
 
         usort($filas, function ($a, $b) {
@@ -175,6 +175,8 @@ class InformeGerencialController
             'fecha'            => $fecha,
             'fecha_formateada' => self::formatearFecha($fecha),
             'hora_corte'       => $horaCorteLabel,
+            'periodo_desde'    => $fecha . ' ' . $horaInicio,
+            'periodo_hasta'    => $fecha . ' ' . $horaCorte,
             'generado_en'      => date('d/m/Y h:i A'),
             'site_name'        => SITE_NAME,
             'logo_path'        => ROOT_PATH . '/assets/images/logos/logo.jpg',
@@ -185,16 +187,19 @@ class InformeGerencialController
     }
 
     /**
-     * Una sola consulta API: ventas del día hasta hora de corte.
+     * Una sola consulta API: ventas del período (día + rango horario).
      */
-    public static function obtenerVentasDelPeriodo(string $fecha, string $horaFin): array
-    {
+    public static function obtenerVentasDelPeriodo(
+        string $fecha,
+        string $horaInicio = self::HORA_INICIO_DIA,
+        string $horaFin = self::HORA_FIN_CIERRE
+    ): array {
         $params = [
             'rel'       => 'sales,customers,raffles',
             'type'      => 'sale,customer,raffle',
             'select'    => 'id_sale,id_admin_sale,total_sale,quantity_sale,payment_method_sale,status_sale,date_created_sale',
             'linkTo'    => 'date_created_sale',
-            'between1'  => $fecha . ' 00:00:00',
+            'between1'  => $fecha . ' ' . $horaInicio,
             'between2'  => $fecha . ' ' . $horaFin,
             'orderBy'   => 'id_sale',
             'orderMode' => 'ASC',
@@ -209,10 +214,143 @@ class InformeGerencialController
         }
 
         $ventas = is_array($res->results) ? $res->results : [$res->results];
+        $ventas = self::desduplicarVentasPorId($ventas);
 
-        return array_values(array_filter($ventas, function ($v) {
-            return (int)($v->status_sale ?? 1) === 1;
+        $desdeTs = strtotime($fecha . ' ' . $horaInicio);
+        $hastaTs = strtotime($fecha . ' ' . $horaFin);
+
+        return array_values(array_filter($ventas, function ($v) use ($fecha, $desdeTs, $hastaTs) {
+            return self::esVentaValidaParaInforme($v, $fecha, $desdeTs, $hastaTs);
         }));
+    }
+
+    /**
+     * Agrega ventas al resumen (conteos, métodos y recaudo discriminado).
+     */
+    private static function agregarVentasAlResumen(array $ventas): array
+    {
+        $stats = [
+            'ventas_count'  => 0,
+            'numeros_count' => 0,
+            'metodos'       => [],
+            'recaudo'       => self::recaudoVacio(),
+        ];
+
+        foreach ($ventas as $venta) {
+            $qty = (int)($venta->quantity_sale ?? 0);
+            $monto = (float)($venta->total_sale ?? 0);
+            $metodoLabel = trim($venta->payment_method_sale ?? '') ?: 'Otros';
+            $metodoKey = self::clasificarMetodoPago($metodoLabel);
+
+            $stats['ventas_count']++;
+            $stats['numeros_count'] += $qty;
+            $stats['metodos'][$metodoLabel] = ($stats['metodos'][$metodoLabel] ?? 0) + 1;
+            $stats['recaudo']['total'] += $monto;
+            $stats['recaudo'][$metodoKey] += $monto;
+        }
+
+        return $stats;
+    }
+
+    /**
+     * Estructura base de recaudo por método normalizado.
+     */
+    private static function recaudoVacio(): array
+    {
+        return [
+            'total'         => 0.0,
+            'transferencia' => 0.0,
+            'efectivo'      => 0.0,
+            'otros'         => 0.0,
+        ];
+    }
+
+    private static function sumarRecaudo(array &$destino, array $origen): void
+    {
+        foreach (['total', 'transferencia', 'efectivo', 'otros'] as $key) {
+            $destino[$key] += (float)($origen[$key] ?? 0);
+        }
+    }
+
+    /**
+     * Normaliza método de pago a transferencia | efectivo | otros.
+     */
+    public static function clasificarMetodoPago(string $metodo): string
+    {
+        $norm = strtolower(trim($metodo));
+        $norm = str_replace(['á', 'é', 'í', 'ó', 'ú'], ['a', 'e', 'i', 'o', 'u'], $norm);
+
+        if ($norm === '' || $norm === 'otros') {
+            return 'otros';
+        }
+
+        if (strpos($norm, 'transfer') !== false || strpos($norm, 'transf') !== false) {
+            return 'transferencia';
+        }
+
+        if (strpos($norm, 'efect') !== false || strpos($norm, 'cash') !== false) {
+            return 'efectivo';
+        }
+
+        return 'otros';
+    }
+
+    /**
+     * Evita contar la misma venta más de una vez (por id_sale).
+     */
+    public static function desduplicarVentasPorId(array $ventas): array
+    {
+        $vistas = [];
+        $unicas = [];
+
+        foreach ($ventas as $v) {
+            $id = (int)($v->id_sale ?? 0);
+            if ($id <= 0) {
+                $unicas[] = $v;
+                continue;
+            }
+            if (isset($vistas[$id])) {
+                continue;
+            }
+            $vistas[$id] = true;
+            $unicas[] = $v;
+        }
+
+        return $unicas;
+    }
+
+    /**
+     * Venta aprobada, con vendedor y dentro del rango del corte (día + horas).
+     */
+    public static function esVentaValidaParaInforme(
+        object $venta,
+        string $fecha,
+        int $desdeTs,
+        int $hastaTs
+    ): bool {
+        if ((int)($venta->status_sale ?? 0) !== self::STATUS_VENTA_APROBADA) {
+            return false;
+        }
+
+        if ((int)($venta->id_admin_sale ?? 0) <= 0) {
+            return false;
+        }
+
+        $fechaHora = trim($venta->date_created_sale ?? '');
+        if ($fechaHora === '') {
+            return false;
+        }
+
+        if (substr($fechaHora, 0, 10) !== $fecha) {
+            return false;
+        }
+
+        $ts = strtotime($fechaHora);
+        if ($ts === false) {
+            return false;
+        }
+
+        return $ts >= $desdeTs && $ts <= $hastaTs;
     }
 
     /**

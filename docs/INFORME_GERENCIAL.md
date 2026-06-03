@@ -77,7 +77,13 @@ composer require dompdf/dompdf
 - **1 consulta** `admins` — vendedores activos con metas
 - Agregación por vendedor en PHP (sin N+1)
 
-Solo cuenta ventas con `status_sale = 1` y `id_admin_sale` asignado (ventas POS por vendedor).
+Solo cuenta ventas con `status_sale = 1` (aprobadas/pagadas) y `id_admin_sale` asignado (ventas POS por vendedor).
+
+Validaciones adicionales en PHP (sin consultas extra):
+
+- Deduplicación por `id_sale`
+- Filtro de fecha/hora del día del corte (evita ventas de otros días)
+- Normalización de método de pago → transferencia / efectivo / otros
 
 El PDF **solo incluye vendedores reales que vendieron en el período**. Se excluyen cuentas `seed.*` y `test.*`. Si no hubo ventas, el correo igual se envía con totales en cero.
 
@@ -86,13 +92,15 @@ El PDF **solo incluye vendedores reales que vendieron en el período**. Se exclu
 ## Contenido del PDF
 
 - Encabezado corporativo AP FENIX (logo + título)
-- Tipo de corte y fecha/hora
-- Resumen global (ventas, números, total $)
+- Tipo de corte y fecha/hora (rango exacto del período)
+- Resumen global (ventas, números, total recaudado)
+- **Consolidado general de recaudo**: total, transferencia, efectivo
 - Por cada vendedor (ordenado por % cumplimiento):
   - Meta, avance, barra de progreso
-  - Cantidad ventas / números / total $
-  - Desglose por método de pago
-- Resumen global de métodos de pago
+  - Cantidad ventas / números
+  - Recaudo por transferencia, efectivo y **total consolidado**
+  - Conteo por método de pago (etiqueta original)
+- Cierre diario: solo ventas del día actual `00:00:00` — `23:59:59`
 
 ---
 
