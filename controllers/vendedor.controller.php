@@ -72,11 +72,13 @@ class VendedorController
         $res = ApiRequest::get('relations', [
             'rel'       => 'sales,customers,raffles',
             'type'      => 'sale,customer,raffle',
-            'select'    => 'id_sale,code_sale,total_sale,quantity_sale,payment_method_sale,date_created_sale,name_customer,lastname_customer,title_raffle,id_admin_sale',
+            'select'    => 'id_sale,code_sale,total_sale,quantity_sale,payment_method_sale,status_sale,date_created_sale,name_customer,lastname_customer,title_raffle,id_admin_sale',
             'linkTo'    => 'id_admin_sale',
-            'equalTo'   => $userId,
+            'search'    => (string) $userId,
             'orderBy'   => 'id_sale',
             'orderMode' => 'DESC',
+            'startAt'   => 0,
+            'endAt'     => 10000,
         ]);
 
         if (!ApiRequest::isSuccess($res) || empty($res->results)) {

@@ -146,7 +146,7 @@ function isOpen($files, $currentPage) {
         </li>
         <li class="sidebar-item <?= isActive('vendedores.php', $currentPage); ?>">
           <a class="sidebar-link" href="vendedores.php">
-            <i class="ti ti-user-star"></i>
+            <i class="ti ti-id-badge"></i>
             <span class="hide-menu">Vendedores</span>
           </a>
         </li>

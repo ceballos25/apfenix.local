@@ -375,11 +375,13 @@ public static function obtenerAdmins() {
 
         foreach ($columnas as $columna) {
             $params = [
-                'rel' => 'sales,customers,raffles,admins',
-                'type' => 'sale,customer,raffle,admin',
+                'rel' => 'sales,customers,raffles',
+                'type' => 'sale,customer,raffle',
                 'select' => $select,
                 'orderBy' => 'id_sale',
-                'orderMode' => 'DESC'
+                'orderMode' => 'DESC',
+                'startAt' => 0,
+                'endAt' => 10000,
             ];
 
             $linkTo = [];

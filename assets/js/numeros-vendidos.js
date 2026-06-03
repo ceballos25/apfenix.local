@@ -17,7 +17,7 @@ async function cargarRifas() {
         const fd = new FormData();
         fd.append('action', 'obtener_rifas');
         const r = await fetch('ajax/ventas.ajax.php', { method: 'POST', body: fd });
-        const j = await r.json();
+        const j = await parseJsonResponse(r);
         const s = document.getElementById('filterRifa');
         if (j.success && s) {
             j.data.forEach(r => {
@@ -25,6 +25,16 @@ async function cargarRifas() {
             });
         }
     } catch (e) { console.error(e); }
+}
+
+async function parseJsonResponse(response) {
+    const text = await response.text();
+    try {
+        return JSON.parse(text);
+    } catch (e) {
+        console.error('Respuesta no JSON:', text.slice(0, 300));
+        throw new Error('El servidor no respondió correctamente. Revise logs o ejecute composer install.');
+    }
 }
 
 async function cargarNumeros() {
@@ -46,12 +56,22 @@ async function cargarNumeros() {
         fd.append('id_raffle', document.getElementById('filterRifa').value);
 
         const res = await fetch('ajax/ventas.ajax.php', { method: 'POST', body: fd });
-        const data = await res.json();
+        const data = await parseJsonResponse(res);
         
-        cache = data.success ? data.data : [];
-        renderTodo(); // Llamamos al renderizador que incluye paginación
+        if (!data.success) {
+            document.getElementById('bodyTabla').innerHTML =
+                `<tr><td colspan="4" class="text-center py-5 text-danger">${data.message || 'Error al cargar datos'}</td></tr>`;
+            return;
+        }
+
+        cache = data.data || [];
+        renderTodo();
         
-    } catch (e) { console.error(e); }
+    } catch (e) {
+        console.error(e);
+        document.getElementById('bodyTabla').innerHTML =
+            `<tr><td colspan="4" class="text-center py-5 text-danger">${e.message || 'Error de conexión'}</td></tr>`;
+    }
 }
 
 // --- LÓGICA DE PAGINACIÓN ---
