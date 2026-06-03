@@ -1,7 +1,5 @@
 <?php
 
-require_once 'mail.controller.php';
-
 /**
  * VentasController
  * 
@@ -243,6 +241,7 @@ class VentasController {
         ENVIAR CORREO
         =============================== */
 
+        require_once __DIR__ . '/mail.controller.php';
         MailController::enviarCorreoVenta((int)$idVenta);
 
         return [

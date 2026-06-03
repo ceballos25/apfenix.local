@@ -90,6 +90,19 @@ document.addEventListener('DOMContentLoaded', function() {
 // FUNCIONES
 // ===============================
 
+async function parseJsonResponse(response) {
+    const text = await response.text();
+    try {
+        return JSON.parse(text);
+    } catch (e) {
+        console.error('Respuesta no JSON:', text.slice(0, 400));
+        if (text.includes('vendor/autoload.php')) {
+            throw new Error('Falta la carpeta vendor/ en el servidor. Suba deploy/vendor.zip y extráigalo en public_html/vendor/');
+        }
+        throw new Error('El servidor respondió con error. Revise logs de PHP en cPanel.');
+    }
+}
+
 // Obtener Rifas
 async function cargarRifasSelect() {
     try {
@@ -97,7 +110,7 @@ async function cargarRifasSelect() {
         fd.append('action', 'obtener_rifas');
 
         const res = await fetch('ajax/ventas.ajax.php', { method: 'POST', body: fd });
-        const data = await res.json();
+        const data = await parseJsonResponse(res);
 
         if (data.success && data.data) {
             const select = document.getElementById('filterRifa');
@@ -121,7 +134,7 @@ async function cargarAdminsSelect() {
         fd.append('action', 'obtener_admins');
 
         const res = await fetch('ajax/ventas.ajax.php', { method: 'POST', body: fd });
-        const data = await res.json();
+        const data = await parseJsonResponse(res);
 
         if (data.success && data.data) {
             const select = document.getElementById('filterAdmin');
@@ -152,7 +165,7 @@ async function cargarVentas() {
         fd.append('id_admin', document.getElementById('filterAdmin')?.value || '');
 
         const res = await fetch('ajax/ventas.ajax.php', { method: 'POST', body: fd });
-        const data = await res.json();
+        const data = await parseJsonResponse(res);
 
         ventasCache = data.success
             ? (Array.isArray(data.data) ? data.data : (data.data ? [data.data] : []))
