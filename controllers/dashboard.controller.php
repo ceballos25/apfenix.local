@@ -83,17 +83,9 @@ class DashboardController {
         // Estructura para Paquetes
         $paquetesMap = [];
 
-        // Vendedores activos (inicializar en cero)
-        $vendedoresMap = self::obtenerMapaVendedores();
+        // Mapa de admins para resolver nombres (ventas POS guardan id_admin_sale del usuario logueado)
+        $adminsMap = self::obtenerMapaAdmins();
         $statsVendedor = [];
-        foreach ($vendedoresMap as $id => $nombre) {
-            $statsVendedor[$id] = [
-                'nombre'  => $nombre,
-                'ventas'  => 0,
-                'numeros' => 0,
-                'dinero'  => 0.0,
-            ];
-        }
         $sinVendedorKey = 0;
         $statsVendedor[$sinVendedorKey] = [
             'nombre'  => 'Sin vendedor (Web)',
@@ -115,13 +107,13 @@ class DashboardController {
             $response['kpis']['totalVentas'] += $monto;
             $response['kpis']['numerosVendidos'] += $cantidad;
 
-            // Stats por vendedor
+            // Stats por vendedor / admin que registró la venta
             $idAdmin = (int)($v->id_admin_sale ?? 0);
             if ($idAdmin <= 0) {
                 $idAdmin = $sinVendedorKey;
             } elseif (!isset($statsVendedor[$idAdmin])) {
                 $statsVendedor[$idAdmin] = [
-                    'nombre'  => "Vendedor #{$idAdmin}",
+                    'nombre'  => self::etiquetaAdminVenta($idAdmin, $adminsMap),
                     'ventas'  => 0,
                     'numeros' => 0,
                     'dinero'  => 0.0,
@@ -258,16 +250,18 @@ class DashboardController {
     }
 
     /**
-     * id_admin => nombre visible del vendedor.
+     * Todos los admins activos: id => [nombre, rol].
      */
-    private static function obtenerMapaVendedores(): array
+    private static function obtenerMapaAdmins(): array
     {
         $res = ApiRequest::get('admins', [
-            'linkTo'    => 'rol_admin,status_admin',
-            'equalTo'   => 'vendedor,1',
-            'select'    => 'id_admin,name_admin,email_admin',
+            'linkTo'    => 'status_admin',
+            'equalTo'   => '1',
+            'select'    => 'id_admin,name_admin,email_admin,rol_admin',
             'orderBy'   => 'name_admin',
             'orderMode' => 'ASC',
+            'startAt'   => 0,
+            'endAt'     => 5000,
         ]);
 
         $map = [];
@@ -276,12 +270,36 @@ class DashboardController {
         }
 
         $rows = is_array($res->results) ? $res->results : [$res->results];
-        foreach ($rows as $v) {
-            $id = (int)$v->id_admin;
-            $map[$id] = trim($v->name_admin ?? '') ?: ($v->email_admin ?? "Vendedor #{$id}");
+        foreach ($rows as $a) {
+            $id = (int)$a->id_admin;
+            $nombre = trim($a->name_admin ?? '') ?: trim($a->email_admin ?? '');
+            if ($nombre === '') {
+                $nombre = "Usuario #{$id}";
+            }
+            $map[$id] = [
+                'nombre' => $nombre,
+                'rol'    => strtolower(trim($a->rol_admin ?? 'administrador')),
+            ];
         }
 
         return $map;
+    }
+
+    /**
+     * Etiqueta para gráficas: vendedor por nombre; admin POS con sufijo (Admin).
+     */
+    private static function etiquetaAdminVenta(int $idAdmin, array $adminsMap): string
+    {
+        if (!isset($adminsMap[$idAdmin])) {
+            return "Usuario #{$idAdmin}";
+        }
+
+        $admin = $adminsMap[$idAdmin];
+        if ($admin['rol'] === Auth::ROLE_VENDEDOR) {
+            return $admin['nombre'];
+        }
+
+        return $admin['nombre'] . ' (Admin)';
     }
 
     public static function listarRifas() {

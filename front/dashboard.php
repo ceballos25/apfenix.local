@@ -140,7 +140,7 @@ include_once ROOT_PATH . "/includes/head.php";
                         <div class="card border-0 shadow-sm h-100">
                             <div class="card-header bg-white py-3 border-0">
                                 <h5 class="card-title fw-bold mb-0"><i class="ti ti-id-badge text-primary me-1"></i> Ventas por Vendedor</h5>
-                                <small class="text-muted">Cantidad de transacciones en el período</small>
+                                <small class="text-muted">Por quien registró la venta (vendedor o admin en POS)</small>
                             </div>
                             <div class="card-body pt-0">
                                 <div id="chartVentasVendedor" style="min-height: 320px;"></div>
