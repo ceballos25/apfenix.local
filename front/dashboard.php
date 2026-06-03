@@ -94,6 +94,26 @@ include_once ROOT_PATH . "/includes/head.php";
                 </div>
 
                 <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body py-4">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                            <div>
+                                <h5 class="fw-bold mb-1"><i class="ti ti-flame text-danger me-1"></i> Avance de venta</h5>
+                                <small class="text-muted" id="avanceRifaTitulo">Cargando rifa...</small>
+                            </div>
+                            <span class="badge bg-primary fs-5 px-3 py-2" id="avanceRifaPct">0%</span>
+                        </div>
+                        <div class="progress" style="height: 30px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                                 id="avanceRifaBar" role="progressbar" style="width: 0%;"
+                                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                <span class="fw-bold" id="avanceRifaBarText">0%</span>
+                            </div>
+                        </div>
+                        <small class="text-muted d-block mt-2" id="avanceRifaDetalle">—</small>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm mb-4">
                     <div class="card-header bg-white py-3 border-0">
                         <h5 class="card-title fw-bold mb-0">📈 Comportamiento de Ventas</h5>
                     </div>

@@ -16,7 +16,14 @@ class DashboardController {
                 'totalVentas' => 0,
                 'numerosVendidos' => 0,
                 'numerosDisponibles' => 0,
-                'totalClientes' => 0
+                'totalClientes' => 0,
+                'avanceRifa' => [
+                    'titulo'     => '',
+                    'porcentaje' => 0,
+                    'vendidos'   => 0,
+                    'total'      => 0,
+                    'disponibles'=> 0,
+                ],
             ],
             'graficas' => [
                 'tendencia' => [],
@@ -177,6 +184,8 @@ class DashboardController {
         $response['kpis']['totalClientes'] = (ApiRequest::isSuccess($resCust) && !empty($resCust->results)) 
             ? count(is_array($resCust->results) ? $resCust->results : [$resCust->results]) : 0;
 
+        $response['kpis']['avanceRifa'] = self::calcularAvanceRifa($idRaffle);
+
         // --- FORMATEO FINAL ---
 
         // 1. Tendencia
@@ -247,6 +256,75 @@ class DashboardController {
         }
 
         return ['success' => true, 'data' => $response];
+    }
+
+    /**
+     * % real vendido de la rifa (total boletos vs disponibles).
+     * Si no hay filtro de rifa, usa la rifa activa más reciente.
+     */
+    private static function calcularAvanceRifa(string $idRaffle): array
+    {
+        $vacío = [
+            'titulo'      => '',
+            'porcentaje'  => 0,
+            'vendidos'    => 0,
+            'total'       => 0,
+            'disponibles' => 0,
+        ];
+
+        if (!empty($idRaffle)) {
+            $res = ApiRequest::get('raffles', [
+                'linkTo'  => 'id_raffle',
+                'equalTo' => $idRaffle,
+                'select'  => 'id_raffle,title_raffle,digits_raffle',
+            ]);
+        } else {
+            $res = ApiRequest::get('raffles', [
+                'linkTo'    => 'status_raffle',
+                'equalTo'   => '1',
+                'select'    => 'id_raffle,title_raffle,digits_raffle',
+                'orderBy'   => 'id_raffle',
+                'orderMode' => 'DESC',
+                'startAt'   => 0,
+                'endAt'     => 1,
+            ]);
+        }
+
+        if (!ApiRequest::isSuccess($res) || empty($res->results)) {
+            return $vacío;
+        }
+
+        $rifa = is_array($res->results) ? $res->results[0] : $res->results;
+        $idRifa = (int)($rifa->id_raffle ?? 0);
+        $digits = (int)($rifa->digits_raffle ?? 0);
+        $total  = ($digits > 0) ? (int)pow(10, $digits) : 0;
+
+        if ($idRifa <= 0 || $total <= 0) {
+            return $vacío;
+        }
+
+        $resDisp = ApiRequest::get('tickets', [
+            'linkTo'  => 'id_raffle_ticket,status_ticket',
+            'equalTo' => $idRifa . ',0',
+            'select'  => 'id_ticket',
+            'startAt' => 0,
+            'endAt'   => 100000,
+        ]);
+
+        $disponibles = (ApiRequest::isSuccess($resDisp) && !empty($resDisp->results))
+            ? count(is_array($resDisp->results) ? $resDisp->results : [$resDisp->results])
+            : 0;
+
+        $vendidos   = max(0, $total - $disponibles);
+        $porcentaje = round(($vendidos / $total) * 100, 1);
+
+        return [
+            'titulo'      => trim($rifa->title_raffle ?? 'Rifa'),
+            'porcentaje'  => $porcentaje,
+            'vendidos'    => $vendidos,
+            'total'       => $total,
+            'disponibles' => $disponibles,
+        ];
     }
 
     /**
