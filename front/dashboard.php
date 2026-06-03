@@ -29,11 +29,11 @@ include_once ROOT_PATH . "/includes/head.php";
                                 </div>
                                 <div class="col-6 col-md-auto">
                                     <select id="filterPeriodo" class="form-select form-select-sm bg-light text-dark fw-medium" style="min-width: 130px;">
-                                        <option value="mes" selected>📅 Este Mes</option>
+                                        <option value="mes">📅 Este Mes</option>
                                         <option value="semana">📅 Esta Semana</option>
                                         <option value="hoy">📅 Hoy</option>
                                         <option value="ayer">📅 Ayer</option>
-                                        <option value="ano">📅 Este Año</option>
+                                        <option value="ano" selected>📅 Este Año</option>
                                         <option value="">⚙️ Rango</option>
                                     </select>
                                 </div>
@@ -130,6 +130,31 @@ include_once ROOT_PATH . "/includes/head.php";
                             </div>
                             <div class="card-body d-flex justify-content-center align-items-center">
                                 <div id="chartMediosDinero" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4 g-3">
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header bg-white py-3 border-0">
+                                <h5 class="card-title fw-bold mb-0"><i class="ti ti-id-badge text-primary me-1"></i> Ventas por Vendedor</h5>
+                                <small class="text-muted">Cantidad de transacciones en el período</small>
+                            </div>
+                            <div class="card-body pt-0">
+                                <div id="chartVentasVendedor" style="min-height: 320px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header bg-white py-3 border-0">
+                                <h5 class="card-title fw-bold mb-0"><i class="ti ti-ticket text-success me-1"></i> Números Vendidos por Vendedor</h5>
+                                <small class="text-muted">Total de números asignados en el período</small>
+                            </div>
+                            <div class="card-body pt-0">
+                                <div id="chartNumerosVendedor" style="min-height: 320px;"></div>
                             </div>
                         </div>
                     </div>

@@ -4,8 +4,8 @@ class DashboardController {
 
     public static function obtenerDashboard() {
         
-        $fechaDesde = $_POST['fechaDesde'] ?? date('Y-m-01');
-        $fechaHasta = $_POST['fechaHasta'] ?? date('Y-m-d');
+        $fechaDesde = $_POST['fechaDesde'] ?? date('Y-01-01');
+        $fechaHasta = $_POST['fechaHasta'] ?? date('Y-12-31');
         $idRaffle   = $_POST['id_raffle'] ?? '';
 
         $between1 = $fechaDesde . " 00:00:00";
@@ -32,7 +32,9 @@ class DashboardController {
 
                 // NUEVOS GRÁFICOS
                 'heatmap'  => [], // Mapa de calor (Día vs Hora)
-                'paquetes' => []  // Distribución (Cantidad vs Frecuencia)
+                'paquetes' => [],  // Distribución (Cantidad vs Frecuencia)
+                'ventasPorVendedor'   => [],
+                'numerosPorVendedor'  => [],
             ],
             'ultimasVentas' => []
         ];
@@ -41,7 +43,7 @@ class DashboardController {
         $paramsSales = [
             'rel'       => 'sales,customers,raffles',
             'type'      => 'sale,customer,raffle',
-            'select'    => 'id_sale,total_sale,quantity_sale,date_created_sale,payment_method_sale,name_customer,lastname_customer,phone_customer,city_customer,title_raffle,code_sale',
+            'select'    => 'id_sale,total_sale,quantity_sale,date_created_sale,payment_method_sale,name_customer,lastname_customer,phone_customer,city_customer,title_raffle,code_sale,id_admin_sale,status_sale',
             'linkTo'    => 'date_created_sale',
             'between1'  => $between1,
             'between2'  => $between2,
@@ -81,7 +83,30 @@ class DashboardController {
         // Estructura para Paquetes
         $paquetesMap = [];
 
+        // Vendedores activos (inicializar en cero)
+        $vendedoresMap = self::obtenerMapaVendedores();
+        $statsVendedor = [];
+        foreach ($vendedoresMap as $id => $nombre) {
+            $statsVendedor[$id] = [
+                'nombre'  => $nombre,
+                'ventas'  => 0,
+                'numeros' => 0,
+                'dinero'  => 0.0,
+            ];
+        }
+        $sinVendedorKey = 0;
+        $statsVendedor[$sinVendedorKey] = [
+            'nombre'  => 'Sin vendedor (Web)',
+            'ventas'  => 0,
+            'numeros' => 0,
+            'dinero'  => 0.0,
+        ];
+
         foreach ($ventas as $v) {
+            if ((int)($v->status_sale ?? 1) !== 1) {
+                continue;
+            }
+
             $monto = floatval($v->total_sale);
             $cantidad = intval($v->quantity_sale);
             $timestamp = strtotime($v->date_created_sale);
@@ -89,6 +114,22 @@ class DashboardController {
             // KPIs
             $response['kpis']['totalVentas'] += $monto;
             $response['kpis']['numerosVendidos'] += $cantidad;
+
+            // Stats por vendedor
+            $idAdmin = (int)($v->id_admin_sale ?? 0);
+            if ($idAdmin <= 0) {
+                $idAdmin = $sinVendedorKey;
+            } elseif (!isset($statsVendedor[$idAdmin])) {
+                $statsVendedor[$idAdmin] = [
+                    'nombre'  => "Vendedor #{$idAdmin}",
+                    'ventas'  => 0,
+                    'numeros' => 0,
+                    'dinero'  => 0.0,
+                ];
+            }
+            $statsVendedor[$idAdmin]['ventas']++;
+            $statsVendedor[$idAdmin]['numeros'] += $cantidad;
+            $statsVendedor[$idAdmin]['dinero'] += $monto;
 
             // Tendencia
             $fecha = date('Y-m-d', $timestamp);
@@ -192,7 +233,55 @@ class DashboardController {
             $response['graficas']['paquetes'][] = ['name' => $label, 'data' => $cant];
         }
 
+        // 6. Ventas y números por vendedor
+        $listaVendedores = array_values($statsVendedor);
+        usort($listaVendedores, function ($a, $b) {
+            return $b['ventas'] <=> $a['ventas'];
+        });
+
+        foreach ($listaVendedores as $row) {
+            if ($row['ventas'] === 0 && $row['numeros'] === 0) {
+                continue;
+            }
+            $response['graficas']['ventasPorVendedor'][] = [
+                'name'   => $row['nombre'],
+                'ventas' => $row['ventas'],
+                'dinero' => $row['dinero'],
+            ];
+            $response['graficas']['numerosPorVendedor'][] = [
+                'name'    => $row['nombre'],
+                'numeros' => $row['numeros'],
+            ];
+        }
+
         return ['success' => true, 'data' => $response];
+    }
+
+    /**
+     * id_admin => nombre visible del vendedor.
+     */
+    private static function obtenerMapaVendedores(): array
+    {
+        $res = ApiRequest::get('admins', [
+            'linkTo'    => 'rol_admin,status_admin',
+            'equalTo'   => 'vendedor,1',
+            'select'    => 'id_admin,name_admin,email_admin',
+            'orderBy'   => 'name_admin',
+            'orderMode' => 'ASC',
+        ]);
+
+        $map = [];
+        if (!ApiRequest::isSuccess($res) || empty($res->results)) {
+            return $map;
+        }
+
+        $rows = is_array($res->results) ? $res->results : [$res->results];
+        foreach ($rows as $v) {
+            $id = (int)$v->id_admin;
+            $map[$id] = trim($v->name_admin ?? '') ?: ($v->email_admin ?? "Vendedor #{$id}");
+        }
+
+        return $map;
     }
 
     public static function listarRifas() {

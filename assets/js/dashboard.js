@@ -9,6 +9,8 @@ let chartTopCliInst = null;
 let chartTopCiuInst = null;
 let chartHeatmapInst = null; // Nuevo
 let chartPaquetesInst = null; // Nuevo
+let chartVentasVendedorInst = null;
+let chartNumerosVendedorInst = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     cargarRifas();
@@ -77,7 +79,7 @@ async function cargarDashboard() {
 
 function limpiarFiltrosDashboard() {
     document.getElementById('filterRifa').value = '';
-    document.getElementById('filterPeriodo').value = 'mes';
+    document.getElementById('filterPeriodo').value = 'ano';
     cambiarPeriodo();
 }
 
@@ -198,6 +200,54 @@ function renderCharts(graficas) {
     if(chartTopCiuInst) chartTopCiuInst.destroy();
     chartTopCiuInst = new ApexCharts(document.querySelector("#chartTopCiudades"), optTopCiu);
     chartTopCiuInst.render();
+
+    // 6b. VENTAS POR VENDEDOR
+    const ventasV = (graficas.ventasPorVendedor && graficas.ventasPorVendedor.length)
+        ? graficas.ventasPorVendedor
+        : [{ name: 'Sin datos en el período', ventas: 0, dinero: 0 }];
+    const alturaVentasV = Math.max(320, ventasV.length * 36);
+    const optVentasV = {
+        series: [{ name: 'Ventas', data: ventasV.map(x => x.ventas) }],
+        chart: { type: 'bar', height: alturaVentasV, toolbar: { show: false }, fontFamily: 'inherit' },
+        plotOptions: { bar: { borderRadius: 4, horizontal: true, barHeight: '70%' } },
+        dataLabels: { enabled: true, formatter: val => fmtNum(val) },
+        xaxis: { categories: ventasV.map(x => x.name), labels: { style: { fontSize: '11px' } } },
+        colors: ['#4361ee'],
+        grid: { show: false },
+        tooltip: {
+            custom: function({ dataPointIndex }) {
+                const row = ventasV[dataPointIndex];
+                if (!row) return '';
+                return `<div class="px-3 py-2 border rounded shadow bg-white text-dark" style="font-size:0.85rem;">
+                    <div class="fw-bold mb-1">${row.name}</div>
+                    <div>🧾 Ventas: <b>${fmtNum(row.ventas)}</b></div>
+                    <div>💰 Total: <b>${fmtMoney(row.dinero)}</b></div>
+                </div>`;
+            }
+        }
+    };
+    if (chartVentasVendedorInst) chartVentasVendedorInst.destroy();
+    chartVentasVendedorInst = new ApexCharts(document.querySelector("#chartVentasVendedor"), optVentasV);
+    chartVentasVendedorInst.render();
+
+    // 6c. NÚMEROS POR VENDEDOR
+    const numerosV = (graficas.numerosPorVendedor && graficas.numerosPorVendedor.length)
+        ? graficas.numerosPorVendedor
+        : [{ name: 'Sin datos en el período', numeros: 0 }];
+    const alturaNumerosV = Math.max(320, numerosV.length * 36);
+    const optNumerosV = {
+        series: [{ name: 'Números', data: numerosV.map(x => x.numeros) }],
+        chart: { type: 'bar', height: alturaNumerosV, toolbar: { show: false }, fontFamily: 'inherit' },
+        plotOptions: { bar: { borderRadius: 4, horizontal: true, barHeight: '70%' } },
+        dataLabels: { enabled: true, formatter: val => fmtNum(val) },
+        xaxis: { categories: numerosV.map(x => x.name), labels: { style: { fontSize: '11px' } } },
+        colors: ['#10b981'],
+        grid: { show: false },
+        tooltip: { y: { formatter: v => fmtNum(v) + ' números' } }
+    };
+    if (chartNumerosVendedorInst) chartNumerosVendedorInst.destroy();
+    chartNumerosVendedorInst = new ApexCharts(document.querySelector("#chartNumerosVendedor"), optNumerosV);
+    chartNumerosVendedorInst.render();
 
     // 7. HEATMAP
     const optHeat = {
