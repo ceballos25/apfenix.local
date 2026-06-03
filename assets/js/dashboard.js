@@ -109,9 +109,11 @@ function renderKPIs(kpis) {
         : 'No hay datos de avance para la rifa seleccionada';
 
     const barra = document.getElementById('avanceRifaBar');
+    const barText = document.getElementById('avanceRifaBarText');
     barra.style.width = pctBar + '%';
     barra.setAttribute('aria-valuenow', pctBar);
-    document.getElementById('avanceRifaBarText').textContent = pctLabel + '%';
+    barText.textContent = pctLabel + '%';
+    barText.style.display = pctBar >= 12 ? '' : 'none';
 }
 
 // Configuración Base Donut
