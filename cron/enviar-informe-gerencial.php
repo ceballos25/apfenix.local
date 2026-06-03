@@ -19,9 +19,18 @@ if (!in_array($tipo, ['mediodia', 'cierre'], true)) {
     exit(1);
 }
 
-require_once __DIR__ . '/../config/config.php';
-require_once ROOT_PATH . '/controllers/informeGerencial.controller.php';
+try {
+    require_once __DIR__ . '/../config/config.php';
+    require_once ROOT_PATH . '/controllers/informeGerencial.controller.php';
+} catch (Throwable $e) {
+    fwrite(STDERR, '[informe-cron] Error al iniciar: ' . $e->getMessage() . "\n");
+    exit(1);
+}
 
 $ok = InformeGerencialController::ejecutarEnvio($tipo);
+
+if (!$ok) {
+    fwrite(STDERR, "[informe-cron] Envio fallido (tipo: {$tipo}). Ver logs/informe-gerencial.log y logs/mail.log\n");
+}
 
 exit($ok ? 0 : 1);

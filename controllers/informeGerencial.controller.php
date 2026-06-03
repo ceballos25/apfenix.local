@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/apiRequest.controller.php';
 require_once ROOT_PATH . '/includes/informe.logger.php';
+require_once ROOT_PATH . '/includes/vendedor-test.helper.php';
 require_once ROOT_PATH . '/vendor/autoload.php';
 
 use Dompdf\Dompdf;
@@ -54,6 +55,8 @@ class InformeGerencialController
                     $destino .= ' (BCC: ' . CORREO_INFORME_BCC . ')';
                 }
                 InformeLogger::info("Informe {$tipo} enviado a {$destino}");
+            } else {
+                InformeLogger::error("Informe {$tipo} NO enviado tras reintentos. Revisar logs/mail.log");
             }
 
             return $enviado;
@@ -78,10 +81,15 @@ class InformeGerencialController
         $vendedores = self::obtenerVendedoresActivos();
         $ventas     = self::obtenerVentasDelPeriodo($fecha, $horaCorte);
 
+        $mapVendedores = [];
+        foreach ($vendedores as $v) {
+            $mapVendedores[(int)$v->id_admin] = $v;
+        }
+
         $ventasPorVendedor = [];
         foreach ($ventas as $v) {
             $idAdmin = (int)($v->id_admin_sale ?? 0);
-            if ($idAdmin <= 0) {
+            if ($idAdmin <= 0 || !isset($mapVendedores[$idAdmin])) {
                 continue;
             }
             if (!isset($ventasPorVendedor[$idAdmin])) {
@@ -101,6 +109,10 @@ class InformeGerencialController
         foreach ($vendedores as $v) {
             $id = (int)$v->id_admin;
             $ventasV = $ventasPorVendedor[$id] ?? [];
+
+            if (count($ventasV) === 0) {
+                continue;
+            }
 
             $cantidadVentas = count($ventasV);
             $cantidadNumeros = 0;
@@ -220,7 +232,11 @@ class InformeGerencialController
             return [];
         }
 
-        return is_array($res->results) ? $res->results : [$res->results];
+        $rows = is_array($res->results) ? $res->results : [$res->results];
+
+        return array_values(array_filter($rows, function ($v) {
+            return !esVendedorPrueba($v->email_admin ?? '');
+        }));
     }
 
     /**

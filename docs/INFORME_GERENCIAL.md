@@ -42,17 +42,13 @@ Zona horaria: `America/Bogota` (ya configurada en `config.php`).
 
 ---
 
-## Ejecución manual (pruebas)
+## Ejecución manual
 
-```bash
-cd /home/cristian-ceballos/websites/apfenix.local
-php cron/enviar-informe-gerencial.php mediodia
-php cron/enviar-informe-gerencial.php cierre
-```
+**No ejecutar manualmente en producción** salvo emergencia. El cron automático (12:59 y 23:59) es suficiente.
 
 ---
 
-## Archivos creados
+## Archivos del informe (producción)
 
 | Archivo | Función |
 |---------|---------|
@@ -83,6 +79,8 @@ composer require dompdf/dompdf
 
 Solo cuenta ventas con `status_sale = 1` y `id_admin_sale` asignado (ventas POS por vendedor).
 
+El PDF **solo incluye vendedores reales que vendieron en el período**. Se excluyen cuentas `seed.*` y `test.*`. Si no hubo ventas, el correo igual se envía con totales en cero.
+
 ---
 
 ## Contenido del PDF
@@ -100,6 +98,7 @@ Solo cuenta ventas con `status_sale = 1` y `id_admin_sale` asignado (ventas POS 
 
 ## Seguridad y estabilidad
 
+- Excluye cuentas de prueba (`seed.*`, `test.*`)
 - Reintentos de envío: **3 intentos** con pausa de 2 s
 - PDF temporal eliminado tras envío (éxito o fallo final)
 - Cron corre en CLI: no afecta sesiones web (`config.php` detecta `php_sapi_name() === 'cli'`)

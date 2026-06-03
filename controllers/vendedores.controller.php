@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/apiRequest.controller.php';
+require_once ROOT_PATH . '/includes/vendedor-test.helper.php';
 
 /**
  * VendedoresController — CRUD de vendedores (solo tabla admins con rol vendedor)
@@ -13,10 +14,10 @@ class VendedoresController
     public static function listar()
     {
         $res = ApiRequest::get(self::TABLE, [
-            'linkTo'  => 'rol_admin',
-            'equalTo' => self::ROL,
-            'select'  => 'id_admin,name_admin,email_admin,status_admin,goal_type_admin,goal_value_admin,date_created_admin',
-            'orderBy' => 'name_admin',
+            'linkTo'    => 'rol_admin,status_admin',
+            'equalTo'   => self::ROL . ',1',
+            'select'    => 'id_admin,name_admin,email_admin,status_admin,goal_type_admin,goal_value_admin,date_created_admin',
+            'orderBy'   => 'name_admin',
             'orderMode' => 'ASC',
         ]);
 
@@ -25,6 +26,9 @@ class VendedoresController
         }
 
         $data = empty($res->results) ? [] : (is_array($res->results) ? $res->results : [$res->results]);
+        $data = array_values(array_filter($data, function ($v) {
+            return !esVendedorPrueba($v->email_admin ?? '');
+        }));
 
         return ['success' => true, 'data' => $data];
     }

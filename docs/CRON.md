@@ -94,17 +94,9 @@ Copiar desde `cron/crontab.produccion.txt` o pegar directamente:
 
 ---
 
-## Probar antes de activar el cron
+## Importante
 
-En **Terminal de cPanel** (o SSH si está disponible):
-
-```bash
-/usr/local/bin/php /home/apfenixc/public_html/cron/enviar-informe-gerencial.php mediodia
-/usr/local/bin/php /home/apfenixc/public_html/cron/enviar-informe-gerencial.php cierre
-```
-
-- Código de salida `0` = OK.
-- Revisar correo en `CORREO_INFORME`.
+- **No ejecutar scripts de prueba en producción.**
 - Logs: `public_html/logs/informe-gerencial.log` y `public_html/logs/mail.log`.
 
 ---
