@@ -650,7 +650,7 @@ $porcentaje_venta = 40.6;
             Desarrollado con ❤️ por 
             <strong class="text-warning">
               <a 
-                href="https://wa.me/573245894268?text=Hola%20vi%20la%20p%C3%A1gina%20de%20Ap%20Fenix%20y%20quiero%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20sistema%20de%20rifas"
+                href="https://wa.me/573202925348?text=Hola%20vi%20la%20p%C3%A1gina%20de%20Ap%20Fenix%20y%20quiero%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20sistema%20de%20rifas"
                 target="_blank"
                 rel="noopener"
                 class="text-warning"
