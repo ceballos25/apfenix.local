@@ -1,6 +1,6 @@
 <?php
 require_once "config/config.php";
-$porcentaje_venta = 45.1;
+$porcentaje_venta = 46.6;
 ?>
 <!doctype html>
 <html lang="es">
