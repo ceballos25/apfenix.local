@@ -15,10 +15,10 @@ class MeteorWebhookController
         $digits = ltrim($digits, '0');
 
         if (str_starts_with($digits, $countryCode)) {
-            return $digits;
+            return '+' . $digits;
         }
 
-        return $countryCode . $digits;
+        return '+' . $countryCode . $digits;
     }
 
     private static function log(string $message): void
