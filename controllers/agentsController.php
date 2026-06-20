@@ -114,10 +114,7 @@ class AgentsController
             return ['success' => false, 'message' => 'Venta creada pero no se pudo actualizar el estado del agente'];
         }
 
-        $numbersUrl = trim((string) ($agent['url_agent'] ?? ''));
-        if ($numbersUrl === '') {
-            $numbersUrl = rtrim(BASE_URL, '/') . '/agents/confirm?code=' . rawurlencode($agent['code_agent']);
-        }
+        $numbersUrl = 'https://apfenix.com/agents/confirm?code=' . rawurlencode($agent['code_agent']);
 
         $webhook = MeteorWebhookController::notificarVentaValidada([
             'phone_customer' => $agent['phone_customer'] ?? '',

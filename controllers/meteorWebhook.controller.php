@@ -5,6 +5,22 @@
  */
 class MeteorWebhookController
 {
+    private static function formatPhoneWithCountryCode(string $phone, string $countryCode = '57'): string
+    {
+        $digits = preg_replace('/\D/', '', $phone);
+        if ($digits === '') {
+            return '';
+        }
+
+        $digits = ltrim($digits, '0');
+
+        if (str_starts_with($digits, $countryCode)) {
+            return $digits;
+        }
+
+        return $countryCode . $digits;
+    }
+
     private static function log(string $message): void
     {
         $line = '[' . date('Y-m-d H:i:s') . '] ' . $message . PHP_EOL;
@@ -47,15 +63,18 @@ class MeteorWebhookController
 
         $numbersUrl = $data['numbers'] ?? '';
         if ($numbersUrl === '' && !empty($data['code_agent'])) {
-            $numbersUrl = rtrim(BASE_URL, '/') . '/agents/confirm?code=' . rawurlencode($data['code_agent']);
+            $numbersUrl = 'https://apfenix.com/agents/confirm?code=' . rawurlencode($data['code_agent']);
         }
 
+        $phoneCustomer = (string) ($data['phone_customer'] ?? '');
+
         $payload = [
-            'phone_customer' => (string) ($data['phone_customer'] ?? ''),
-            'id_customer'    => (int) ($data['id_customer'] ?? 0),
-            'code_agent'     => (string) ($data['code_agent'] ?? ''),
-            'numbers'        => $numbersUrl,
-            'status'         => 'validado',
+            'phone_customer'      => $phoneCustomer,
+            'phone_code_customer' => self::formatPhoneWithCountryCode($phoneCustomer),
+            'id_customer'         => (int) ($data['id_customer'] ?? 0),
+            'code_agent'          => (string) ($data['code_agent'] ?? ''),
+            'numbers'             => $numbersUrl,
+            'status'              => 'validado',
         ];
 
         $body = json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
