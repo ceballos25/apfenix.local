@@ -111,6 +111,14 @@ define('API_KEY', env('API_KEY'));
 
 /**
  * ===============================
+ * WEBHOOK METEOR (chatbot)
+ * ===============================
+ */
+define('METEOR_WEBHOOK_URL', env('METEOR_WEBHOOK_URL', ''));
+define('METEOR_WEBHOOK_SECRET', env('METEOR_WEBHOOK_SECRET', ''));
+
+/**
+ * ===============================
  * MODO / ERRORES
  * ===============================
  */
@@ -162,7 +170,7 @@ require_once ROOT_PATH . '/includes/auth.php';
  */
 if (!$isCli) {
 $currentScript = basename($_SERVER['SCRIPT_FILENAME']);
-$publicPages = ['index.php', 'login.php', 'dash.php', 'logout.php', 'index_.php', 'webhook.php', 'numeros.ajax.php', 'ventas.ajax.php', 'web.ajax.php','clientes.ajax.php', 'success.php']; // Páginas sin protección
+$publicPages = ['index.php', 'login.php', 'dash.php', 'logout.php', 'index_.php', 'webhook.php', 'numeros.ajax.php', 'ventas.ajax.php', 'web.ajax.php','clientes.ajax.php', 'success.php', 'confirm.php', 'transferencia.php']; // Páginas sin protección
 
 $isPublicPage = in_array($currentScript, $publicPages);
 

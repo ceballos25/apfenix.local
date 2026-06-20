@@ -1,6 +1,11 @@
 # Evitar listado de directorios (cuando no hay index)
 Options -Indexes
 
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^agents/confirm/?$ agents/confirm.php [L,QSA]
+</IfModule>
+
 # Cabeceras (CORS)
 <IfModule mod_headers.c>
     Header set Access-Control-Allow-Origin "*"

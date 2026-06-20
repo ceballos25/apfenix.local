@@ -58,6 +58,12 @@ function isOpen($files, $currentPage) {
             <span class="hide-menu">Mis Ventas</span>
           </a>
         </li>
+        <li class="sidebar-item <?= isActive('ventas-chat.php', $currentPage); ?>">
+          <a class="sidebar-link" href="ventas-chat.php">
+            <i class="ti ti-brand-whatsapp"></i>
+            <span class="hide-menu">Ventas Agente IA</span>
+          </a>
+        </li>
 
         <?php else: ?>
         <!-- MENÚ ADMINISTRADOR -->
@@ -77,6 +83,12 @@ function isOpen($files, $currentPage) {
           <a class="sidebar-link" href="transferencias.php">
             <i class="ti ti-building-bank"></i>
             <span class="hide-menu">Transferencias</span>
+          </a>
+        </li>
+        <li class="sidebar-item <?= isActive('ventas-chat.php', $currentPage); ?>">
+          <a class="sidebar-link" href="ventas-chat.php">
+            <i class="ti ti-brand-whatsapp"></i>
+            <span class="hide-menu">Ventas Agente IA</span>
           </a>
         </li>
 

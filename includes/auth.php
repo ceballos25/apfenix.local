@@ -16,6 +16,7 @@ class Auth
     const ADMIN_PAGES = [
         'dashboard.php',
         'transferencias.php',
+        'ventas-chat.php',
         'clientes.php',
         'numeros-vendidos.php',
         'numeros.php',
@@ -28,6 +29,7 @@ class Auth
         'dashboard-vendedor.php',
         'vender.php',
         'ventas.php',
+        'ventas-chat.php',
     ];
 
     /** Endpoints AJAX que el vendedor necesita (vender, dashboard, ventas) */
@@ -36,6 +38,7 @@ class Auth
         'vendedor.ajax.php',
         'ventas.ajax.php',
         'clientes.ajax.php',
+        'ventas-chat.ajax.php',
     ];
 
     /** Dashboard por rol */
