@@ -254,7 +254,7 @@ $couponActive = CouponHelper::isActive();
 
                                     <div class="confirmados-panel text-start mt-2 pt-3 border-top">
                                         <p class="confirmados-panel__resumen small fw-bold mb-2">
-                                            Quedan <span class="color-dinero-premio">8</span> anticipados y
+                                            Quedan <span class="color-dinero-premio">6</span> anticipados y
                                             <span class="color-dinero-premio">5</span> bendecidos por jugar
                                         </p>
                                         <h4 class="confirmados-panel__titulo fw-bold mb-2">✨ Bendecidos confirmados</h4>
@@ -284,6 +284,12 @@ $couponActive = CouponHelper::isActive();
                                                 <span class="confirmados-fila__nombre">Antonio Martínez</span>
                                                 <span class="numero-apfenix numero-apfenix--bendecido">12998</span>
                                             </div>
+                                            <div class="confirmados-fila">
+                                                <span class="confirmados-fila__fecha">19 de junio</span>
+                                                <span class="confirmados-fila__nombre">María Espinosa</span>
+                                                <span class="numero-apfenix numero-apfenix--bendecido">31903</span>
+                                            </div>                                            
+
                                         </div>
                                     </div>
 
