@@ -3,6 +3,7 @@ require_once __DIR__ . '/clientes.controller.php';
 require_once __DIR__ . '/ventas.controller.php';
 require_once __DIR__ . '/mail.controller.php';
 require_once __DIR__ . '/apiRequest.controller.php';
+require_once __DIR__ . '/../includes/coupon.php';
 
 class TransfersController
 {
@@ -32,6 +33,21 @@ class TransfersController
                 'message' => 'La compra mínima es de 3 números'
             ];
         }
+
+        $orderAmount = CouponHelper::resolveOrderAmount(
+            (int) $data['id_raffle'],
+            $cantidad,
+            $data['coupon_code'] ?? null
+        );
+
+        if (!$orderAmount['success']) {
+            return [
+                'success' => false,
+                'message' => $orderAmount['message']
+            ];
+        }
+
+        $amount = (int) $orderAmount['amount'];
 
         /* ===============================
         VALIDAR DISPONIBILIDAD
@@ -98,7 +114,7 @@ class TransfersController
                     'id_raffle_transfer' => (int)$data['id_raffle'],
                     'id_customer_transfer' => $idCustomer,
                     'quantity_transfer' => $cantidad,
-                    'amount_transfer' => $data['amount'],
+                    'amount_transfer' => $amount,
                     'currency_transfer' => 'COP',
                     'status_transfer' => 1
                 ]

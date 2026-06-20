@@ -139,6 +139,23 @@ class VentasController {
             ];
         }
 
+        require_once __DIR__ . '/../includes/coupon.php';
+
+        $orderAmount = CouponHelper::resolveSaleAmount(
+            $idRaffle,
+            $cantidad,
+            $data['coupon_code'] ?? null
+        );
+
+        if (!$orderAmount['success']) {
+            return [
+                'success' => false,
+                'message' => $orderAmount['message']
+            ];
+        }
+
+        $totalVenta = (int) $orderAmount['amount'];
+
         /* ===============================
         BUSCAR TICKETS DISPONIBLES
         =============================== */
@@ -201,7 +218,7 @@ class VentasController {
             'id_raffle_sale'      => $idRaffle,
             'code_sale'           => $data['code_sale'],
             'quantity_sale'       => $cantidad,
-            'total_sale'          => $data['total_sale'],
+            'total_sale'          => $totalVenta,
             'payment_method_sale' => $data['payment_method_sale'],
             'status_sale'         => 1,
             'id_admin_sale' => Auth::resolveSellerIdForSale($data)

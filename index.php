@@ -1,6 +1,8 @@
 <?php
 require_once "config/config.php";
+require_once "includes/coupon.php";
 $porcentaje_venta = 46.6;
+$couponActive = CouponHelper::isActive();
 ?>
 <!doctype html>
 <html lang="es">
@@ -18,6 +20,13 @@ $porcentaje_venta = 46.6;
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="assets/css/styles-v20.css?v=6">
+    <style>
+        .cupon-promo-bar {
+            background: linear-gradient(90deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
+            border-bottom: 2px solid #ffc107;
+        }
+    </style>
     <script src="https://t.contentsquare.net/uxa/8c88e0bc219df.js"></script>
 
 
@@ -50,6 +59,21 @@ $porcentaje_venta = 46.6;
             🚨 ¡ATENCIÓN! sticker a <strong>$900</strong> 🚨
         </div>
     </div>
+
+    <?php if ($couponActive): ?>
+    <div class="cupon-promo-bar text-center py-2" id="cuponPromoBar">
+        <div class="container">
+            <div class="fw-bold">
+                🎟️ Cupón <strong>APF15</strong> activo: <strong>15% OFF</strong> aplicado automáticamente
+            </div>
+            <div class="small mt-1">
+                Termina en:
+                <span id="cuponCountdownBanner" class="fw-bold text-warning">--:--:--</span>
+                <span class="opacity-75">(hasta el lunes 23:59)</span>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
 
     <!-- NAV -->
     <nav class="navbar navbar-expand-lg navbar-custom shadow-sm">
@@ -479,6 +503,10 @@ $porcentaje_venta = 46.6;
                                     <span>Cantidad</span>
                                     <strong id="cantTicketsDesktop">0</strong>
                                 </li>
+                                <li class="list-group-item d-flex justify-content-between text-success d-none" id="lineaDescuentoDesktop">
+                                    <span>Descuento APF15 (15%)</span>
+                                    <strong id="montoDescuentoDesktop">-$0</strong>
+                                </li>
                                 <li class="list-group-item d-flex justify-content-between fw-bold">
                                     <span>Total</span>
                                     <strong class="text-success" id="totalDineroDesktop">$0</strong>
@@ -610,7 +638,7 @@ $porcentaje_venta = 46.6;
                 <div class="col-md-4">
                     <h6 class="fw-bold text-uppercase mb-3">Contacto</h6>
                     <p class="small text-secondary mb-2">
-                        <i class="ti ti-phone me-2"></i> (+57) 310 549 3770
+                        <i class="ti ti-phone me-2"></i> (+57) 320 292 5348
                     </p>
                     <p class="small text-secondary mb-2">
                         <i class="ti ti-mail me-2"></i> info@apfenix.com
@@ -636,7 +664,7 @@ $porcentaje_venta = 46.6;
                 <a href="https://www.instagram.com/angelica_paez00?igsh=MTNvdGJmNnpxd2xxaw%3D%3D&utm_source=qr" class="btn btn-outline-light rounded-circle">
                     <i class="ti ti-brand-instagram"></i>
                 </a>
-                <a href="https://wa.me/573105493770?text=Hola%20" class="btn btn-outline-success rounded-circle">
+                <a href="https://wa.me/573202925348?text=Hola%20" class="btn btn-outline-success rounded-circle">
                     <i class="ti ti-brand-whatsapp"></i>
                 </a>
                 <a href="" class="d-none btn btn-outline-primary rounded-circle">
@@ -718,7 +746,15 @@ $porcentaje_venta = 46.6;
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="assets/js/departamentos-ciudades.js"></script>
-    <script src="assets/js/frontend-v3.js"></script>
+    <script>
+    window.CUPON_AP_FENIX = <?= json_encode([
+        'activo' => $couponActive,
+        'codigo' => CouponHelper::CODE,
+        'descuento' => CouponHelper::DISCOUNT_PERCENT,
+        'expira' => $couponActive ? CouponHelper::getExpiresForJs() : null,
+    ], JSON_UNESCAPED_UNICODE) ?>;
+    </script>
+    <script src="assets/js/frontend-v3.js?v=cupon2"></script>
     <script src="assets/js/buscarTickets.js"></script>
     
 
@@ -757,9 +793,26 @@ $porcentaje_venta = 46.6;
                                 <div class="text-end">
                                     <small class="text-uppercase fw-bold text-muted">Total</small><br>
                                     <span class="fw-bold text-success fs-5" id="resumenTotal">$0</span>
+                                    <div class="small text-success d-none" id="lineaDescuentoCheckout">
+                                        Descuento 15%: <span id="montoDescuentoCheckout">-$0</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <?php if ($couponActive): ?>
+                        <div class="card border-warning mb-4 shadow-sm" id="bloqueCuponCheckout">
+                            <div class="card-body p-3">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    <div>
+                                        <span class="fw-bold text-warning d-block">🎟️ Descuento del 15% activo</span>
+                                        <span class="small text-muted">Cupón <strong>APF15</strong> aplicado automáticamente a tu compra</span>
+                                    </div>
+                                    <span class="badge bg-danger" id="cuponCountdownModal">--:--:--</span>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif; ?>
 
                         <h6 class="fw-bold mb-3">Datos del Comprador</h6>
 

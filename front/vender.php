@@ -1,6 +1,8 @@
 <?php
 require_once "../config/config.php";
+require_once "../includes/coupon.php";
 $page_title = "Nueva Venta";
+$couponActive = CouponHelper::isActive();
 include_once ROOT_PATH . "/includes/head.php";
 ?>
 
@@ -19,6 +21,15 @@ include_once ROOT_PATH . "/includes/head.php";
                         <i class="ti ti-refresh"></i>
                     </button>
                 </div>
+
+                <?php if ($couponActive): ?>
+                <div class="alert alert-warning border-warning shadow-sm mb-3 py-2">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                        <span class="fw-bold">🎟️ Cupón <strong>APF15</strong> activo: 15% OFF aplicado automáticamente</span>
+                        <span class="badge bg-danger" id="cuponCountdownVender">--:--:--</span>
+                    </div>
+                </div>
+                <?php endif; ?>
 
                 <div class="row g-3">
                     
@@ -186,6 +197,10 @@ include_once ROOT_PATH . "/includes/head.php";
                                 </ul>
                             </div>
                                 <div class="card-footer bg-light p-4 border-top">
+                                    <div class="d-flex justify-content-between align-items-end mb-1 d-none" id="lineaDescuentoVenderDesk">
+                                        <span class="small text-success fw-bold">Descuento APF15 (15%)</span>
+                                        <span class="small text-success fw-bold" id="montoDescuentoVenderDesk">-$0</span>
+                                    </div>
                                     <div class="d-flex justify-content-between align-items-end mb-3">
                                         <span class="h6 mb-0 text-muted">
                                             Total a Pagar 
@@ -225,6 +240,7 @@ include_once ROOT_PATH . "/includes/head.php";
             <span class="d-block small text-muted fw-bold lh-1">
                 TOTAL <i class="ti ti-chevron-up ms-1 text-primary"></i>
             </span>
+            <span class="small text-success d-none" id="lineaDescuentoVenderMob">Desc. APF15: <span id="montoDescuentoVenderMob">-$0</span></span>
             <span class="h3 fw-bolder text-primary" id="lblTotalMobile">$0</span>
         </div>
         
@@ -249,7 +265,15 @@ $extra_js = '
 <link href="' . ASSETS_URL . '/libs/select2/css/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
 <script src="' . ASSETS_URL . '/libs/select2/js/select2.min.js"></script>
 <script src="' . ASSETS_URL . '/js/departamentos-ciudades.js"></script>
-<script src="' . ASSETS_URL . '/js/vender.js"></script> 
+<script>
+window.CUPON_AP_FENIX = ' . json_encode([
+    'activo' => $couponActive,
+    'codigo' => CouponHelper::CODE,
+    'descuento' => CouponHelper::DISCOUNT_PERCENT,
+    'expira' => $couponActive ? CouponHelper::getExpiresForJs() : null,
+], JSON_UNESCAPED_UNICODE) . ';
+</script>
+<script src="' . ASSETS_URL . '/js/vender.js?v=cupon1"></script>
 ';
 include_once ROOT_PATH . "/includes/footer.php";
 ?>

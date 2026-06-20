@@ -9,12 +9,19 @@ const estado = {
     rifa: { id: null, precio: 0 },
     inventarioCompleto: [],
     cantidadSeleccionada: 0,
+    cupon: {
+        aplicado: false,
+        codigo: ''
+    },
     rutas: {
         numeros: 'front/ajax/numeros.ajax.php',
         ventas: 'front/ajax/ventas.ajax.php',
         clientes: 'front/ajax/clientes.ajax.php'
     }
 };
+
+const cuponConfig = window.CUPON_AP_FENIX || { activo: false };
+let cuponCountdownTimer = null;
 
     document.addEventListener('DOMContentLoaded', function () {
     var main = new Splide('#main-carousel', {
@@ -75,6 +82,8 @@ $(document).ready(function () {
         });
 
     }
+
+    initCuponPromo();
 
 });
 
@@ -185,6 +194,94 @@ function obtenerPrecioUnitario(cantidad) {
 
 }
 
+function formatearMoneda(n) {
+    return new Intl.NumberFormat('es-CO', {
+        style: 'currency',
+        currency: 'COP',
+        maximumFractionDigits: 0
+    }).format(n);
+}
+
+function calcularMontos(cantidad) {
+
+    const subtotal = cantidad * obtenerPrecioUnitario(cantidad);
+    let descuento = 0;
+
+    if (cuponConfig.activo && estado.cupon.aplicado) {
+        descuento = Math.round(subtotal * (cuponConfig.descuento / 100));
+    }
+
+    return {
+        subtotal,
+        descuento,
+        total: Math.max(0, subtotal - descuento)
+    };
+}
+
+function initCuponPromo() {
+
+    if (!cuponConfig.activo || !cuponConfig.expira) {
+        return;
+    }
+
+    const expira = new Date(cuponConfig.expira).getTime();
+
+    const tick = () => {
+        const restante = expira - Date.now();
+
+        if (restante <= 0) {
+            clearInterval(cuponCountdownTimer);
+            cuponConfig.activo = false;
+            estado.cupon.aplicado = false;
+            $('#cuponPromoBar, #bloqueCuponCheckout').addClass('d-none');
+            actualizarUI();
+            return;
+        }
+
+        const texto = formatearCuentaRegresiva(restante);
+        $('#cuponCountdownBanner, #cuponCountdownModal').text(texto);
+    };
+
+    tick();
+    cuponCountdownTimer = setInterval(tick, 1000);
+
+    autoAplicarCupon();
+}
+
+function autoAplicarCupon() {
+
+    if (!cuponConfig.activo) {
+        estado.cupon.aplicado = false;
+        estado.cupon.codigo = '';
+        return;
+    }
+
+    estado.cupon.aplicado = true;
+    estado.cupon.codigo = cuponConfig.codigo;
+    actualizarUI();
+}
+
+function formatearCuentaRegresiva(ms) {
+
+    const totalSeg = Math.floor(ms / 1000);
+    const dias = Math.floor(totalSeg / 86400);
+    const horas = Math.floor((totalSeg % 86400) / 3600);
+    const minutos = Math.floor((totalSeg % 3600) / 60);
+    const segundos = totalSeg % 60;
+
+    const pad = n => String(n).padStart(2, '0');
+
+    if (dias > 0) {
+        return `${dias}d ${pad(horas)}:${pad(minutos)}:${pad(segundos)}`;
+    }
+
+    return `${pad(horas)}:${pad(minutos)}:${pad(segundos)}`;
+}
+
+function obtenerCodigoCuponParaPago() {
+    return (cuponConfig.activo && estado.cupon.aplicado) ? estado.cupon.codigo : '';
+}
+
 function actualizarPrecioVisual(cantidad) {
 
     if (cantidad >= 20) {
@@ -210,23 +307,23 @@ function actualizarUI() {
 
     const cant = estado.cantidadSeleccionada;
 
-    const precioUnitario = obtenerPrecioUnitario(cant);
-
-    const total = cant * precioUnitario;
+    const montos = calcularMontos(cant);
 
     actualizarPrecioVisual(cant);
 
-    const fmt = n =>
-        new Intl.NumberFormat('es-CO', {
-            style: 'currency',
-            currency: 'COP',
-            maximumFractionDigits: 0
-        }).format(n);
+    const fmt = formatearMoneda;
 
 
     $('#cantTicketsDesktop, #lblCantidadMobile').text(cant);
 
-    $('#totalDineroDesktop, #lblTotalMobile, #resumenTotal').text(fmt(total));
+    $('#totalDineroDesktop, #lblTotalMobile, #resumenTotal').text(fmt(montos.total));
+
+    if (montos.descuento > 0) {
+        $('#lineaDescuentoDesktop, #lineaDescuentoCheckout').removeClass('d-none');
+        $('#montoDescuentoDesktop, #montoDescuentoCheckout').text('-' + fmt(montos.descuento));
+    } else {
+        $('#lineaDescuentoDesktop, #lineaDescuentoCheckout').addClass('d-none');
+    }
 
 
     $('#resumenNumeros').html(
@@ -375,11 +472,9 @@ if (!estado.cantidadSeleccionada || estado.cantidadSeleccionada < 3) {
 
     }
 
-    const total =
-        estado.cantidadSeleccionada *
-        obtenerPrecioUnitario(estado.cantidadSeleccionada);
+    const montos = calcularMontos(estado.cantidadSeleccionada);
 
-    $('#totalPagarInput').val(total);
+    $('#totalPagarInput').val(montos.total);
 
     const modal = new bootstrap.Modal(
         document.getElementById('modalCheckout')
@@ -413,6 +508,8 @@ async function iniciarPagoPSE() {
     showPreloader();
 
 
+    const montos = calcularMontos(estado.cantidadSeleccionada);
+
     const payload = {
 
         action: 'crear_respaldo',
@@ -421,9 +518,9 @@ async function iniciarPagoPSE() {
 
         quantity: estado.cantidadSeleccionada,
 
-        amount:
-            estado.cantidadSeleccionada *
-            obtenerPrecioUnitario(estado.cantidadSeleccionada),
+        amount: montos.total,
+
+        coupon_code: obtenerCodigoCuponParaPago(),
 
         name_customer: datos.nombre,
         lastname_customer: datos.apellido,
@@ -627,9 +724,7 @@ async function procesarTransferencia(e) {
         return;
     }
 
-    const total =
-        estado.cantidadSeleccionada *
-        obtenerPrecioUnitario(estado.cantidadSeleccionada);
+    const montos = calcularMontos(estado.cantidadSeleccionada);
 
     const formData = new FormData();
 
@@ -638,7 +733,8 @@ async function procesarTransferencia(e) {
     // 🔥 datos compra
     formData.append('id_raffle', estado.rifa.id);
     formData.append('quantity', estado.cantidadSeleccionada);
-    formData.append('amount', total);
+    formData.append('amount', montos.total);
+    formData.append('coupon_code', obtenerCodigoCuponParaPago());
 
     // 🔥 cliente
     formData.append('name_customer', datos.nombre);

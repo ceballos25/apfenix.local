@@ -2,6 +2,7 @@
 require_once __DIR__ . '/clientes.controller.php';
 require_once __DIR__ . '/ventas.controller.php';
 require_once __DIR__ . '/mail.controller.php';
+require_once __DIR__ . '/../includes/coupon.php';
 
 /**
  * PaymentBackupsController - VERSIÓN FINAL
@@ -34,6 +35,21 @@ class PaymentBackupsController
                     'message' => 'La compra mínima es de 3 números'
                 ];
             }
+
+            $orderAmount = CouponHelper::resolveOrderAmount(
+                (int) $data['id_raffle'],
+                $cantidad,
+                $data['coupon_code'] ?? null
+            );
+
+            if (!$orderAmount['success']) {
+                return [
+                    'success' => false,
+                    'message' => $orderAmount['message']
+                ];
+            }
+
+            $amount = (int) $orderAmount['amount'];
 
             /* ===============================
             VALIDAR DISPONIBILIDAD
@@ -100,7 +116,7 @@ class PaymentBackupsController
                     'id_raffle_payment_backup' => (int)$data['id_raffle'],
                     'id_customer_payment_backup' => $idCustomer,
                     'quantity_payment_backup' => $cantidad,
-                    'amount_payment_backup' => $data['amount'],
+                    'amount_payment_backup' => $amount,
                     'currency_payment_backup' => 'COP',
                     'status_payment_backup' => 1
                 ]
