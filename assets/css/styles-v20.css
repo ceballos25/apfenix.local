@@ -22,8 +22,85 @@
         font-size: 0.9rem;
         text-transform: uppercase;
         letter-spacing: 1px;
+    }
+
+    /* Solo la barra del cupón queda fija al hacer scroll */
+    .cupon-promo-sticky {
         position: sticky;
-        z-index: 9999;
+        top: 0;
+        z-index: 1045;
+        width: 100%;
+        background: linear-gradient(90deg, #1a1a2e 0%, #16213e 55%, #0f3460 100%);
+        color: #fff;
+        border-bottom: 2px solid #ffc107;
+        padding: 0.55rem 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+    }
+
+    .cupon-promo-sticky-inner {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem 0.85rem;
+        text-align: center;
+        font-size: 0.82rem;
+        line-height: 1.4;
+    }
+
+    .cupon-promo-sticky-text {
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .cupon-promo-sticky-countdown {
+        font-size: 0.78rem;
+        white-space: nowrap;
+    }
+
+    .promo-countdown-value {
+        color: #ffc107;
+        font-weight: 800;
+    }
+
+    .promo-countdown-note {
+        opacity: 0.75;
+        margin-left: 0.15rem;
+    }
+
+    .navbar-logo {
+        height: 64px;
+        width: auto;
+        object-fit: contain;
+    }
+
+    .navbar-brand-text {
+        font-size: 1.1rem;
+        letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 575.98px) {
+        .cupon-promo-sticky {
+            padding: 0.5rem 0;
+        }
+
+        .cupon-promo-sticky-inner {
+            flex-direction: column;
+            gap: 0.2rem;
+            font-size: 0.76rem;
+        }
+
+        .cupon-promo-sticky-countdown {
+            font-size: 0.72rem;
+        }
+
+        .navbar-logo {
+            height: 52px;
+        }
+
+        .navbar-brand-text {
+            font-size: 1rem;
+        }
     }
 
     .millonario {
@@ -375,8 +452,8 @@
         background-color: #050505;
         /* Fondo sólido (sin transparencia) para que nada se vea detrás */
         border-bottom: 2px solid var(--gold);
-        z-index: 1050 !important;
-        /* Capa superior a la tarjeta */
+        z-index: 1020 !important;
+        /* Por debajo de la barra del cupón (1045) al hacer scroll */
         
         /* Refuerzo */
         /* top: -1px; */

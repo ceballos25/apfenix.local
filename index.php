@@ -19,14 +19,7 @@ $couponActive = CouponHelper::isActive();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="assets/css/styles-v20.css?v=6">
-    <style>
-        .cupon-promo-bar {
-            background: linear-gradient(90deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            color: #fff;
-            border-bottom: 2px solid #ffc107;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/css/styles-v20.css?v=9">
     <script src="https://t.contentsquare.net/uxa/8c88e0bc219df.js"></script>
 
 
@@ -53,36 +46,35 @@ $couponActive = CouponHelper::isActive();
 
 <body>
 
-    <!-- PROMO -->
-    <div class="promo-bar text-center py-2 ">
+    <!-- PROMO $900 (scroll normal) -->
+    <div class="promo-bar text-center py-2">
         <div class="container fw-bold">
             🚨 ¡ATENCIÓN! sticker a <strong>$900</strong> 🚨
         </div>
     </div>
 
     <?php if ($couponActive): ?>
-    <div class="cupon-promo-bar text-center py-2" id="cuponPromoBar">
+    <div class="cupon-promo-sticky" id="cuponPromoBar">
         <div class="container">
-            <div class="fw-bold">
-                🎟️ Cupón <strong>APF15</strong> activo: <strong>15% OFF</strong> aplicado automáticamente
-            </div>
-            <div class="small mt-1">
-                Termina en:
-                <span id="cuponCountdownBanner" class="fw-bold text-warning">--:--:--</span>
-                <span class="opacity-75">(hasta el lunes 23:59)</span>
+            <div class="cupon-promo-sticky-inner">
+                <span class="cupon-promo-sticky-text">
+                    🎟️ <strong>CUPON aplicado</strong> · APF15 · 15% OFF
+                </span>
+                <span class="cupon-promo-sticky-countdown">
+                    Termina en <span id="cuponCountdownBanner" class="promo-countdown-value">--:--:--</span>
+                    <span class="promo-countdown-note">(hasta el lunes 23:59)</span>
+                </span>
             </div>
         </div>
     </div>
     <?php endif; ?>
 
     <!-- NAV -->
-    <nav class="navbar navbar-expand-lg navbar-custom shadow-sm">
-        <div class="container justify-content-center justify-content-lg-between">
-            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
-                <img src="assets/images/logos/logo.jpg" height="100">
-                <div>
-                    <span class="fw-bold text-light lh-1 text-center">AP FENIX</span><br>
-                </div>
+    <nav class="navbar navbar-expand-lg navbar-custom shadow-sm py-2">
+        <div class="container justify-content-center justify-content-lg-between align-items-center">
+            <a class="navbar-brand d-flex align-items-center gap-2 m-0" href="#">
+                <img src="assets/images/logos/logo.jpg" class="navbar-logo" alt="AP Fenix">
+                <span class="fw-bold text-light lh-sm navbar-brand-text">AP FENIX</span>
             </a>
             <div id="promoCheckoutmMobile"
              class="alert alert-success py-2 mt-2 text-center fw-bold d-none">
