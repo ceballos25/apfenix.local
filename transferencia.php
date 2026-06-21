@@ -6,7 +6,7 @@
 require_once 'controllers/transfersController.php';
 
 // 1. CONFIGURACIÓN (Teléfono como string para evitar errores de entero)
-$telefono = "573202925348";
+$telefono = "573145893222";
 $code = $_GET['code'] ?? null;
 
 // 2. OBTENER DATOS

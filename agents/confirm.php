@@ -173,7 +173,7 @@ $homeUrl = rtrim(BASE_URL, '/') . '/';
                 <small class="text-muted">Código:</small>
                 <strong><?= htmlspecialchars($codigo) ?></strong>
             </div>
-            <a href="https://wa.me/573202925348?text=<?= rawurlencode('Hola, mi código ' . $codigo . ' fue rechazado. Necesito ayuda.') ?>"
+            <a href="https://wa.me/573145893222?text=<?= rawurlencode('Hola, mi código ' . $codigo . ' fue rechazado. Necesito ayuda.') ?>"
                target="_blank" rel="noopener" class="btn btn-whatsapp w-100 py-2 mb-3">
                 📲 Contactar soporte
             </a>
