@@ -29,7 +29,7 @@ include_once ROOT_PATH . "/includes/head.php";
                             <div class="col-md-4">
                                 <label class="form-label small fw-bold">Buscador</label>
                                 <input type="text" id="searchAgent" class="form-control form-control-sm"
-                                    placeholder="Código, cliente, teléfono, user NS...">
+                                    placeholder="Código, cliente, teléfono...">
                             </div>
 
                             <div class="col-md-4">
@@ -60,7 +60,6 @@ include_once ROOT_PATH . "/includes/head.php";
                                     <tr>
                                         <th>Cliente</th>
                                         <th>Código</th>
-                                        <th>User NS</th>
                                         <th>Cantidad</th>
                                         <th>Total</th>
                                         <th>Comprobante</th>
@@ -72,7 +71,7 @@ include_once ROOT_PATH . "/includes/head.php";
 
                                 <tbody id="bodyTabla">
                                     <tr>
-                                        <td colspan="9" class="text-center py-5">Cargando...</td>
+                                        <td colspan="8" class="text-center py-5">Cargando...</td>
                                     </tr>
                                 </tbody>
 

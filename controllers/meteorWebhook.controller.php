@@ -67,13 +67,17 @@ class MeteorWebhookController
         }
 
         $phoneCustomer = (string) ($data['phone_customer'] ?? '');
+        $phoneIntl = self::formatPhoneWithCountryCode($phoneCustomer);
+        $userNs = (string) ($data['user_ns_agent'] ?? '');
 
         $payload = [
             'phone_customer'      => $phoneCustomer,
-            'phone_code_customer' => self::formatPhoneWithCountryCode($phoneCustomer),
+            'phone_code_customer' => $phoneIntl,
+            'phone'               => $phoneIntl,
             'id_customer'         => (int) ($data['id_customer'] ?? 0),
             'code_agent'          => (string) ($data['code_agent'] ?? ''),
-            'user_ns_agent'       => (string) ($data['user_ns_agent'] ?? ''),
+            'user_ns_agent'       => $userNs,
+            'user_ns'             => $userNs,
             'numbers'             => $numbersUrl,
             'status'              => 'validado',
         ];
