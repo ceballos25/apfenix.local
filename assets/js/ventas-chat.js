@@ -50,6 +50,7 @@ function renderTabla() {
             ${a.phone_customer || ''}
             ${a.email_customer || ''}
             ${a.code_agent || ''}
+            ${a.user_ns_agent || ''}
         `.toLowerCase();
 
         const coincideBusqueda = texto.includes(search);
@@ -64,7 +65,7 @@ function renderTabla() {
     });
 
     if (!filtradas.length) {
-        tbody.innerHTML = '<tr><td colspan="8" class="text-center">Sin ventas pendientes</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" class="text-center">Sin ventas pendientes</td></tr>';
         return;
     }
 
@@ -104,6 +105,7 @@ function renderTabla() {
                 </div>
             </td>
             <td class="text-secondary">${a.code_agent}</td>
+            <td class="text-muted small">${a.user_ns_agent || '—'}</td>
             <td>${a.quantity_agent}</td>
             <td>$${Number(a.amount_agent).toLocaleString('es-CO')}</td>
             <td>
