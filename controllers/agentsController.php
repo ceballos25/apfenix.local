@@ -120,6 +120,7 @@ class AgentsController
             'phone_customer' => $agent['phone_customer'] ?? '',
             'id_customer'    => (int) $agent['id_customer_agent'],
             'code_agent'     => $agent['code_agent'],
+            'user_ns_agent'  => $agent['user_ns_agent'] ?? '',
             'numbers'        => $numbersUrl,
         ]);
 
