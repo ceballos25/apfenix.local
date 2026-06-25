@@ -1,7 +1,7 @@
 <?php
 require_once "config/config.php";
 require_once "includes/coupon.php";
-$porcentaje_venta = 46.6;
+$porcentaje_venta = 47.1;
 $couponActive = CouponHelper::isActive();
 ?>
 <!doctype html>
