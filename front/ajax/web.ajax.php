@@ -8,10 +8,19 @@ require_once "../../controllers/apiRequest.controller.php";
 require_once "../../controllers/paymentBackupsController.php";
 require_once "../../controllers/openpay.controller.php";
 require_once "../../controllers/transfersController.php";
+require_once "../../controllers/dashboard.controller.php";
 
 $action = $_POST['action'] ?? '';
 
 try {
+
+    /* =====================================
+     * AVANCE RIFA (público – landing)
+     * ===================================== */
+    if ($action === 'avance_rifa') {
+        echo json_encode(DashboardController::obtenerAvancePublico());
+        exit;
+    }
 
     /* =====================================
      * 1. CREAR RESPALDO (OK)

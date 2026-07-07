@@ -260,6 +260,29 @@ class DashboardController {
     }
 
     /**
+     * Avance público para la landing (rifa activa + bonus de visualización).
+     */
+    public static function obtenerAvancePublico(): array
+    {
+        $avance = self::calcularAvanceRifa('');
+        $porcentajeReal = (float) ($avance['porcentaje'] ?? 0);
+        $bonus = 5.0;
+        $porcentajeMostrar = min(100, round($porcentajeReal + $bonus, 2));
+
+        return [
+            'success' => true,
+            'data' => [
+                'porcentaje'       => $porcentajeMostrar,
+                'porcentaje_real'  => $porcentajeReal,
+                'bonus'            => $bonus,
+                'vendidos'         => (int) ($avance['vendidos'] ?? 0),
+                'total'            => (int) ($avance['total'] ?? 0),
+                'titulo'           => $avance['titulo'] ?? '',
+            ],
+        ];
+    }
+
+    /**
      * % vendido de la rifa contando solo tickets con status 1 (vendido).
      * Status: 0 = libre, 1 = vendido, 2 = reservado.
      */

@@ -530,6 +530,54 @@
         border: 1px dashed rgba(213, 0, 249, 0.25);
     }
 
+    .anticipados-proximo {
+        color: #333;
+        line-height: 1.4;
+        background: #fff8e1;
+        border-radius: 8px;
+        padding: 8px 10px;
+    }
+
+    .anticipados-calendario {
+        border: 1px solid #ececec;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #fff;
+    }
+
+    .anticipados-calendario__head,
+    .anticipados-calendario__fila {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        align-items: center;
+        padding: 8px 12px;
+        font-size: 0.78rem;
+        font-weight: 700;
+    }
+
+    .anticipados-calendario__head {
+        background: #f3f3f3;
+        color: #666;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+
+    .anticipados-calendario__fila {
+        border-top: 1px solid #ececec;
+        color: #333;
+    }
+
+    .anticipados-calendario__fila--destacado {
+        background: #fffde7;
+    }
+
+    .anticipados-calendario__fila span:last-child {
+        text-align: right;
+        font-weight: 800;
+    }
+
     .confirmados-panel__resumen {
         color: #444;
         line-height: 1.35;

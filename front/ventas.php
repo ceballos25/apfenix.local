@@ -52,6 +52,7 @@ include_once ROOT_PATH . "/includes/head.php";
                                     <option value="Transferencia">Transferencia</option>
                                     <option value="Pagina Web">Pagina Web</option>
                                     <option value="Efectivo">Efectivo</option>
+                                    <option value="Agente IA">Agente IA</option>
                                     </select>
                             </div>                            
                             <div class="col-md-2 d-none">

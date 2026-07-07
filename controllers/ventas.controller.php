@@ -46,29 +46,12 @@ class VentasController {
             $ventas = self::filtrarPorFechas($ventas, $filtros['dateFrom'], $filtros['dateTo']);
         }
 
-        // 🔥 AGREGAR EMAIL DEL ADMIN (VENDEDOR)
+        // Emails de vendedores (una sola consulta, no N+1)
+        $adminsMap = self::mapaEmailsAdmins();
+
         foreach ($ventas as &$v) {
-
-            if (!empty($v->id_admin_sale)) {
-
-                $admin = ApiRequest::get("admins", [
-                    "linkTo" => "id_admin",
-                    "equalTo" => $v->id_admin_sale,
-                    "select" => "email_admin"
-                ]);
-
-                if (ApiRequest::isSuccess($admin) && !empty($admin->results)) {
-
-                    $a = is_array($admin->results) ? $admin->results[0] : $admin->results;
-
-                    $v->email_admin = $a->email_admin ?? '';
-                } else {
-                    $v->email_admin = '';
-                }
-
-            } else {
-                $v->email_admin = '';
-            }
+            $idAdmin = (int) ($v->id_admin_sale ?? 0);
+            $v->email_admin = $idAdmin > 0 ? ($adminsMap[$idAdmin] ?? '') : '';
         }
 
         return ['success' => true, 'data' => array_values($ventas)];
@@ -358,7 +341,27 @@ public static function obtenerAdmins() {
         'success' => true,
         'data' => is_array($res->results) ? $res->results : [$res->results]
     ];
-}    
+}
+
+    /**
+     * Mapa id_admin => email_admin (evita N+1 en listados de ventas).
+     */
+    private static function mapaEmailsAdmins(): array {
+        $res = ApiRequest::get('admins', ['select' => 'id_admin,email_admin']);
+
+        if (!ApiRequest::isSuccess($res) || empty($res->results)) {
+            return [];
+        }
+
+        $lista = is_array($res->results) ? $res->results : [$res->results];
+        $mapa = [];
+
+        foreach ($lista as $a) {
+            $mapa[(int) $a->id_admin] = $a->email_admin ?? '';
+        }
+
+        return $mapa;
+    }    
 
     /**
      * Calcula rango de fechas según entrada manual o período

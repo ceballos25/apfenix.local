@@ -1,7 +1,6 @@
 <?php
 require_once "config/config.php";
 require_once "includes/coupon.php";
-$porcentaje_venta = 58.22;
 $couponActive = CouponHelper::isActive();
 ?>
 <!doctype html>
@@ -19,7 +18,7 @@ $couponActive = CouponHelper::isActive();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="assets/css/styles-v20.css?v=9">
+    <link rel="stylesheet" href="assets/css/styles-v20.css?v=10">
     <script src="https://t.contentsquare.net/uxa/8c88e0bc219df.js"></script>
 
 
@@ -80,8 +79,8 @@ $couponActive = CouponHelper::isActive();
              class="alert alert-success py-2 mt-2 text-center fw-bold d-none">
                 
             </div>
-            <span class="badge bg-dark text-light px-3 py-2 d-none d-lg-inline">
-                <i class="ti ti-calendar-event me-1"></i> Juega cuando lleguemos al 100% de las ventas
+            <span class="badge bg-dark text-light px-3 py-2">
+                <i class="ti ti-calendar-event me-1"></i> Ju3ga el <strong>viernes 28 de Agosto</strong>
             </span>
         </div>
     </nav>
@@ -136,13 +135,13 @@ $couponActive = CouponHelper::isActive();
                         <div class="card-body py-3">
                             <div class="d-flex justify-content-between fw-bold">
                                 <span>🔥 Vendidos</span>
-                                <span><?= $porcentaje_venta ?>%</span>
+                                <span class="progreso-venta-pct">--%</span>
                             </div>
                             <div class="progress my-2">
-                                <div class="progress-bar progress-bar-striped progress-bar-animated"
-                                    style="width:<?= $porcentaje_venta ?>%"></div>
+                                <div class="progress-bar progress-bar-striped progress-bar-animated progreso-venta-bar"
+                                    style="width:0%"></div>
                             </div>
-                            <small class="text-muted">Juega cuando lleguemos al 100% de las ventas</small>
+                            <small class="text-muted d-block">Ju3ga el <strong>viernes 28 de Agosto</strong></small>
                         </div>
                     </div>
 
@@ -167,7 +166,8 @@ $couponActive = CouponHelper::isActive();
                                             Nmax 0 km +
                                             $3.000.000 💰
                                         </p>
-                                        <span class="small text-muted">Por la loter1a de Medellin 🎫</span>
+                                        <span class="small text-muted d-block">Ju3ga el <strong class="text-dark">viernes 28 de Agosto</strong></span>
+                                        <span class="small text-muted">Por la lotería de Medellín 🎫</span>
                                     </div>
 
                                 </div>
@@ -186,10 +186,9 @@ $couponActive = CouponHelper::isActive();
 
                                     <small class="fw-bold text-muted">
                                         Número invertido
-                                    </small>
-                                    
+                                    </small>                                    
                                 </div>
-                                <span class="small text-muted">Por la loter1a de Medellin 🎫</span>
+                                <span class="small text-muted">Ju3ga el <strong class="text-dark">viernes 28 de Agosto</strong> · Lotería de Medellín 🎫</span>
                             </div>
                         </div>                        
 
@@ -199,28 +198,51 @@ $couponActive = CouponHelper::isActive();
                             <div class="card border-0 shadow-sm text-center w-100">
                                 <div class="card-body">
 
-                                    <h3 class="fw-bold mb-2">
-                                        10 Anticipados de <span class="color-dinero-premio">$500.000</span>
+                                    <h3 class="fw-bold mb-1">
+                                        Anticipados
                                     </h3>
+                                    <p class="small text-muted mb-0">
+                                        5 fechas programadas · Lotería de Medellín 🎫 · Pago inmediato
+                                    </p>
 
                                     <div class="confirmados-panel confirmados-panel--anticipado text-start mt-3">
-                                        <p class="confirmados-panel__aviso small fw-bold mb-1">
-                                            <i class="ti ti-info-circle me-1"></i> 1 anticipado se acumuló
+                                        <p class="anticipados-proximo small fw-bold mb-3">
+                                            <i class="ti ti-star text-warning me-1"></i>
+                                            Próximo anticipado: <span class="color-dinero-premio">10 de julio</span>
+                                            · <span class="color-dinero-premio">$1.000.000</span> (acumulado)
                                         </p>
-                                        <p class="small fw-bold text-muted mb-2">2° anticipado quedó en $1.000.000</p>
-                                        <div class="confirmados-fila">
-                                            <span class="confirmados-fila__fecha">29 de mayo</span>
-                                            <span class="confirmados-fila__nombre">Laura Cortés</span>
-                                            <span class="confirmados-fila__extra color-dinero-premio">Bendición $1.000.000</span>
-                                            <span class="numero-apfenix numero-apfenix--bendecido">32985</span>
-                                        </div>
-                                        <p class="confirmados-fila__nota small text-muted mb-0 mt-2">Por la de Medellín 🎫</p>
-                                    </div>
 
-                                    <small class="fw-bold text-muted d-none">
-                                        Aprovecha nuestro primer anticipado éste viernes con la de Medellín 🎫 <br>
-                                        ¡Pago Inmediato!
-                                    </small>
+                                        <p class="confirmados-panel__titulo fw-bold mb-2">📅 Calendario</p>
+                                        <div class="anticipados-calendario">
+                                            <div class="anticipados-calendario__head">
+                                                <span>Fecha</span>
+                                                <span>Premio</span>
+                                            </div>
+                                            <div class="anticipados-calendario__fila anticipados-calendario__fila--destacado">
+                                                <span>10 de julio</span>
+                                                <span class="color-dinero-premio">$1.000.000 (acumulado)</span>
+                                            </div>
+                                            <div class="anticipados-calendario__fila">
+                                                <span>17 de julio</span>
+                                                <span class="color-dinero-premio">$500.000</span>
+                                            </div>
+                                            <div class="anticipados-calendario__fila">
+                                                <span>31 de julio</span>
+                                                <span class="color-dinero-premio">$500.000</span>
+                                            </div>
+                                            <div class="anticipados-calendario__fila">
+                                                <span>7 de agosto</span>
+                                                <span class="color-dinero-premio">$500.000</span>
+                                            </div>
+                                            <div class="anticipados-calendario__fila">
+                                                <span>14 de agosto</span>
+                                                <span class="color-dinero-premio">$500.000</span>
+                                            </div>
+                                        </div>
+                                        <p class="confirmados-fila__nota small text-muted mb-0 mt-2">
+                                            El 1er anticipado acumuló su premio a $1.000.000.
+                                        </p>
+                                    </div>
 
                                 </div>
                                 <span class="small text-muted"></span>
@@ -254,8 +276,7 @@ $couponActive = CouponHelper::isActive();
 
                                     <div class="confirmados-panel text-start mt-2 pt-3 border-top">
                                         <p class="confirmados-panel__resumen small fw-bold mb-2">
-                                            Quedan <span class="color-dinero-premio">6</span> anticipados y
-                                            <span class="color-dinero-premio">5</span> bendecidos por jugar
+                                            Quedan <span class="color-dinero-premio">5</span> bendecidos por jugar
                                         </p>
                                         <h4 class="confirmados-panel__titulo fw-bold mb-2">✨ Bendecidos confirmados</h4>
                                         <div class="confirmados-lista">
@@ -306,17 +327,16 @@ $couponActive = CouponHelper::isActive();
 
                             <div class="d-flex justify-content-between fw-bold">
                                 <span>🔥 Vendidos</span>
-                                <span><?= $porcentaje_venta ?>%</span>
+                                <span class="progreso-venta-pct">--%</span>
                             </div>
 
                             <div class="progress my-2">
-                                <div class="progress-bar bg- progress-bar-striped progress-bar-animated"
-                                    style="width:<?= $porcentaje_venta ?>%">
-                                </div>
+                                <div class="progress-bar progress-bar-striped progress-bar-animated progreso-venta-bar"
+                                    style="width:0%"></div>
                             </div>
 
-                            <small class="text-muted">
-                                 Juega cuando lleguemos al 100% de las ventas
+                            <small class="text-muted d-block">
+                                 Ju3ga el <strong>viernes 28 de Agosto</strong>
                             </small>
 
                         </div>
@@ -753,6 +773,7 @@ $couponActive = CouponHelper::isActive();
     ], JSON_UNESCAPED_UNICODE) ?>;
     </script>
     <script src="assets/js/frontend-v3.js?v=cupon2"></script>
+    <script src="assets/js/progreso-ventas.js?v=3"></script>
     <script src="assets/js/buscarTickets.js"></script>
     
 

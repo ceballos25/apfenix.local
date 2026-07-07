@@ -91,6 +91,10 @@ document.addEventListener('DOMContentLoaded', function() {
 // ===============================
 
 async function parseJsonResponse(response) {
+    if (!response.ok && response.status !== 401 && response.status !== 403) {
+        throw new Error(`Error del servidor (${response.status})`);
+    }
+
     const text = await response.text();
     try {
         return JSON.parse(text);
@@ -103,13 +107,17 @@ async function parseJsonResponse(response) {
     }
 }
 
+function ajaxUrl(file = 'ventas.ajax.php') {
+    return new URL(`ajax/${file}`, window.location.href).href;
+}
+
 // Obtener Rifas
 async function cargarRifasSelect() {
     try {
         const fd = new FormData();
         fd.append('action', 'obtener_rifas');
 
-        const res = await fetch('ajax/ventas.ajax.php', { method: 'POST', body: fd });
+        const res = await fetch(ajaxUrl(), { method: 'POST', body: fd, credentials: 'same-origin' });
         const data = await parseJsonResponse(res);
 
         if (data.success && data.data) {
@@ -133,7 +141,7 @@ async function cargarAdminsSelect() {
         const fd = new FormData();
         fd.append('action', 'obtener_admins');
 
-        const res = await fetch('ajax/ventas.ajax.php', { method: 'POST', body: fd });
+        const res = await fetch(ajaxUrl(), { method: 'POST', body: fd, credentials: 'same-origin' });
         const data = await parseJsonResponse(res);
 
         if (data.success && data.data) {
@@ -164,7 +172,7 @@ async function cargarVentas() {
         fd.append('payment_method', document.getElementById('filterMetodoPago')?.value || '');
         fd.append('id_admin', document.getElementById('filterAdmin')?.value || '');
 
-        const res = await fetch('ajax/ventas.ajax.php', { method: 'POST', body: fd });
+        const res = await fetch(ajaxUrl(), { method: 'POST', body: fd, credentials: 'same-origin' });
         const data = await parseJsonResponse(res);
 
         ventasCache = data.success
@@ -327,7 +335,7 @@ function verRecibo(id) {
     fd.append('action', 'detalle_venta');
     fd.append('id_sale', id);
 
-    fetch('ajax/ventas.ajax.php', { method: 'POST', body: fd })
+    fetch(ajaxUrl(), { method: 'POST', body: fd, credentials: 'same-origin' })
         .then(r => r.json())
         .then(res => {
             if (res.success) {
@@ -355,7 +363,7 @@ function anularVenta(id) {
         fd.append('action', 'anular');
         fd.append('id_sale', id);
 
-        fetch('ajax/ventas.ajax.php', { method: 'POST', body: fd })
+        fetch(ajaxUrl(), { method: 'POST', body: fd, credentials: 'same-origin' })
             .then(r => r.json())
             .then(res => {
                 if (res.success) {
