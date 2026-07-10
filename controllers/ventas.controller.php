@@ -127,6 +127,15 @@ class VentasController {
 
         $cantidadEntregada = Promo2x1Helper::quantityDelivered($cantidadPagada);
 
+        if ($cantidadEntregada !== $cantidadPagada) {
+            error_log(sprintf(
+                '[Promo2x1] Venta: pagados=%d entregados=%d rifa=%d',
+                $cantidadPagada,
+                $cantidadEntregada,
+                $idRaffle
+            ));
+        }
+
         $orderAmount = CouponHelper::resolveSaleAmount(
             $idRaffle,
             $cantidadPagada,

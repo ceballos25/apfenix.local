@@ -244,7 +244,11 @@ class PaymentBackupsController
         return;
     }
 
+    $cantidadEntregada = Promo2x1Helper::quantityDelivered($cantidad);
+
     self::log('Cantidad comprada: ' . $cantidad);
+    self::log('Promo 2x1 activa: ' . (Promo2x1Helper::isActive() ? 'SI' : 'NO'));
+    self::log('Cantidad a entregar: ' . $cantidadEntregada);
 
     /* =====================================================
     VALIDAR QUE AÚN EXISTAN TICKETS DISPONIBLES
@@ -265,7 +269,7 @@ class PaymentBackupsController
         ? $res->results
         : [$res->results];
 
-    if (count($ticketsDisponibles) < Promo2x1Helper::quantityDelivered($cantidad)) {
+    if (count($ticketsDisponibles) < $cantidadEntregada) {
         self::log('❌ No hay suficientes números disponibles');
         return;
     }
