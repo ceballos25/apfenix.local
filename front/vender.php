@@ -1,8 +1,10 @@
 <?php
 require_once "../config/config.php";
 require_once "../includes/coupon.php";
+require_once "../includes/promo2x1.php";
 $page_title = "Nueva Venta";
 $couponActive = CouponHelper::isActive();
+$promo2x1Active = Promo2x1Helper::isActive();
 include_once ROOT_PATH . "/includes/head.php";
 ?>
 
@@ -27,6 +29,19 @@ include_once ROOT_PATH . "/includes/head.php";
                     <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
                         <span class="fw-bold">🎟️ Cupón <strong>APF15</strong> activo: 15% OFF aplicado automáticamente</span>
                         <span class="badge bg-danger" id="cuponCountdownVender">--:--:--</span>
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <?php if ($promo2x1Active): ?>
+                <div class="alert alert-promo-2x1-vender shadow-sm mb-3 py-3 promo-2x1-wrap">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                        <div>
+                            <span class="promo-2x1-badge">2×1</span>
+                            <span class="fw-bold text-promo-2x1 ms-1">Promo activa</span>
+                            <div class="small mt-1">Desde <strong>50 números</strong>: el cliente paga y recibe el <strong>doble</strong>. Paga menos, lleva más.</div>
+                        </div>
+                        <span class="badge badge-promo-2x1 promo2x1-countdown">--:--:--</span>
                     </div>
                 </div>
                 <?php endif; ?>
@@ -272,8 +287,14 @@ window.CUPON_AP_FENIX = ' . json_encode([
     'descuento' => CouponHelper::DISCOUNT_PERCENT,
     'expira' => $couponActive ? CouponHelper::getExpiresForJs() : null,
 ], JSON_UNESCAPED_UNICODE) . ';
+window.PROMO_2X1 = ' . json_encode([
+    'activo' => $promo2x1Active,
+    'minimo' => Promo2x1Helper::MIN_QTY,
+    'expira' => $promo2x1Active ? Promo2x1Helper::getExpiresForJs() : null,
+], JSON_UNESCAPED_UNICODE) . ';
 </script>
-<script src="' . ASSETS_URL . '/js/vender.js?v=cupon1"></script>
+<script src="' . ASSETS_URL . '/js/promo-2x1.js?v=1"></script>
+<script src="' . ASSETS_URL . '/js/vender.js?v=promo2x1"></script>
 ';
 include_once ROOT_PATH . "/includes/footer.php";
 ?>

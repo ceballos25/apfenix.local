@@ -84,6 +84,7 @@ $(document).ready(function () {
     }
 
     initCuponPromo();
+    initPromo2x1();
 
 });
 
@@ -282,6 +283,16 @@ function obtenerCodigoCuponParaPago() {
     return (cuponConfig.activo && estado.cupon.aplicado) ? estado.cupon.codigo : '';
 }
 
+function initPromo2x1() {
+    if (!window.Promo2x1 || !window.PROMO_2X1?.activo) {
+        return;
+    }
+
+    window.Promo2x1.initCountdown('.promo2x1-countdown', () => {
+        actualizarUI();
+    });
+}
+
 function actualizarPrecioVisual(cantidad) {
 
     if (cantidad >= 20) {
@@ -312,9 +323,36 @@ function actualizarUI() {
     actualizarPrecioVisual(cant);
 
     const fmt = formatearMoneda;
+    const textoCant = window.Promo2x1 ? window.Promo2x1.textoCantidad(cant) : String(cant);
+    const aplica2x1 = window.Promo2x1 && window.Promo2x1.aplica(cant);
 
+    $('#cantTicketsDesktop').text(textoCant);
 
-    $('#cantTicketsDesktop, #lblCantidadMobile').text(cant);
+    const $mobileDetail = $('#mobileCartDetail');
+    if (cant) {
+        if (aplica2x1) {
+            const entregados = window.Promo2x1.entregados(cant);
+            $mobileDetail
+                .removeClass('d-none')
+                .html(`<span class="mobile-cart-2x1">2×1</span>${cant} → <strong>${entregados} núms</strong>`);
+        } else {
+            $mobileDetail.removeClass('d-none').text(`${cant} núms`);
+        }
+    } else {
+        $mobileDetail.addClass('d-none').empty();
+    }
+
+    if (aplica2x1) {
+        const entregados = window.Promo2x1.entregados(cant);
+        const msg2x1 = `Pagas ${cant} · Recibes ${entregados}`;
+        $('#lineaPromo2x1Desktop').removeClass('d-none');
+        $('#textoPromo2x1Desktop').text(msg2x1);
+        $('#textoPromo2x1Checkout').addClass('d-none');
+        $('#bloquePromo2x1Checkout').removeClass('d-none');
+    } else {
+        $('#lineaPromo2x1Desktop').addClass('d-none');
+        $('#textoPromo2x1Checkout').removeClass('d-none').text('Desde 50 números pagados');
+    }
 
     $('#totalDineroDesktop, #lblTotalMobile, #resumenTotal').text(fmt(montos.total));
 
@@ -329,7 +367,9 @@ function actualizarUI() {
     $('#resumenNumeros').html(
 
         cant
-            ? `<span class="fw-bold">${cant}</span>`
+            ? (aplica2x1
+                ? `<span class="fw-bold">${cant} → ${window.Promo2x1.entregados(cant)} núms</span> <span class="badge badge-promo-2x1">2×1</span>`
+                : `<span class="fw-bold">${cant} núms</span>`)
             : '<span class="text-muted">Sin selección</span>'
 
     );

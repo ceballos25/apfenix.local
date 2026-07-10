@@ -3,6 +3,7 @@ require_once __DIR__ . '/clientes.controller.php';
 require_once __DIR__ . '/ventas.controller.php';
 require_once __DIR__ . '/mail.controller.php';
 require_once __DIR__ . '/../includes/coupon.php';
+require_once __DIR__ . '/../includes/promo2x1.php';
 
 /**
  * PaymentBackupsController - VERSIÓN FINAL
@@ -51,6 +52,8 @@ class PaymentBackupsController
 
             $amount = (int) $orderAmount['amount'];
 
+            $cantidadEntregada = Promo2x1Helper::quantityDelivered($cantidad);
+
             /* ===============================
             VALIDAR DISPONIBILIDAD
             =============================== */
@@ -72,7 +75,7 @@ class PaymentBackupsController
                 ? $res->results
                 : [$res->results];
 
-            if (count($ticketsDisponibles) < $cantidad) {
+            if (count($ticketsDisponibles) < $cantidadEntregada) {
                 return [
                     'success' => false,
                     'message' => 'No hay suficientes números disponibles'
@@ -262,7 +265,7 @@ class PaymentBackupsController
         ? $res->results
         : [$res->results];
 
-    if (count($ticketsDisponibles) < $cantidad) {
+    if (count($ticketsDisponibles) < Promo2x1Helper::quantityDelivered($cantidad)) {
         self::log('❌ No hay suficientes números disponibles');
         return;
     }

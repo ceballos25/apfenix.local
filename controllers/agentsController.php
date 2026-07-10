@@ -82,7 +82,11 @@ class AgentsController
 
         $ticketsDisponibles = is_array($res->results) ? $res->results : [$res->results];
 
-        if (count($ticketsDisponibles) < $cantidad) {
+        require_once __DIR__ . '/../includes/promo2x1.php';
+
+        $cantidadEntregada = Promo2x1Helper::quantityDelivered($cantidad);
+
+        if (count($ticketsDisponibles) < $cantidadEntregada) {
             return ['success' => false, 'message' => 'No hay suficientes números'];
         }
 

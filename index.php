@@ -1,7 +1,9 @@
 <?php
 require_once "config/config.php";
 require_once "includes/coupon.php";
+require_once "includes/promo2x1.php";
 $couponActive = CouponHelper::isActive();
+$promo2x1Active = Promo2x1Helper::isActive();
 ?>
 <!doctype html>
 <html lang="es">
@@ -18,7 +20,7 @@ $couponActive = CouponHelper::isActive();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="assets/css/styles-v20.css?v=10">
+    <link rel="stylesheet" href="assets/css/styles-v20.css?v=15">
     <script src="https://t.contentsquare.net/uxa/8c88e0bc219df.js"></script>
 
 
@@ -68,6 +70,22 @@ $couponActive = CouponHelper::isActive();
     </div>
     <?php endif; ?>
 
+    <?php if ($promo2x1Active): ?>
+    <div class="promo-2x1-sticky promo-2x1-wrap" id="promo2x1Bar">
+        <div class="container">
+            <div class="promo-2x1-sticky-inner">
+                <span class="promo-2x1-badge">2×1</span>
+                <span>Desde <strong>50 números</strong> · tu compra se <strong>DOBLA</strong></span>
+                <span class="d-none d-md-inline">· Paga menos, lleva más 🔥</span>
+                <span class="promo-2x1-countdown">
+                    Termina en <span class="promo-countdown-value promo2x1-countdown">--:--:--</span>
+                    <span class="promo-countdown-note">(16 de julio)</span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+
     <!-- NAV -->
     <nav class="navbar navbar-expand-lg navbar-custom shadow-sm py-2">
         <div class="container justify-content-center justify-content-lg-between align-items-center">
@@ -88,6 +106,16 @@ $couponActive = CouponHelper::isActive();
     <!-- HERO -->
     <section class="py-3">
         <div class="container">
+
+            <?php if ($promo2x1Active): ?>
+            <div class="promo-2x1-hero promo-2x1-wrap text-center text-md-start">
+                <p class="promo-2x1-hero__titulo mb-0">
+                    <span class="promo-2x1-badge">2×1</span>
+                    Desde <strong>50 números</strong>: pagas y recibes el <strong>doble</strong>. Paga menos, lleva más.
+                </p>
+            </div>
+            <?php endif; ?>
+
             <div class="row g-3 align-items-start">
 
                 <div class="col-lg-6 hero-fotos-col">
@@ -415,11 +443,15 @@ $couponActive = CouponHelper::isActive();
                             <!-- 5 -->
                             <div class="col-6 col-md-4">
                             <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq5" value="50">
-                            <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card popular" for="paq5">
+                            <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card popular<?= $promo2x1Active ? ' promo-2x1-eligible' : '' ?>" for="paq5">
 
-                            <span class="badge-paquete">🎯 Popular</span>
+                            <div class="paquete-badges">
+                                <span class="badge-paquete">🎯 Popular</span>
+                                <?php if ($promo2x1Active): ?><span class="badge-paquete badge-paquete--2x1">2×1</span><?php endif; ?>
+                            </div>
 
                             <div class="fw-bold">50</div>
+                            <?php if ($promo2x1Active): ?><small class="linea-promo-2x1">Recibes 100</small><?php endif; ?>
                             <div class="fs-5 fw-bold">$45.000</div>
 
                             </label>
@@ -429,11 +461,15 @@ $couponActive = CouponHelper::isActive();
                             <!-- 7 -->
                             <div class="col-6 col-md-4">
                             <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq7" value="70">
-                            <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card recomendado" for="paq7">
+                            <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card recomendado<?= $promo2x1Active ? ' promo-2x1-eligible' : '' ?>" for="paq7">
 
-                            <span class="badge-paquete">⭐ Recomendado</span>
+                            <div class="paquete-badges">
+                                <span class="badge-paquete">⭐ Recomendado</span>
+                                <?php if ($promo2x1Active): ?><span class="badge-paquete badge-paquete--2x1">2×1</span><?php endif; ?>
+                            </div>
 
                             <div class="fw-bold">70</div>
+                            <?php if ($promo2x1Active): ?><small class="linea-promo-2x1">Recibes 140</small><?php endif; ?>
                             <div class="fs-5 fw-bold">$63.000</div>
 
                             </label>
@@ -443,11 +479,15 @@ $couponActive = CouponHelper::isActive();
                             <!-- 10 -->
                             <div class="col-6 col-md-4">
                             <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq10" value="100">
-                            <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card mas-vendido" for="paq10">
+                            <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card mas-vendido<?= $promo2x1Active ? ' promo-2x1-eligible' : '' ?>" for="paq10">
 
-                            <span class="badge-paquete">🔥 Más vendido</span>
+                            <div class="paquete-badges">
+                                <span class="badge-paquete">🔥 Más vendido</span>
+                                <?php if ($promo2x1Active): ?><span class="badge-paquete badge-paquete--2x1">2×1</span><?php endif; ?>
+                            </div>
 
                             <div class="fw-bold">100</div>
+                            <?php if ($promo2x1Active): ?><small class="linea-promo-2x1">Recibes 200</small><?php endif; ?>
                             <div class="fs-5 fw-bold">$90.000</div>
 
                             </label>
@@ -457,11 +497,15 @@ $couponActive = CouponHelper::isActive();
                             <!-- 20 -->
                             <div class="col-6 col-md-4">
                             <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq20" value="200">
-                            <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card mejor-valor" for="paq20">
+                            <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card mejor-valor<?= $promo2x1Active ? ' promo-2x1-eligible' : '' ?>" for="paq20">
 
-                            <span class="badge-paquete">💰 VIP</span>
+                            <div class="paquete-badges">
+                                <span class="badge-paquete">💰 VIP</span>
+                                <?php if ($promo2x1Active): ?><span class="badge-paquete badge-paquete--2x1">2×1</span><?php endif; ?>
+                            </div>
 
                             <div class="fw-bold">200</div>
+                            <?php if ($promo2x1Active): ?><small class="linea-promo-2x1">Recibes 400</small><?php endif; ?>
                             <div class="fs-5 fw-bold">$180.000</div>
 
                             </label>
@@ -500,9 +544,11 @@ $couponActive = CouponHelper::isActive();
 
                             </div>
 
+                            <?php if (!$promo2x1Active): ?>
                             <div class="alert alert-warning text-center small fw-bold mt-3">
                                 🎯 Más números = más oportunidades de ganar
                             </div>
+                            <?php endif; ?>
 
                         </div>
                     </div>
@@ -520,6 +566,10 @@ $couponActive = CouponHelper::isActive();
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span>Cantidad</span>
                                     <strong id="cantTicketsDesktop">0</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between text-promo-2x1 fw-bold d-none" id="lineaPromo2x1Desktop">
+                                    <span>Promo 2×1</span>
+                                    <strong id="textoPromo2x1Desktop">—</strong>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between text-success d-none" id="lineaDescuentoDesktop">
                                     <span>Descuento APF15 (15%)</span>
@@ -711,17 +761,13 @@ $couponActive = CouponHelper::isActive();
 
 
     <!-- MOBILE CART -->
-    <div class="mobile-cart-bar d-lg-none" id="mobileCart" style="display:none!important">
-        <div class="d-flex align-items-center gap-3">
-            <div class="mobile-cart-info">
-                <span class="mobile-cart-label">Total a Pagar</span>
-                <div>
-                    <span class="mobile-cart-price" id="lblTotalMobile">$0</span>                    
-                </div>
-                <div>
-                    <span class="mobile-cart-count"><span id="lblCantidadMobile">0</span> Núms</span>
-                </div>
+    <div class="mobile-cart-bar d-lg-none" id="mobileCart" style="display:none">
+        <div class="mobile-cart-info">
+            <div class="mobile-cart-top">
+                <span class="mobile-cart-label">Total a pagar</span>
+                <span class="mobile-cart-price" id="lblTotalMobile">$0</span>
             </div>
+            <div class="mobile-cart-detail d-none" id="mobileCartDetail"></div>
         </div>
         <button class="btn btn-warning rounded-pill px-4 fw-bold shadow" onclick="abrirCheckout()" id="btnPagarMobile">
             PAGAR 🔥
@@ -771,8 +817,14 @@ $couponActive = CouponHelper::isActive();
         'descuento' => CouponHelper::DISCOUNT_PERCENT,
         'expira' => $couponActive ? CouponHelper::getExpiresForJs() : null,
     ], JSON_UNESCAPED_UNICODE) ?>;
+    window.PROMO_2X1 = <?= json_encode([
+        'activo' => $promo2x1Active,
+        'minimo' => Promo2x1Helper::MIN_QTY,
+        'expira' => $promo2x1Active ? Promo2x1Helper::getExpiresForJs() : null,
+    ], JSON_UNESCAPED_UNICODE) ?>;
     </script>
-    <script src="assets/js/frontend-v3.js?v=cupon2"></script>
+    <script src="assets/js/promo-2x1.js?v=1"></script>
+    <script src="assets/js/frontend-v3.js?v=promo2x1b"></script>
     <script src="assets/js/progreso-ventas.js?v=3"></script>
     <script src="assets/js/buscarTickets.js"></script>
     
@@ -828,6 +880,21 @@ $couponActive = CouponHelper::isActive();
                                         <span class="small text-muted">Cupón <strong>APF15</strong> aplicado automáticamente a tu compra</span>
                                     </div>
                                     <span class="badge bg-danger" id="cuponCountdownModal">--:--:--</span>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
+                        <?php if ($promo2x1Active): ?>
+                        <div class="card promo-2x1-checkout mb-4 shadow-sm promo-2x1-wrap" id="bloquePromo2x1Checkout">
+                            <div class="card-body p-3">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    <div>
+                                        <span class="promo-2x1-badge">2×1</span>
+                                        <span class="fw-bold text-promo-2x1 ms-1">¡Tu compra se dobla!</span>
+                                        <span class="small text-muted d-block" id="textoPromo2x1Checkout">Desde 50 números pagados</span>
+                                    </div>
+                                    <span class="badge badge-promo-2x1 promo2x1-countdown">--:--:--</span>
                                 </div>
                             </div>
                         </div>

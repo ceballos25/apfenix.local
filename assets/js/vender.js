@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     inyectarEstilosMarca();
     initComponentes();
     initCuponPromo();
+    initPromo2x1();
     cargarRifasActivas();
     asignarEventos();
 });
@@ -345,6 +346,16 @@ function formatearCuentaRegresiva(ms) {
     return `${pad(horas)}:${pad(minutos)}:${pad(segundos)}`;
 }
 
+function initPromo2x1() {
+    if (!window.Promo2x1 || !window.PROMO_2X1?.activo) {
+        return;
+    }
+
+    window.Promo2x1.initCountdown('.promo2x1-countdown', () => {
+        actualizarCarritoUI();
+    });
+}
+
 function obtenerCodigoCuponParaVenta() {
     return (cuponConfig.activo && estado.cupon.aplicado) ? estado.cupon.codigo : '';
 }
@@ -365,12 +376,22 @@ function actualizarCarritoUI() {
         $('#lineaDescuentoVenderDesk, #lineaDescuentoVenderMob').addClass('d-none');
     }
 
-    $('#lblCantidadMobileBadge, #lblCantidadDesktop').text(cantidad);
+    $('#lblCantidadMobileBadge, #lblCantidadDesktop').text(
+        window.Promo2x1 ? window.Promo2x1.textoCantidad(cantidad) : cantidad
+    );
+
+    const aplica2x1 = window.Promo2x1 && window.Promo2x1.aplica(cantidad);
+    const extra2x1 = aplica2x1
+        ? `<div class="small text-promo-2x1 fw-bold mt-1">2×1: recibe ${window.Promo2x1.entregados(cantidad)} números</div>`
+        : '';
 
     const listaHtml = cantidad === 0
         ? '<li class="list-group-item text-center text-muted py-4 border-0 small">Selecciona cantidad de números</li>'
         : `<li class="list-group-item d-flex justify-content-between align-items-center px-0 border-light">
-            <span class="badge bg-dark rounded-pill">${cantidad} números</span>
+            <div>
+            <span class="badge bg-dark rounded-pill">${cantidad} pagados</span>
+            ${extra2x1}
+            </div>
             <span class="fw-bold small text-primary">${fmt(montos.total)}</span>
         </li>`;
 
@@ -415,10 +436,13 @@ async function procesarVenta() {
     const msgDescuento = montos.descuento > 0
         ? `<br><span class="text-success">Descuento APF15: -${formatearMoneda(montos.descuento)}</span>`
         : '';
+    const msg2x1 = (window.Promo2x1 && window.Promo2x1.aplica(estado.cantidadSeleccionada))
+        ? `<br><span class="text-promo-2x1 fw-bold">Promo 2×1: recibe ${window.Promo2x1.entregados(estado.cantidadSeleccionada)} números</span>`
+        : '';
 
     alertify.confirm(
         "Confirmar Venta",
-        `¿Deseas registrar la venta de <b>${estado.cantidadSeleccionada}</b> números por <b>${formatearMoneda(total)}</b>?${msgDescuento}`,
+        `¿Deseas registrar la venta de <b>${estado.cantidadSeleccionada}</b> números por <b>${formatearMoneda(total)}</b>?${msg2x1}${msgDescuento}`,
         async function () {
 
             const codigoVenta = "AP" + Date.now() + Math.floor(Math.random() * 100);

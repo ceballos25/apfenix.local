@@ -112,10 +112,10 @@ class VentasController {
     */
     public static function crearVenta($data)
     {
-        $cantidad = (int)($data['quantity_sale'] ?? 0);
+        $cantidadPagada = (int)($data['quantity_sale'] ?? 0);
         $idRaffle = (int)($data['id_raffle'] ?? 0);
 
-        if ($cantidad <= 0 || $idRaffle <= 0) {
+        if ($cantidadPagada <= 0 || $idRaffle <= 0) {
             return [
                 'success' => false,
                 'message' => 'Datos inválidos para crear venta'
@@ -123,10 +123,13 @@ class VentasController {
         }
 
         require_once __DIR__ . '/../includes/coupon.php';
+        require_once __DIR__ . '/../includes/promo2x1.php';
+
+        $cantidadEntregada = Promo2x1Helper::quantityDelivered($cantidadPagada);
 
         $orderAmount = CouponHelper::resolveSaleAmount(
             $idRaffle,
-            $cantidad,
+            $cantidadPagada,
             $data['coupon_code'] ?? null
         );
 
@@ -160,7 +163,7 @@ class VentasController {
             ? $res->results
             : [$res->results];
 
-        if (count($ticketsDisponibles) < $cantidad) {
+        if (count($ticketsDisponibles) < $cantidadEntregada) {
             return [
                 'success' => false,
                 'message' => 'No hay suficientes números disponibles'
@@ -173,7 +176,7 @@ class VentasController {
 
         shuffle($ticketsDisponibles);
 
-        $ticketsSeleccionados = array_slice($ticketsDisponibles, 0, $cantidad);
+        $ticketsSeleccionados = array_slice($ticketsDisponibles, 0, $cantidadEntregada);
 
         $ticketIds = array_map(function($t){
             return $t->id_ticket;
@@ -200,7 +203,7 @@ class VentasController {
             'id_customer_sale'    => (int)$idCliente,
             'id_raffle_sale'      => $idRaffle,
             'code_sale'           => $data['code_sale'],
-            'quantity_sale'       => $cantidad,
+            'quantity_sale'       => $cantidadEntregada,
             'total_sale'          => $totalVenta,
             'payment_method_sale' => $data['payment_method_sale'],
             'status_sale'         => 1,
