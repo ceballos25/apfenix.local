@@ -112,7 +112,7 @@ class VentasController {
     */
     public static function crearVenta($data)
     {
-        $cantidadPagada = (int)($data['quantity_sale'] ?? 0);
+        $cantidadPagada = (int)($data['quantity_paid'] ?? $data['quantity_sale'] ?? 0);
         $idRaffle = (int)($data['id_raffle'] ?? 0);
 
         if ($cantidadPagada <= 0 || $idRaffle <= 0) {
@@ -125,7 +125,9 @@ class VentasController {
         require_once __DIR__ . '/../includes/coupon.php';
         require_once __DIR__ . '/../includes/promo2x1.php';
 
-        $cantidadEntregada = Promo2x1Helper::quantityDelivered($cantidadPagada);
+        $cantidadEntregada = isset($data['quantity_delivered'])
+            ? (int) $data['quantity_delivered']
+            : Promo2x1Helper::quantityDelivered($cantidadPagada);
 
         if ($cantidadEntregada !== $cantidadPagada) {
             error_log(sprintf(

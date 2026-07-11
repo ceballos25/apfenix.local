@@ -1,8 +1,20 @@
 <?php
 /**
- * Webhook OpenPay – PRODUCCIÓN DEFINITIVA
+ * Webhook OpenPay ? PRODUCCI?N DEFINITIVA
  * Con idempotencia y logs mejorados
  */
+
+// Forzar recarga de controllers tras deploy (OPcache en hosting compartido)
+foreach ([
+    __DIR__ . '/../controllers/ventas.controller.php',
+    __DIR__ . '/../controllers/paymentBackupsController.php',
+    __DIR__ . '/../includes/promo2x1.php',
+] as $phpFile) {
+    if (function_exists('opcache_invalidate') && is_file($phpFile)) {
+        opcache_invalidate($phpFile, true);
+    }
+}
+
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../controllers/apiRequest.controller.php';
 require_once __DIR__ . '/../controllers/paymentBackupsController.php';

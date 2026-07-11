@@ -283,11 +283,15 @@ class PaymentBackupsController
     $resVenta = VentasController::crearVenta([
         'id_customer' => $backup['id_customer_payment_backup'],
         'id_raffle' => $backup['id_raffle_payment_backup'],
+        'quantity_paid' => $cantidad,
         'quantity_sale' => $cantidad,
+        'quantity_delivered' => $cantidadEntregada,
         'total_sale' => $backup['amount_payment_backup'],
         'code_sale' => $backup['code_payment_backup'],
         'payment_method_sale' => 'Página Web'
     ]);
+
+    self::log('crearVenta quantity_delivered enviado: ' . $cantidadEntregada);
 
     /* =====================================================
     VALIDAR CREACIÓN DE VENTA
