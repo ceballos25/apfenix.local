@@ -160,7 +160,9 @@ class VentasController {
         $res = ApiRequest::get("tickets", [
             'linkTo'  => 'id_raffle_ticket,status_ticket',
             'equalTo' => $idRaffle . ',0',
-            'select'  => 'id_ticket'
+            'select'  => 'id_ticket',
+            'startAt' => 0,
+            'endAt'   => 100000,
         ]);
 
         if (!ApiRequest::isSuccess($res) || empty($res->results)) {
@@ -173,6 +175,12 @@ class VentasController {
         $ticketsDisponibles = is_array($res->results)
             ? $res->results
             : [$res->results];
+
+        // Si alguien pasó quantity_delivered incorrecto, recalcular
+        $cantidadEntregada = max(
+            $cantidadEntregada,
+            Promo2x1Helper::quantityDelivered($cantidadPagada)
+        );
 
         if (count($ticketsDisponibles) < $cantidadEntregada) {
             return [

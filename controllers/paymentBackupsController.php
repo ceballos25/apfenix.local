@@ -257,7 +257,9 @@ class PaymentBackupsController
     $res = ApiRequest::get("tickets", [
         'linkTo'  => 'id_raffle_ticket,status_ticket',
         'equalTo' => $backup['id_raffle_payment_backup'] . ',0',
-        'select'  => 'id_ticket'
+        'select'  => 'id_ticket',
+        'startAt' => 0,
+        'endAt'   => 100000,
     ]);
 
     if (!ApiRequest::isSuccess($res) || empty($res->results)) {
@@ -269,8 +271,16 @@ class PaymentBackupsController
         ? $res->results
         : [$res->results];
 
+    // Hard fallback por si OPcache carga Promo2x1Helper viejo
+    $tz = new DateTimeZone('America/Bogota');
+    $nowPromo = new DateTime('now', $tz);
+    $expPromo = new DateTime('2026-07-16 23:59:59', $tz);
+    if ($cantidad >= 50 && $nowPromo <= $expPromo) {
+        $cantidadEntregada = max($cantidadEntregada, $cantidad * 2);
+    }
+
     if (count($ticketsDisponibles) < $cantidadEntregada) {
-        self::log('❌ No hay suficientes números disponibles');
+        self::log('❌ No hay suficientes números disponibles (hay ' . count($ticketsDisponibles) . ', se necesitan ' . $cantidadEntregada . ')');
         return;
     }
 
