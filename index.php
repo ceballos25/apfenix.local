@@ -20,7 +20,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="assets/css/styles-v20.css?v=15">
+    <link rel="stylesheet" href="assets/css/styles-v20.css?v=16">
     <script src="https://t.contentsquare.net/uxa/8c88e0bc219df.js"></script>
 
 
@@ -236,8 +236,8 @@ $promo2x1Active = Promo2x1Helper::isActive();
                                     <div class="confirmados-panel confirmados-panel--anticipado text-start mt-3">
                                         <p class="anticipados-proximo small fw-bold mb-3">
                                             <i class="ti ti-star text-warning me-1"></i>
-                                            Próximo anticipado: <span class="color-dinero-premio">10 de julio</span>
-                                            · <span class="color-dinero-premio">$1.000.000</span> (acumulado)
+                                            Próximo anticipado: <span class="color-dinero-premio">17 de julio</span>
+                                            · <span class="color-dinero-premio">$500.000</span>
                                         </p>
 
                                         <p class="confirmados-panel__titulo fw-bold mb-2">📅 Calendario</p>
@@ -246,11 +246,11 @@ $promo2x1Active = Promo2x1Helper::isActive();
                                                 <span>Fecha</span>
                                                 <span>Premio</span>
                                             </div>
-                                            <div class="anticipados-calendario__fila anticipados-calendario__fila--destacado">
+                                            <div class="anticipados-calendario__fila anticipados-calendario__fila--jugado">
                                                 <span>10 de julio</span>
-                                                <span class="color-dinero-premio">$1.000.000 (acumulado)</span>
+                                                <span class="color-dinero-premio">$1.000.000 ✓</span>
                                             </div>
-                                            <div class="anticipados-calendario__fila">
+                                            <div class="anticipados-calendario__fila anticipados-calendario__fila--destacado">
                                                 <span>17 de julio</span>
                                                 <span class="color-dinero-premio">$500.000</span>
                                             </div>
@@ -267,8 +267,17 @@ $promo2x1Active = Promo2x1Helper::isActive();
                                                 <span class="color-dinero-premio">$500.000</span>
                                             </div>
                                         </div>
+
+                                        <h4 class="confirmados-panel__titulo fw-bold mb-2 mt-3">🎉 Anticipados confirmados</h4>
+                                        <div class="confirmados-lista">
+                                            <div class="confirmados-fila">
+                                                <span class="confirmados-fila__fecha">10 de julio</span>
+                                                <span class="confirmados-fila__nombre">Claudia Gómez</span>
+                                                <span class="numero-apfenix numero-apfenix--bendecido">83265</span>
+                                            </div>
+                                        </div>
                                         <p class="confirmados-fila__nota small text-muted mb-0 mt-2">
-                                            El 1er anticipado acumuló su premio a $1.000.000.
+                                            1er anticipado: $1.000.000 (acumulado) — número <strong>83265</strong>.
                                         </p>
                                     </div>
 

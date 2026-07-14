@@ -781,6 +781,16 @@
         background: #fffde7;
     }
 
+    .anticipados-calendario__fila--jugado {
+        background: #f1f8f4;
+        color: #666;
+    }
+
+    .anticipados-calendario__fila--jugado span:first-child {
+        text-decoration: line-through;
+        opacity: 0.85;
+    }
+
     .anticipados-calendario__fila span:last-child {
         text-align: right;
         font-weight: 800;
