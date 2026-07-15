@@ -130,12 +130,6 @@ class Promo2x1Garantia
             ['quantity_sale' => $need]
         );
 
-        if (class_exists('MailController') || is_file(__DIR__ . '/../controllers/mail.controller.php')) {
-            require_once __DIR__ . '/../controllers/mail.controller.php';
-            require_once __DIR__ . '/../controllers/ventas.controller.php';
-            MailController::enviarCorreoVenta($idSale);
-        }
-
         $result['fixed'] = $ok > 0;
         $result['had'] = $had + $ok;
         $result['message'] = "Completados {$ok} tickets (había {$had}, necesitaba {$need})";

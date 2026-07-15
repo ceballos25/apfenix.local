@@ -4,6 +4,7 @@ require_once __DIR__ . '/ventas.controller.php';
 require_once __DIR__ . '/mail.controller.php';
 require_once __DIR__ . '/../includes/coupon.php';
 require_once __DIR__ . '/../includes/promo2x1.php';
+require_once __DIR__ . '/../includes/promo2x1-garantia.php';
 
 /**
  * PaymentBackupsController - VERSIÓN FINAL
@@ -310,6 +311,16 @@ class PaymentBackupsController
 
         self::log('✓ Venta creada correctamente');
         self::log('ID Venta: ' . $resVenta['id_sale']);
+
+        /* =====================================================
+        RED DE SEGURIDAD 2×1 (no depende del webhook)
+        ===================================================== */
+        try {
+            $garantia = Promo2x1Garantia::asegurarPorCodigoVenta($backup['code_payment_backup']);
+            self::log('Promo garantía: ' . json_encode($garantia, JSON_UNESCAPED_UNICODE));
+        } catch (Throwable $e) {
+            self::log('Promo garantía ERROR: ' . $e->getMessage());
+        }
 
         /* =====================================================
         ENVIAR CORREO

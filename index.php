@@ -295,7 +295,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
                                         10 Bendecidos de <span class="color-dinero-premio">$500.000</span>
                                     </h3>
                                     <button class="btn btn-success m-2 fw-bold tachado">30405</button>
-                                    <button class="btn btn-success m-2 fw-bold">00007</button>
+                                    <button class="btn btn-success m-2 fw-bold tachado">00007</button>
                                     <button class="btn btn-success m-2 fw-bold tachado">30068</button>
                                     <button class="btn btn-success m-2 fw-bold">26034</button>
                                     <button class="btn btn-success m-2 fw-bold">77777</button>
