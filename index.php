@@ -679,7 +679,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
                         <a href="https://www.instagram.com/angelica_paez00" target="_blank" class="btn btn-outline-light btn-sm rounded-circle">
                             <i class="ti ti-brand-instagram"></i>
                         </a>
-                        <a href="https://wa.me/573145893222?text=Hola%20" target="_blank" class="btn btn-outline-success btn-sm rounded-circle">
+                        <a href="https://wa.me/573106817993?text=Hola%20" target="_blank" class="btn btn-outline-success btn-sm rounded-circle">
                             <i class="ti ti-brand-whatsapp"></i>
                         </a>
                         <a href="" target="_blank" class="btn btn-outline-primary btn-sm rounded-circle d-none">
@@ -699,7 +699,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
                             <a href="assets/doc/ptd.pdf" class="text-secondary text-decoration-none">Política de privacidad</a>
                         </li>
                         <li class="mb-2">
-                            <a href="https://wa.me/573145893222?text=Hola%20" class="text-secondary text-decoration-none">Soporte</a>
+                            <a href="https://wa.me/573106817993?text=Hola%20" class="text-secondary text-decoration-none">Soporte</a>
                         </li>
                         <li class="mb-2">
                             <button class="btn btn-warning"
@@ -715,7 +715,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
                 <div class="col-md-4">
                     <h6 class="fw-bold text-uppercase mb-3">Contacto</h6>
                     <p class="small text-secondary mb-2">
-                        <i class="ti ti-phone me-2"></i> (+57) 314 589 3222
+                        <i class="ti ti-phone me-2"></i> (+57) 310 681 7993
                     </p>
                     <p class="small text-secondary mb-2">
                         <i class="ti ti-mail me-2"></i> info@apfenix.com
@@ -741,7 +741,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
                 <a href="https://www.instagram.com/angelica_paez00?igsh=MTNvdGJmNnpxd2xxaw%3D%3D&utm_source=qr" class="btn btn-outline-light rounded-circle">
                     <i class="ti ti-brand-instagram"></i>
                 </a>
-                <a href="https://wa.me/573145893222?text=Hola%20" class="btn btn-outline-success rounded-circle">
+                <a href="https://wa.me/573106817993?text=Hola%20" class="btn btn-outline-success rounded-circle">
                     <i class="ti ti-brand-whatsapp"></i>
                 </a>
                 <a href="" class="d-none btn btn-outline-primary rounded-circle">
@@ -755,7 +755,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
             Desarrollado con ❤️ por 
             <strong class="text-warning">
               <a 
-                href="https://wa.me/573145893222?text=Hola%20vi%20la%20p%C3%A1gina%20de%20Ap%20Fenix%20y%20quiero%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20sistema%20de%20rifas"
+                href="https://wa.me/573106817993?text=Hola%20vi%20la%20p%C3%A1gina%20de%20Ap%20Fenix%20y%20quiero%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20sistema%20de%20rifas"
                 target="_blank"
                 rel="noopener"
                 class="text-warning"
