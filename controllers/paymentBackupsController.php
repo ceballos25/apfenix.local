@@ -188,6 +188,17 @@ class PaymentBackupsController
     * ===================================================== */
     public static function aprobarPago(array $backup, array $tx)
 {
+    // OPcache: recargar PHP crítico en cada pago web
+    foreach ([
+        __FILE__,
+        dirname(__DIR__) . '/controllers/ventas.controller.php',
+        dirname(__DIR__) . '/includes/promo2x1.php',
+    ] as $phpFile) {
+        if (function_exists('opcache_invalidate') && is_file($phpFile)) {
+            @opcache_invalidate($phpFile, true);
+        }
+    }
+
     // Normalizar estado que envía OpenPay
     $txStatus = strtolower(trim($tx['status'] ?? ''));
 
@@ -313,14 +324,15 @@ class PaymentBackupsController
         self::log('ID Venta: ' . $resVenta['id_sale']);
 
         /* =====================================================
-        RED DE SEGURIDAD 2×1 (no depende del webhook)
+        RED DE SEGURIDAD 2×1 (inline — no depende de archivos externos)
         ===================================================== */
-        try {
-            $garantia = Promo2x1Garantia::asegurarPorCodigoVenta($backup['code_payment_backup']);
-            self::log('Promo garantía: ' . json_encode($garantia, JSON_UNESCAPED_UNICODE));
-        } catch (Throwable $e) {
-            self::log('Promo garantía ERROR: ' . $e->getMessage());
-        }
+        $promoFix = self::asegurarPromo2x1EnVenta(
+            (int) $resVenta['id_sale'],
+            (int) $backup['id_customer_payment_backup'],
+            (int) $backup['id_raffle_payment_backup'],
+            $cantidad
+        );
+        self::log('Promo 2x1 asegurada: ' . json_encode($promoFix, JSON_UNESCAPED_UNICODE));
 
         /* =====================================================
         ENVIAR CORREO
@@ -385,6 +397,108 @@ class PaymentBackupsController
 
             }
         }
+
+    /* =====================================================
+    * Asegurar promo 2×1 tras crear venta web (lógica inline)
+    * ===================================================== */
+    private static function asegurarPromo2x1EnVenta(
+        int $idSale,
+        int $idCustomer,
+        int $idRaffle,
+        int $cantidadPagada
+    ): array {
+        $result = [
+            'fixed' => false,
+            'id_sale' => $idSale,
+            'paid' => $cantidadPagada,
+            'had' => 0,
+            'need' => $cantidadPagada,
+            'message' => 'OK',
+        ];
+
+        if ($idSale <= 0 || $cantidadPagada <= 0) {
+            $result['message'] = 'Datos inválidos';
+            return $result;
+        }
+
+        $need = Promo2x1Helper::quantityDelivered($cantidadPagada);
+
+        // Fallback duro por si OPcache sirve Promo2x1Helper viejo
+        $tz = new DateTimeZone('America/Bogota');
+        $now = new DateTime('now', $tz);
+        $exp = new DateTime('2026-07-16 23:59:59', $tz);
+        if ($cantidadPagada >= 50 && $now <= $exp) {
+            $need = max($need, $cantidadPagada * 2);
+        }
+
+        $result['need'] = $need;
+
+        if ($need <= $cantidadPagada) {
+            $result['message'] = 'Promo no aplica';
+            return $result;
+        }
+
+        $ticketsRes = ApiRequest::get('tickets', [
+            'linkTo' => 'id_sale_ticket',
+            'equalTo' => $idSale,
+            'select' => 'id_ticket',
+            'startAt' => 0,
+            'endAt' => 500,
+        ]);
+        $had = is_array($ticketsRes->results ?? null) ? count($ticketsRes->results) : 0;
+        $result['had'] = $had;
+
+        if ($had >= $need) {
+            ApiRequest::put(
+                "sales?id={$idSale}&nameId=id_sale&token=no&except=code_sale",
+                ['quantity_sale' => $need]
+            );
+            $result['message'] = 'Tickets OK, quantity_sale sincronizado';
+            return $result;
+        }
+
+        $bonus = $need - $had;
+        $availRes = ApiRequest::get('tickets', [
+            'linkTo' => 'id_raffle_ticket,status_ticket',
+            'equalTo' => $idRaffle . ',0',
+            'select' => 'id_ticket',
+            'startAt' => 0,
+            'endAt' => 100000,
+        ]);
+        $available = is_array($availRes->results ?? null) ? $availRes->results : [];
+
+        if (count($available) < $bonus) {
+            $result['message'] = 'Sin tickets suficientes para completar promo';
+            return $result;
+        }
+
+        shuffle($available);
+        $ok = 0;
+        foreach (array_slice($available, 0, $bonus) as $t) {
+            $put = ApiRequest::put(
+                "tickets?id={$t->id_ticket}&nameId=id_ticket&token=no&except=number_ticket",
+                [
+                    'status_ticket' => 1,
+                    'id_customer_ticket' => $idCustomer,
+                    'id_sale_ticket' => $idSale,
+                ]
+            );
+            if (ApiRequest::isSuccess($put)) {
+                $ok++;
+            }
+        }
+
+        ApiRequest::put(
+            "sales?id={$idSale}&nameId=id_sale&token=no&except=code_sale",
+            ['quantity_sale' => $need]
+        );
+
+        $result['fixed'] = $ok > 0;
+        $result['had'] = $had + $ok;
+        $result['message'] = "Completados {$ok} tickets (había {$had}, necesitaba {$need})";
+
+        return $result;
+    }
 
     /* =====================================================
     * LIMPIAR RESPALDO (solo cuando el pago se aprueba)

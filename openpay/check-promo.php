@@ -29,7 +29,7 @@ echo json_encode([
         'paymentBackupsController.php' => [
             'existe' => is_file($backupFile),
             'tiene_promo' => str_contains($read($backupFile), 'quantity_delivered'),
-            'tiene_garantia' => str_contains($read($backupFile), 'Promo2x1Garantia'),
+            'tiene_garantia_inline' => str_contains($read($backupFile), 'asegurarPromo2x1EnVenta'),
             'modificado' => is_file($backupFile) ? date('Y-m-d H:i:s', filemtime($backupFile)) : null,
         ],
         'promo2x1-garantia.php' => [
