@@ -236,7 +236,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
                                     <div class="confirmados-panel confirmados-panel--anticipado text-start mt-3">
                                         <p class="anticipados-proximo small fw-bold mb-3">
                                             <i class="ti ti-star text-warning me-1"></i>
-                                            Próximo anticipado: <span class="color-dinero-premio">17 de julio</span>
+                                            Próximo anticipado: <span class="color-dinero-premio">31 de julio</span>
                                             · <span class="color-dinero-premio">$500.000</span>
                                         </p>
 
@@ -250,11 +250,11 @@ $promo2x1Active = Promo2x1Helper::isActive();
                                                 <span>10 de julio</span>
                                                 <span class="color-dinero-premio">$1.000.000 ✓</span>
                                             </div>
-                                            <div class="anticipados-calendario__fila anticipados-calendario__fila--destacado">
+                                            <div class="anticipados-calendario__fila anticipados-calendario__fila--jugado">
                                                 <span>17 de julio</span>
-                                                <span class="color-dinero-premio">$500.000</span>
+                                                <span class="color-dinero-premio">$500.000 ✓</span>
                                             </div>
-                                            <div class="anticipados-calendario__fila">
+                                            <div class="anticipados-calendario__fila anticipados-calendario__fila--destacado">
                                                 <span>31 de julio</span>
                                                 <span class="color-dinero-premio">$500.000</span>
                                             </div>
@@ -274,6 +274,11 @@ $promo2x1Active = Promo2x1Helper::isActive();
                                                 <span class="confirmados-fila__fecha">10 de julio</span>
                                                 <span class="confirmados-fila__nombre">Claudia Gómez</span>
                                                 <span class="numero-apfenix numero-apfenix--bendecido">83265</span>
+                                            </div>
+                                            <div class="confirmados-fila">
+                                                <span class="confirmados-fila__fecha">17 de julio</span>
+                                                <span class="confirmados-fila__nombre">Jose Morelos</span>
+                                                <span class="numero-apfenix numero-apfenix--bendecido">98643</span>
                                             </div>
                                         </div>
                                         <p class="confirmados-fila__nota small text-muted mb-0 mt-2">
@@ -313,7 +318,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
 
                                     <div class="confirmados-panel text-start mt-2 pt-3 border-top">
                                         <p class="confirmados-panel__resumen small fw-bold mb-2">
-                                            Quedan <span class="color-dinero-premio">5</span> bendecidos por jugar
+                                            Quedan <span class="color-dinero-premio">4</span> bendecidos por jugar
                                         </p>
                                         <h4 class="confirmados-panel__titulo fw-bold mb-2">✨ Bendecidos confirmados</h4>
                                         <div class="confirmados-lista">
@@ -346,7 +351,12 @@ $promo2x1Active = Promo2x1Helper::isActive();
                                                 <span class="confirmados-fila__fecha">19 de junio</span>
                                                 <span class="confirmados-fila__nombre">María Espinosa</span>
                                                 <span class="numero-apfenix numero-apfenix--bendecido">31903</span>
-                                            </div>                                            
+                                            </div>
+                                            <div class="confirmados-fila">
+                                                <span class="confirmados-fila__fecha">15 de julio</span>
+                                                <span class="confirmados-fila__nombre">Leandra Saibis</span>
+                                                <span class="numero-apfenix numero-apfenix--bendecido">00007</span>
+                                            </div>
 
                                         </div>
                                     </div>
