@@ -769,8 +769,8 @@ $promo2x1Active = Promo2x1Helper::isActive();
                     class="ccm-footer-brand"
                     title="Visitar CCM Software — cristianceballos.com"
                     aria-label="CCM Software">
-                    <img src="https://cristianceballos.com/assets/logo-ccm-software.png"
-                         alt="&lt;/&gt; CCM Software_"
+                    <img src="<?= htmlspecialchars(ASSETS_URL . '/images/logos/logo-ccm-software.png', ENT_QUOTES, 'UTF-8') ?>"
+                         alt="CCM Software"
                          class="ccm-footer-brand__logo"
                          width="163"
                          height="32"
