@@ -1234,3 +1234,61 @@
     .paquete-card:hover {
         border: 2px solid #d500f9 !important
     }
+
+/* CCM Software brand credit — enlace claramente clicable */
+.ccm-footer-brand,
+a.footer-dev-brand,
+a.site-footer-dev--brand,
+a.site-footer-dev.ccm-footer-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    text-decoration: none !important;
+    vertical-align: middle;
+    margin-left: 0.2rem;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 1px;
+    transition: border-color 0.15s ease, opacity 0.15s ease, transform 0.15s ease;
+}
+.ccm-footer-brand:hover,
+.ccm-footer-brand:focus-visible,
+a.footer-dev-brand:hover,
+a.footer-dev-brand:focus-visible,
+a.site-footer-dev--brand:hover,
+a.site-footer-dev--brand:focus-visible {
+    text-decoration: none !important;
+    opacity: 1;
+    border-bottom-color: rgba(6, 182, 212, 0.85);
+}
+.ccm-footer-brand__logo,
+.footer-dev-logo,
+.site-footer-dev__logo {
+    display: inline-block;
+    height: 1.5rem;
+    width: auto;
+    max-width: min(100%, 10.5rem);
+    vertical-align: middle;
+    pointer-events: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.ccm-footer-brand:hover .ccm-footer-brand__logo,
+.ccm-footer-brand:hover .footer-dev-logo,
+.ccm-footer-brand:hover .site-footer-dev__logo,
+a.footer-dev-brand:hover .footer-dev-logo,
+a.site-footer-dev--brand:hover .site-footer-dev__logo {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+.ccm-footer-brand__hint {
+    font-size: 0.85rem;
+    line-height: 1;
+    color: #06b6d4;
+    opacity: 0.9;
+    flex-shrink: 0;
+}
+.ccm-footer-brand:hover .ccm-footer-brand__hint,
+.ccm-footer-brand:focus-visible .ccm-footer-brand__hint {
+    opacity: 1;
+}
+

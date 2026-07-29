@@ -20,7 +20,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="assets/css/styles-v20.css?v=16">
+    <link rel="stylesheet" href="assets/css/styles-v20.css?v=17">
     <script src="https://t.contentsquare.net/uxa/8c88e0bc219df.js"></script>
 
 
@@ -762,17 +762,21 @@ $promo2x1Active = Promo2x1Helper::isActive();
             <!-- Copyright -->
             <div class="text-center small text-secondary pb-2">
                 © <?= date('Y'); ?> AP Fenix · Todos los derechos reservados <br>
-            Desarrollado con ❤️ por 
-            <strong class="text-warning">
-              <a 
-                href="https://wa.me/573106817993?text=Hola%20vi%20la%20p%C3%A1gina%20de%20Ap%20Fenix%20y%20quiero%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20sistema%20de%20rifas"
-                target="_blank"
-                rel="noopener"
-                class="text-warning"
-              >
-                Cristian Ceballos <i class="ti ti-brand-whatsapp"></i><i class="ti ti-link"></i>
-              </a>
-            </strong>
+            Desarrollado por
+            <a href="https://cristianceballos.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="ccm-footer-brand"
+                    title="Visitar CCM Software — cristianceballos.com"
+                    aria-label="CCM Software">
+                    <img src="https://cristianceballos.com/assets/logo-ccm-software.png"
+                         alt="&lt;/&gt; CCM Software_"
+                         class="ccm-footer-brand__logo"
+                         width="163"
+                         height="32"
+                         decoding="async">
+                    <span class="ccm-footer-brand__hint" aria-hidden="true" title="Abrir sitio">↗</span>
+                </a>
             </div>
 
         </div>

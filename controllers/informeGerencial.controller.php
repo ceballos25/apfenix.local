@@ -427,7 +427,7 @@ class InformeGerencialController
         $lineas = [
             'Documento confidencial · ' . $siteName,
             'Generado el ' . $generado . ' · ' . $total . ' vendedor(es) activo(s)',
-            'Desarrollado por Cristian Ceballos — cristianceballos.com',
+            'Desarrollado por CCM Software — cristianceballos.com',
         ];
 
         $canvas->page_script(function (
