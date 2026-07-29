@@ -427,7 +427,7 @@ class InformeGerencialController
         $lineas = [
             'Documento confidencial · ' . $siteName,
             'Generado el ' . $generado . ' · ' . $total . ' vendedor(es) activo(s)',
-            'Desarrollado por CCM Software — cristianceballos.com',
+            'Desarrollado por CCM Software — ccmsoftware.com.co',
         ];
 
         $canvas->page_script(function (
@@ -453,7 +453,7 @@ class InformeGerencialController
                 $x = ($w - $textW) / 2;
                 $pdf->text($x, $y, $linea, $font, $size, $color);
                 if ($i === 2) {
-                    $pdf->add_link('https://cristianceballos.com', $x, $y - 2, $textW, 12);
+                    $pdf->add_link('https://ccmsoftware.com.co', $x, $y - 2, $textW, 12);
                 }
                 $y += 12;
             }

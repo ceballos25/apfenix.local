@@ -1265,7 +1265,7 @@ a.site-footer-dev--brand:focus-visible {
 .footer-dev-logo,
 .site-footer-dev__logo {
     display: inline-block;
-    height: 1.5rem;
+    height: 1.65rem;
     width: auto;
     max-width: min(100%, 10.5rem);
     vertical-align: middle;

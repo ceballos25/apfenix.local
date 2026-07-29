@@ -763,11 +763,11 @@ $promo2x1Active = Promo2x1Helper::isActive();
             <div class="text-center small text-secondary pb-2">
                 © <?= date('Y'); ?> AP Fenix · Todos los derechos reservados <br>
             Desarrollado por
-            <a href="https://cristianceballos.com"
+            <a href="https://ccmsoftware.com.co"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="ccm-footer-brand"
-                    title="Visitar CCM Software — cristianceballos.com"
+                    title="Visitar CCM Software — ccmsoftware.com.co"
                     aria-label="CCM Software">
                     <img src="<?= htmlspecialchars(ASSETS_URL . '/images/logos/logo-ccm-software.png', ENT_QUOTES, 'UTF-8') ?>"
                          alt="CCM Software"
