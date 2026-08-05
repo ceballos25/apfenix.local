@@ -746,7 +746,25 @@ $promo2x1Active = Promo2x1Helper::isActive();
 
             <hr class="border-secondary my-4">
 
-            <!-- Redes en Mobile -->
+            <div class="text-center mb-5">
+                <p>Desarrollado por</p>
+                <a href="https://ccmsoftware.com.co"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="ccm-footer-brand"
+                    title="Visitar CCM Software — ccmsoftware.com.co"
+                    aria-label="CCM Software">
+                    <img src="<?= htmlspecialchars(ASSETS_URL . '/images/logos/logo-ccm-software.png', ENT_QUOTES, 'UTF-8') ?>"
+                         alt="CCM Software"
+                         class="ccm-footer-brand__logo"
+                         width="163"
+                         height="32"
+                         decoding="async">
+                    <span class="ccm-footer-brand__hint" aria-hidden="true" title="Abrir sitio">↗</span>
+                </a>
+            </div>
+
+            <!-- Redes mobile -->
             <div class="d-flex d-md-none justify-content-center gap-3 mb-3">
                 <a href="https://www.instagram.com/angelica_paez00?igsh=MTNvdGJmNnpxd2xxaw%3D%3D&utm_source=qr" class="btn btn-outline-light rounded-circle">
                     <i class="ti ti-brand-instagram"></i>
@@ -761,22 +779,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
 
             <!-- Copyright -->
             <div class="text-center small text-secondary pb-2">
-                © <?= date('Y'); ?> AP Fenix · Todos los derechos reservados <br>
-            Desarrollado por
-            <a href="https://ccmsoftware.com.co"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="ccm-footer-brand"
-                    title="Visitar CCM Software — ccmsoftware.com.co"
-                    aria-label="CCM Software">
-                    <img src="<?= htmlspecialchars(ASSETS_URL . '/images/logos/logo-ccm-software.png', ENT_QUOTES, 'UTF-8') ?>"
-                         alt="CCM Software"
-                         class="ccm-footer-brand__logo"
-                         width="163"
-                         height="32"
-                         decoding="async">
-                    <span class="ccm-footer-brand__hint" aria-hidden="true" title="Abrir sitio">↗</span>
-                </a>
+                © <?= date('Y'); ?> AP Fenix · Todos los derechos reservados
             </div>
 
         </div>
