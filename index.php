@@ -259,7 +259,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
                                                 <span class="color-dinero-premio">$500.000</span>
                                             </div>
                                             <div class="anticipados-calendario__fila">
-                                                <span>7 de agosto</span>
+                                                <span>8 de agosto</span>
                                                 <span class="color-dinero-premio">$500.000</span>
                                             </div>
                                             <div class="anticipados-calendario__fila">
