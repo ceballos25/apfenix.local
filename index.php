@@ -236,7 +236,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
                                     <div class="confirmados-panel confirmados-panel--anticipado text-start mt-3">
                                         <p class="anticipados-proximo small fw-bold mb-3">
                                             <i class="ti ti-star text-warning me-1"></i>
-                                            Próximo anticipado: <span class="color-dinero-premio">31 de julio</span>
+                                            Próximo anticipado: <span class="color-dinero-premio">14 de agosto</span>
                                             · <span class="color-dinero-premio">$500.000</span>
                                         </p>
 
@@ -254,15 +254,15 @@ $promo2x1Active = Promo2x1Helper::isActive();
                                                 <span>17 de julio</span>
                                                 <span class="color-dinero-premio">$500.000 ✓</span>
                                             </div>
-                                            <div class="anticipados-calendario__fila anticipados-calendario__fila--destacado">
+                                            <div class="anticipados-calendario__fila anticipados-calendario__fila--jugado">
                                                 <span>31 de julio</span>
-                                                <span class="color-dinero-premio">$500.000</span>
+                                                <span class="color-dinero-premio">$500.000 acumulado ✓</span>
                                             </div>
-                                            <div class="anticipados-calendario__fila">
+                                            <div class="anticipados-calendario__fila anticipados-calendario__fila--jugado">
                                                 <span>8 de agosto</span>
-                                                <span class="color-dinero-premio">$500.000</span>
+                                                <span class="color-dinero-premio">$1.000.000 ✓</span>
                                             </div>
-                                            <div class="anticipados-calendario__fila">
+                                            <div class="anticipados-calendario__fila anticipados-calendario__fila--destacado">
                                                 <span>14 de agosto</span>
                                                 <span class="color-dinero-premio">$500.000</span>
                                             </div>
@@ -280,9 +280,15 @@ $promo2x1Active = Promo2x1Helper::isActive();
                                                 <span class="confirmados-fila__nombre">Jose Morelos</span>
                                                 <span class="numero-apfenix numero-apfenix--bendecido">98643</span>
                                             </div>
+                                            <div class="confirmados-fila">
+                                                <span class="confirmados-fila__fecha">8 de agosto</span>
+                                                <span class="confirmados-fila__nombre">Luis Mendoza</span>
+                                                <span class="numero-apfenix numero-apfenix--bendecido">43660</span>
+                                            </div>
                                         </div>
                                         <p class="confirmados-fila__nota small text-muted mb-0 mt-2">
                                             1er anticipado: $1.000.000 (acumulado) — número <strong>83265</strong>.
+                                            El del 31 de julio se acumuló y cayó el 8 de agosto en <strong>$1.000.000</strong> — número <strong>43660</strong>.
                                         </p>
                                     </div>
 
