@@ -309,7 +309,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
                                     <button class="btn btn-success m-2 fw-bold tachado">00007</button>
                                     <button class="btn btn-success m-2 fw-bold tachado">30068</button>
                                     <button class="btn btn-success m-2 fw-bold">26034</button>
-                                    <button class="btn btn-success m-2 fw-bold">77777</button>
+                                    <button class="btn btn-success m-2 fw-bold tachado">77777</button>
                                     <button class="btn btn-success m-2 fw-bold tachado">82041</button>
                                     <button class="btn btn-success m-2 fw-bold tachado">12998</button>
                                     <button class="btn btn-success m-2 fw-bold tachado">95585</button>
@@ -363,6 +363,11 @@ $promo2x1Active = Promo2x1Helper::isActive();
                                                 <span class="confirmados-fila__nombre">Leandra Saibis</span>
                                                 <span class="numero-apfenix numero-apfenix--bendecido">00007</span>
                                             </div>
+                                            <div class="confirmados-fila">
+                                                <span class="confirmados-fila__fecha">25 de agosto</span>
+                                                <span class="confirmados-fila__nombre">Yilber Garcia</span>
+                                                <span class="numero-apfenix numero-apfenix--bendecido">77777</span>
+                                            </div>                                            
 
                                         </div>
                                     </div>
