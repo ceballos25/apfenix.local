@@ -266,7 +266,7 @@ class DashboardController {
     {
         $avance = self::calcularAvanceRifa('');
         $porcentajeReal = (float) ($avance['porcentaje'] ?? 0);
-        $bonus = 5.0;
+        $bonus = 8.0;
         $porcentajeMostrar = min(100, round($porcentajeReal + $bonus, 2));
 
         return [
