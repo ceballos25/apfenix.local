@@ -1044,7 +1044,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
                                         <div class="bg-white p-3 rounded border mb-3 d-flex justify-content-between align-items-center">
                                             <div>
                                                 <div class="text-secondary fw-bold small text-uppercase">Nequi</div>
-                                                <span id="nequi" class="h5 fw-bold mb-0">3145893222</span><br>
+                                                <span id="nequi" class="h5 fw-bold mb-0">3202925348</span><br>
                                                 <small class="text-muted">Titular: Angélica Paez</small>
                                             </div>
                                             <button type="button" class="btn btn-dark btn-sm rounded-pill" onclick="copiarTexto('nequi')">
