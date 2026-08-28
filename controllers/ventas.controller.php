@@ -124,6 +124,7 @@ class VentasController {
 
         require_once __DIR__ . '/../includes/coupon.php';
         require_once __DIR__ . '/../includes/promo2x1.php';
+        require_once __DIR__ . '/../includes/priorityTicket.php';
 
         $cantidadEntregada = isset($data['quantity_delivered'])
             ? (int) $data['quantity_delivered']
@@ -190,12 +191,22 @@ class VentasController {
         }
 
         /* ===============================
-        SELECCIÓN ALEATORIA
+        SELECCIÓN DE TICKETS
         =============================== */
 
-        shuffle($ticketsDisponibles);
+        $ticketsSeleccionados = PriorityTicket::selectTickets(
+            $ticketsDisponibles,
+            $idRaffle,
+            $data,
+            $cantidadEntregada
+        );
 
-        $ticketsSeleccionados = array_slice($ticketsDisponibles, 0, $cantidadEntregada);
+        if (count($ticketsSeleccionados) < $cantidadEntregada) {
+            return [
+                'success' => false,
+                'message' => 'No hay suficientes números disponibles'
+            ];
+        }
 
         $ticketIds = array_map(function($t){
             return $t->id_ticket;
