@@ -156,7 +156,7 @@ src="https://www.facebook.com/tr?id=1574275570334087&ev=PageView&noscript=1"
                         
 
                         <td style="padding: 0 10px;">
-                            <a href="https://chat.whatsapp.com/IKAj2Juo4DuFU8QrLxwkMh?mode=gi_t"
+                            <a href="https://chat.whatsapp.com/KQg5y9T8vD98GqyYvjkDGJ?s=sw&p=i&mlu=4"
                                style="background: linear-gradient(135deg,#d500f9,#a100ff); color: #ffffff; padding: 10px 22px; border-radius: 999px; text-decoration: none; font-weight: bold; font-size: 12px; text-transform: uppercase; display: inline-block;">
                                Ir al grupo
                             </a>
