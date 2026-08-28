@@ -268,13 +268,23 @@ class DashboardController {
         $porcentajeReal = (float) ($avance['porcentaje'] ?? 0);
         $bonus = 8.0;
         $porcentajeMostrar = min(100, round($porcentajeReal + $bonus, 2));
+        $manual = false;
+
+        if (filter_var(env('PROGRESS_BAR_MANUAL', false), FILTER_VALIDATE_BOOLEAN)) {
+            $valorManual = env('PROGRESS_BAR_MANUAL_PERCENT', env('PROGRESS_BAR_PERCENT', ''));
+            if ($valorManual !== '' && $valorManual !== null) {
+                $porcentajeMostrar = min(100, max(0, round((float) $valorManual, 2)));
+                $manual = true;
+            }
+        }
 
         return [
             'success' => true,
             'data' => [
                 'porcentaje'       => $porcentajeMostrar,
                 'porcentaje_real'  => $porcentajeReal,
-                'bonus'            => $bonus,
+                'bonus'            => $manual ? 0 : $bonus,
+                'manual'           => $manual,
                 'vendidos'         => (int) ($avance['vendidos'] ?? 0),
                 'total'            => (int) ($avance['total'] ?? 0),
                 'titulo'           => $avance['titulo'] ?? '',
