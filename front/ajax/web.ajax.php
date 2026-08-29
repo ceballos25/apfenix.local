@@ -9,10 +9,19 @@ require_once "../../controllers/paymentBackupsController.php";
 require_once "../../controllers/openpay.controller.php";
 require_once "../../controllers/transfersController.php";
 require_once "../../controllers/dashboard.controller.php";
+require_once "../../includes/salesClosed.php";
 
 $action = $_POST['action'] ?? '';
 
 try {
+
+    if (SalesClosedHelper::isActive() && in_array($action, ['crear_respaldo', 'ir_openpay', 'crear_transferencia_completa'], true)) {
+        echo json_encode([
+            'success' => false,
+            'message' => SalesClosedHelper::message(),
+        ]);
+        exit;
+    }
 
     /* =====================================
      * AVANCE RIFA (público – landing)

@@ -2,11 +2,14 @@
 require_once "config/config.php";
 require_once "includes/coupon.php";
 require_once "includes/promo2x1.php";
+require_once "includes/salesClosed.php";
 $couponActive = CouponHelper::isActive();
 $promo2x1Active = Promo2x1Helper::isActive();
+$salesClosed = SalesClosedHelper::isActive();
+$salesClosedMessage = SalesClosedHelper::message();
 ?>
 <!doctype html>
-<html lang="es">
+<html lang="es" data-sales-closed="<?= $salesClosed ? '1' : '0' ?>">
 
 <head>
    <meta charset="utf-8">
@@ -20,7 +23,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="assets/css/styles-v20.css?v=17">
+    <link rel="stylesheet" href="assets/css/styles-v20.css?v=18">
     <script src="https://t.contentsquare.net/uxa/8c88e0bc219df.js"></script>
 
 
@@ -431,9 +434,36 @@ $promo2x1Active = Promo2x1Helper::isActive();
     </section>
 
     <!-- COMPRA -->
-    <section id="compra" class="py-2 bg-white border-top">
+    <section id="compra" class="py-2 bg-white border-top<?= $salesClosed ? ' ventas-cerradas' : '' ?>">
         <div class="container">
             <h2 class="text-center fw-bold mb-3 mt-3">🎟️ Paquetes</h2>
+
+            <?php if ($salesClosed): ?>
+            <div class="alert alert-warning text-center fw-bold shadow-sm mb-4" role="alert">
+                <i class="ti ti-lock me-1"></i>
+                <?= htmlspecialchars($salesClosedMessage, ENT_QUOTES, 'UTF-8') ?>
+            </div>
+            <?php endif; ?>
+
+            <div class="modal fade" id="modalVentasCerradas" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                        <div class="modal-header bg-dark text-white border-0">
+                            <h5 class="modal-title fw-bold">Ventas cerradas</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body p-4 text-center">
+                            <div class="display-4 mb-3">🔒</div>
+                            <p class="mb-0 fw-semibold text-dark" id="mensajeVentasCerradas">
+                                <?= htmlspecialchars($salesClosedMessage, ENT_QUOTES, 'UTF-8') ?>
+                            </p>
+                        </div>
+                        <div class="modal-footer border-0 pt-0 pb-4 justify-content-center">
+                            <button type="button" class="btn btn-dark px-4" data-bs-dismiss="modal">Entendido</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row g-4">
                 <div class="col-lg-8">
@@ -451,13 +481,13 @@ $promo2x1Active = Promo2x1Helper::isActive();
                                 </p>
                         </div>
 
-                        <div class="card-body bg-light">
+                        <div class="card-body bg-light position-relative">
 
                             <div class="row g-4" id="paquetesNumeros">
 
                             <!-- 3 -->
                             <div class="col-6 col-md-4">
-                            <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq3" value="20">
+                            <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq3" value="20"<?= $salesClosed ? ' disabled' : '' ?>>
                             <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card" for="paq3">
                             <div class="fw-bold">20</div>
                             <div class="fs-5 fw-bold">$18.000</div>
@@ -467,7 +497,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
 
                             <!-- 4 -->
                             <div class="col-6 col-md-4">
-                            <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq4" value="30">
+                            <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq4" value="30"<?= $salesClosed ? ' disabled' : '' ?>>
                             <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card" for="paq4">
                             <div class="fw-bold">30</div>
                             <div class="fs-5 fw-bold">$27.000</div>
@@ -477,7 +507,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
 
                             <!-- 5 -->
                             <div class="col-6 col-md-4">
-                            <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq5" value="50">
+                            <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq5" value="50"<?= $salesClosed ? ' disabled' : '' ?>>
                             <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card popular<?= $promo2x1Active ? ' promo-2x1-eligible' : '' ?>" for="paq5">
 
                             <div class="paquete-badges">
@@ -495,7 +525,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
 
                             <!-- 7 -->
                             <div class="col-6 col-md-4">
-                            <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq7" value="70">
+                            <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq7" value="70"<?= $salesClosed ? ' disabled' : '' ?>>
                             <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card recomendado<?= $promo2x1Active ? ' promo-2x1-eligible' : '' ?>" for="paq7">
 
                             <div class="paquete-badges">
@@ -513,7 +543,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
 
                             <!-- 10 -->
                             <div class="col-6 col-md-4">
-                            <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq10" value="100">
+                            <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq10" value="100"<?= $salesClosed ? ' disabled' : '' ?>>
                             <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card mas-vendido<?= $promo2x1Active ? ' promo-2x1-eligible' : '' ?>" for="paq10">
 
                             <div class="paquete-badges">
@@ -531,7 +561,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
 
                             <!-- 20 -->
                             <div class="col-6 col-md-4">
-                            <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq20" value="200">
+                            <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq20" value="200"<?= $salesClosed ? ' disabled' : '' ?>>
                             <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card mejor-valor<?= $promo2x1Active ? ' promo-2x1-eligible' : '' ?>" for="paq20">
 
                             <div class="paquete-badges">
@@ -555,7 +585,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
                             class="btn-check paquete-radio"
                             name="paqueteNumeros"
                             id="paqCustom"
-                            value="custom">
+                            value="custom"<?= $salesClosed ? ' disabled' : '' ?>>
 
                             <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card custom"
                             for="paqCustom">
@@ -573,11 +603,16 @@ $promo2x1Active = Promo2x1Helper::isActive();
                             min="3"
                             placeholder="#"
                             style="display:none;"
+                            <?= $salesClosed ? 'disabled' : '' ?>
                             >
 
                             </div>
 
                             </div>
+
+                            <?php if ($salesClosed): ?>
+                            <div class="ventas-cerradas-overlay" id="overlayVentasCerradas" role="button" aria-label="Ventas cerradas"></div>
+                            <?php endif; ?>
 
                             <?php if (!$promo2x1Active): ?>
                             <div class="alert alert-warning text-center small fw-bold mt-3">
@@ -616,14 +651,20 @@ $promo2x1Active = Promo2x1Helper::isActive();
                                 </li>
                             </ul>
 
-                            <div class="alert alert-warning small text-center fw-bold">
+                            <div class="alert alert-warning small text-center fw-bold<?= $salesClosed ? ' d-none' : '' ?>" id="alertaPasoCompra">
                                 🔥 Estás a un paso de participar
                             </div>
 
+                            <?php if ($salesClosed): ?>
+                            <button type="button" class="btn btn-secondary w-100 py-3 fw-bold" id="btnVentasCerradasDesktop">
+                                Ventas cerradas
+                            </button>
+                            <?php else: ?>
                             <button class="btn btn-dark w-100 py-3 fw-bold" onclick="abrirCheckout()"
                                 id="btnPagarDesktop" disabled>
                                 Pagar ahora →
                             </button>
+                            <?php endif; ?>
 
                             <div class="mt-3 pt-3 border-top text-center">
                                 <p class="small text-muted mb-2 d-flex align-items-center justify-content-center gap-1">
@@ -803,6 +844,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
 
 
     <!-- MOBILE CART -->
+    <?php if (!$salesClosed): ?>
     <div class="mobile-cart-bar d-lg-none" id="mobileCart" style="display:none">
         <div class="mobile-cart-info">
             <div class="mobile-cart-top">
@@ -815,6 +857,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
             PAGAR 🔥
         </button>
     </div>
+    <?php endif; ?>
 
     <!-- MODAL SEARCH TICKETS -->
     <div class="modal fade" id="modalBuscarTickets" tabindex="-1">
@@ -864,11 +907,48 @@ $promo2x1Active = Promo2x1Helper::isActive();
         'minimo' => Promo2x1Helper::MIN_QTY,
         'expira' => $promo2x1Active ? Promo2x1Helper::getExpiresForJs() : null,
     ], JSON_UNESCAPED_UNICODE) ?>;
+    window.SALES_CLOSED = <?= json_encode(SalesClosedHelper::frontendConfig(), JSON_UNESCAPED_UNICODE) ?>;
     </script>
     <script src="assets/js/promo-2x1.js?v=1"></script>
-    <script src="assets/js/frontend-v3.js?v=promo2x1b"></script>
+    <script src="assets/js/frontend-v3.js?v=ventas-cerradas2"></script>
     <script src="assets/js/progreso-ventas.js?v=3"></script>
     <script src="assets/js/buscarTickets.js"></script>
+
+    <?php if ($salesClosed): ?>
+    <script>
+    (function () {
+        function abrirVentasCerradas() {
+            var modalEl = document.getElementById('modalVentasCerradas');
+            if (!modalEl || typeof bootstrap === 'undefined') {
+                return;
+            }
+            bootstrap.Modal.getOrCreateInstance(modalEl).show();
+        }
+
+        window.mostrarModalVentasCerradas = abrirVentasCerradas;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var overlay = document.getElementById('overlayVentasCerradas');
+            if (overlay) {
+                overlay.addEventListener('click', abrirVentasCerradas);
+            }
+
+            var btn = document.getElementById('btnVentasCerradasDesktop');
+            if (btn) {
+                btn.addEventListener('click', abrirVentasCerradas);
+            }
+
+            document.querySelectorAll('.paquete-card').forEach(function (label) {
+                label.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    abrirVentasCerradas();
+                });
+            });
+        });
+    })();
+    </script>
+    <?php endif; ?>
     
 
 

@@ -330,6 +330,19 @@
         transform: translate(-50%, -50%);
         font-size: 24px;
         
+    }
+
+    .ventas-cerradas .paquete-card {
+        opacity: 0.55;
+        cursor: not-allowed;
+    }
+
+    .ventas-cerradas-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 5;
+        cursor: not-allowed;
+        background: rgba(255, 255, 255, 0.01);
     }    
 
     /* CARRUSEL & PREMIOS */

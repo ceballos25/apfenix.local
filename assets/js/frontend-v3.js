@@ -21,7 +21,50 @@ const estado = {
 };
 
 const cuponConfig = window.CUPON_AP_FENIX || { activo: false };
+const salesClosedConfig = window.SALES_CLOSED || { activo: false, mensaje: '' };
 let cuponCountdownTimer = null;
+
+function ventasCerradas() {
+    if (salesClosedConfig.activo) {
+        return true;
+    }
+
+    return document.documentElement.dataset.salesClosed === '1';
+}
+
+function mostrarModalVentasCerradas() {
+    const modalEl = document.getElementById('modalVentasCerradas');
+    if (!modalEl || typeof bootstrap === 'undefined') {
+        toastError(salesClosedConfig.mensaje || 'Las ventas están cerradas.');
+        return;
+    }
+
+    const mensajeEl = document.getElementById('mensajeVentasCerradas');
+    if (mensajeEl && salesClosedConfig.mensaje) {
+        mensajeEl.textContent = salesClosedConfig.mensaje;
+    }
+
+    bootstrap.Modal.getOrCreateInstance(modalEl).show();
+}
+
+function initVentasCerradas() {
+    if (!ventasCerradas()) {
+        return;
+    }
+
+    $('.paquete-radio').prop('disabled', true);
+    $('#cantidadManual').prop('disabled', true);
+    $('label[for^="paq"], label[for="paqCustom"]').addClass('opacity-50');
+
+    $(document).on('click', 'label[for^="paq"], label[for="paqCustom"]', function (e) {
+        e.preventDefault();
+        mostrarModalVentasCerradas();
+    });
+
+    $('#btnVentasCerradasDesktop').on('click', function () {
+        mostrarModalVentasCerradas();
+    });
+}
 
     document.addEventListener('DOMContentLoaded', function () {
     var main = new Splide('#main-carousel', {
@@ -85,6 +128,7 @@ $(document).ready(function () {
 
     initCuponPromo();
     initPromo2x1();
+    initVentasCerradas();
 
 });
 
@@ -151,6 +195,12 @@ async function cargarInventario() {
 
 $(document).on('change', '.paquete-radio', function () {
 
+    if (ventasCerradas()) {
+        this.checked = false;
+        mostrarModalVentasCerradas();
+        return;
+    }
+
     if (this.value === 'custom') {
         $('#cantidadManual').show().focus();
         return;
@@ -165,6 +215,12 @@ $(document).on('change', '.paquete-radio', function () {
 });
 
 $('#cantidadManual').on('blur', function () {
+
+    if (ventasCerradas()) {
+        this.value = '';
+        mostrarModalVentasCerradas();
+        return;
+    }
 
     let cant = parseInt(this.value);
 
@@ -377,6 +433,10 @@ function actualizarUI() {
 
     $('#btnPagarDesktop, #btnPagarMobile').prop('disabled', !cant);
 
+    if (ventasCerradas()) {
+        return;
+    }
+
 
     const bar = document.getElementById('mobileCart');
 
@@ -496,6 +556,11 @@ function setLoadingBtn(btnId, loading = true) {
 
 function abrirCheckout() {
 
+if (ventasCerradas()) {
+    mostrarModalVentasCerradas();
+    return;
+}
+
 if (!estado.cantidadSeleccionada || estado.cantidadSeleccionada < 3) {
 
     toastError('La compra mínima es de 3 números');
@@ -528,6 +593,11 @@ if (!estado.cantidadSeleccionada || estado.cantidadSeleccionada < 3) {
 /* ================== PAGO ================== */
 
 async function iniciarPagoPSE() {
+
+    if (ventasCerradas()) {
+        mostrarModalVentasCerradas();
+        return;
+    }
 
     const datos = validarFormularioCheckout();
 
@@ -709,6 +779,11 @@ if (!estado.cantidadSeleccionada || estado.cantidadSeleccionada < 3) {
 
 async function seleccionarMetodo(tipo) {
 
+    if (ventasCerradas()) {
+        mostrarModalVentasCerradas();
+        return;
+    }
+
     const pse = document.getElementById('metodoPSE');
     const transferencia = document.getElementById('metodoTransferencia');
 
@@ -748,6 +823,11 @@ async function seleccionarMetodo(tipo) {
 async function procesarTransferencia(e) {
 
     e.preventDefault();
+
+    if (ventasCerradas()) {
+        mostrarModalVentasCerradas();
+        return;
+    }
 
     const datos = validarFormularioCheckout();
     if (!datos) return;
