@@ -313,7 +313,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
                                     <button class="btn btn-success m-2 fw-bold tachado">82041</button>
                                     <button class="btn btn-success m-2 fw-bold tachado">12998</button>
                                     <button class="btn btn-success m-2 fw-bold tachado">95585</button>
-                                    <button class="btn btn-success m-2 fw-bold">57001</button>
+                                    <button class="btn btn-success m-2 fw-bold tachado">57001</button>
                                     <button class="btn btn-success m-2 fw-bold">53760</button>
 
                                     <div class="display-flex m-1">
@@ -324,7 +324,7 @@ $promo2x1Active = Promo2x1Helper::isActive();
 
                                     <div class="confirmados-panel text-start mt-2 pt-3 border-top">
                                         <p class="confirmados-panel__resumen small fw-bold mb-2">
-                                            Quedan <span class="color-dinero-premio">4</span> bendecidos por jugar
+                                            Quedan <span class="color-dinero-premio">2</span> bendecidos por jugar
                                         </p>
                                         <h4 class="confirmados-panel__titulo fw-bold mb-2">✨ Bendecidos confirmados</h4>
                                         <div class="confirmados-lista">
@@ -367,7 +367,12 @@ $promo2x1Active = Promo2x1Helper::isActive();
                                                 <span class="confirmados-fila__fecha">25 de agosto</span>
                                                 <span class="confirmados-fila__nombre">Yilber Garcia</span>
                                                 <span class="numero-apfenix numero-apfenix--bendecido">77777</span>
-                                            </div>                                            
+                                            </div>
+                                            <div class="confirmados-fila">
+                                                <span class="confirmados-fila__fecha">28 de agosto</span>
+                                                <span class="confirmados-fila__nombre">Laura Ateortua</span>
+                                                <span class="numero-apfenix numero-apfenix--bendecido">57001</span>
+                                            </div>
 
                                         </div>
                                     </div>
