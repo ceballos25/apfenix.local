@@ -23,7 +23,7 @@ $salesClosedMessage = SalesClosedHelper::message();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="assets/css/styles-v20.css?v=18">
+    <link rel="stylesheet" href="assets/css/styles-v20.css?v=29">
     <script src="https://t.contentsquare.net/uxa/8c88e0bc219df.js"></script>
 
 
@@ -909,10 +909,10 @@ $salesClosedMessage = SalesClosedHelper::message();
     ], JSON_UNESCAPED_UNICODE) ?>;
     window.SALES_CLOSED = <?= json_encode(SalesClosedHelper::frontendConfig(), JSON_UNESCAPED_UNICODE) ?>;
     </script>
-    <script src="assets/js/promo-2x1.js?v=1"></script>
-    <script src="assets/js/frontend-v3.js?v=ventas-cerradas2"></script>
-    <script src="assets/js/progreso-ventas.js?v=3"></script>
-    <script src="assets/js/buscarTickets.js"></script>
+    <script src="assets/js/promo-2x1.js?v=29"></script>
+    <script src="assets/js/frontend-v3.js?v=29"></script>
+    <script src="assets/js/progreso-ventas.js?v=29"></script>
+    <script src="assets/js/buscarTickets.js?v=29"></script>
 
     <?php if ($salesClosed): ?>
     <script>
