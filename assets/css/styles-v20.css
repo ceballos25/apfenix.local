@@ -321,6 +321,26 @@
         transition: 0.3s;
     }
 
+    .premio-invertido {
+        border: 1px solid #111;
+        background: #111;
+        color: #fff;
+        border-radius: 30px;
+        padding: 8px 20px;
+        box-shadow: 0 0 12px rgba(17, 17, 17, 0.18);
+    }
+
+    .premio-invertido h5,
+    .premio-invertido .small {
+        color: #fff;
+    }
+
+    .premio-invertido-icon {
+        background: #ffc107;
+        color: #111;
+        flex-shrink: 0;
+    }
+
     .hero-premio-copy {
         font-size: 0.92rem;
         line-height: 1.45;

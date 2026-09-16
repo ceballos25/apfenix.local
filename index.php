@@ -27,7 +27,7 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="assets/css/styles-v20.css?v=38">
+    <link rel="stylesheet" href="assets/css/styles-v20.css?v=39">
     <link rel="stylesheet" href="assets/css/paquetes.css?v=5">
     <link rel="stylesheet" href="assets/css/urgencia.css?v=6">
     <script src="https://t.contentsquare.net/uxa/8c88e0bc219df.js"></script>
@@ -162,10 +162,13 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
                         </div>
 
                         <div class="col-12">
-                            <div class="card border-0 shadow-sm text-center w-100">
-                                <div class="card-body py-3">
-                                    <h3 class="fw-bold mb-1"><?= htmlspecialchars(DinamicaHelper::PREMIO_INVERTIDO, ENT_QUOTES, 'UTF-8') ?></h3>
-                                    <small class="fw-bold text-muted">Por la de Boyacá</small>
+                            <div class="card-body d-flex align-items-center gap-3 premio-invertido px-0">
+                                <div class="premio-invertido-icon rounded-circle p-3 fs-3 lh-1">
+                                    🔄
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-1"><?= htmlspecialchars(DinamicaHelper::PREMIO_INVERTIDO, ENT_QUOTES, 'UTF-8') ?></h5>
+                                    <span class="small">Con el invertido</span>
                                 </div>
                             </div>
                         </div>
