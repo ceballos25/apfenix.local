@@ -235,12 +235,7 @@ class DinamicaHelper
     public static function renderPriceHints(): string
     {
         if (self::isPreventaActive()) {
-            return '<p class="cr-paquetes-hint__mobile mb-0">'
-                . self::formatCop(self::UNIT_PRICE) . ' c/u · extras de preventa</p>'
-                . '<div class="cr-paquetes-hint__desktop">'
-                . '<p class="mb-0"><strong>Preventa:</strong> '
-                . self::formatCop(self::UNIT_PRICE) . ' c/u · extras de regalo</p>'
-                . '</div>';
+            return '';
         }
 
         return '<p class="cr-paquetes-hint__mobile mb-0">Desde ' . self::PROMO_QTY

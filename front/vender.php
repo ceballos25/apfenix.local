@@ -120,9 +120,14 @@ include_once ROOT_PATH . "/includes/head.php";
                                 <div class="row g-2 g-md-3 cr-paquetes-grid" id="paquetesNumeros">
                                     <?= DinamicaHelper::renderPackageCards(false, true) ?>
                                 </div>
+                                <?php
+                                $priceHints = DinamicaHelper::renderPriceHints();
+                                if ($priceHints !== ''):
+                                ?>
                                 <div class="cr-paquetes-hint">
-                                    <?= DinamicaHelper::renderPriceHints() ?>
-                                </div>                  
+                                    <?= $priceHints ?>
+                                </div>
+                                <?php endif; ?>                  
 
                             </div>
                         </div>

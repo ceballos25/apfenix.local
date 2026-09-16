@@ -130,7 +130,7 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
 
                 <div class="col-lg-5">
                     <h1 class="hero-title mb-2">
-                        DÚO <br><span class="millonario">FÉNIX</span>!
+                        ¡DÚO <br><span class="millonario">FÉNIX</span>!
                     </h1>
                     <p class="hero-premio-copy text-muted fw-semibold mb-3">
                         <?= htmlspecialchars(DinamicaHelper::PREMIO_COPY, ENT_QUOTES, 'UTF-8') ?>
@@ -288,9 +288,14 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
                             <div class="ventas-cerradas-overlay" id="overlayVentasCerradas" role="button" aria-label="Ventas cerradas"></div>
                             <?php endif; ?>
 
+                            <?php
+                            $priceHints = DinamicaHelper::renderPriceHints();
+                            if ($priceHints !== ''):
+                            ?>
                             <div class="cr-paquetes-hint">
-                                <?= DinamicaHelper::renderPriceHints() ?>
+                                <?= $priceHints ?>
                             </div>
+                            <?php endif; ?>
 
                         </div>
                     </div>
