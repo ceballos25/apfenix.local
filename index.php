@@ -27,7 +27,7 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="assets/css/styles-v20.css?v=37">
+    <link rel="stylesheet" href="assets/css/styles-v20.css?v=38">
     <link rel="stylesheet" href="assets/css/paquetes.css?v=5">
     <link rel="stylesheet" href="assets/css/urgencia.css?v=6">
     <script src="https://t.contentsquare.net/uxa/8c88e0bc219df.js"></script>
@@ -583,11 +583,11 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
     ], JSON_UNESCAPED_UNICODE) ?>;
     window.SALES_CLOSED = <?= json_encode(SalesClosedHelper::frontendConfig(), JSON_UNESCAPED_UNICODE) ?>;
     </script>
-    <script src="assets/js/promo-2x1.js?v=37"></script>
+    <script src="assets/js/promo-2x1.js?v=38"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <script src="assets/js/countdown-urgencia.js?v=1"></script>
-    <script src="assets/js/frontend-v3.js?v=40"></script>
-    <script src="assets/js/confeti-ganadores.js?v=1"></script>
+    <script src="assets/js/frontend-v3.js?v=41"></script>
+    <script src="assets/js/confeti-ganadores.js?v=2"></script>
     <script src="assets/js/progreso-ventas.js?v=29"></script>
     <script src="assets/js/buscarTickets.js?v=29"></script>
 

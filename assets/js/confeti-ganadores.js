@@ -7,7 +7,7 @@
     if (!section || !canvas || typeof confetti !== 'function') return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const fire = confetti.create(canvas, { resize: true, useWorker: true });
+    const fire = confetti.create(canvas, { resize: true, useWorker: false });
     const colors = ['#FFD700', '#FFC107', '#FFFFFF', '#d500f9', '#2D0434', '#FB7185'];
     let timer = null;
 

@@ -72,31 +72,36 @@ function initVentasCerradas() {
         }
 
         if (document.getElementById('ganadores-carousel')) {
-            new Splide('#ganadores-carousel', {
-                type: 'loop',
-                autoplay: true,
-                interval: 3800,
-                pauseOnHover: true,
-                pauseOnFocus: true,
-                speed: 650,
-                gap: '1rem',
-                arrows: true,
-                pagination: true,
-                rewind: true,
-                drag: true,
-                padding: { left: 0, right: '12%' },
-                breakpoints: {
-                    767: {
-                        padding: { left: 0, right: '10%' },
+            try {
+                new Splide('#ganadores-carousel', {
+                    type: 'loop',
+                    autoplay: true,
+                    interval: 3800,
+                    pauseOnHover: true,
+                    pauseOnFocus: true,
+                    speed: 650,
+                    gap: '1rem',
+                    arrows: true,
+                    pagination: true,
+                    rewind: true,
+                    drag: true,
+                    padding: { left: 0, right: '12%' },
+                    breakpoints: {
+                        767: {
+                            padding: { left: 0, right: '10%' },
+                        },
                     },
-                },
-            }).mount();
+                }).mount();
+            } catch (err) {
+                console.warn('Carrusel ganadores:', err);
+            }
         }
 
         if (!document.getElementById('main-carousel')) {
             return;
         }
 
+        try {
         var main = new Splide('#main-carousel', {
             type: 'fade',
             rewind: true,
@@ -124,6 +129,9 @@ function initVentasCerradas() {
         main.sync(thumbnails);
         main.mount();
         thumbnails.mount();
+        } catch (err) {
+            console.warn('Carrusel principal:', err);
+        }
     });
 
 /* ================== INIT ================== */

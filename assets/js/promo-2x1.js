@@ -93,11 +93,6 @@
                 clearInterval(timer);
                 if (empezóActiva) {
                     apagarPreventaCliente();
-                    if (sessionStorage.getItem('preventaEndedReload') !== '1') {
-                        sessionStorage.setItem('preventaEndedReload', '1');
-                        location.reload();
-                        return;
-                    }
                     if (typeof onExpire === 'function') onExpire();
                 }
             }

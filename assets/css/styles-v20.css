@@ -1351,7 +1351,7 @@ a.site-footer-dev--brand:hover .site-footer-dev__logo {
     font-size: 1.15rem;
     line-height: 1;
     box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55);
-    animation: ccm-wa-pulse 1.8s ease-out infinite;
+    animation: none;
 }
 .ccm-footer-brand__wa i {
     line-height: 1;
