@@ -20,9 +20,9 @@ class DinamicaHelper
     const LOTTERY = 'Lotería de Boyacá';
     const DRAW_WITH_LOTTERY = 'sábado 7 de noviembre con la de Boyacá';
 
-    const PREMIO_MAYOR = 'MT15 · 2027 0KM';
+    const PREMIO_MAYOR = 'MT-15 o $16 Millones';
     const PREMIO_INVERTIDO = '$7 Millones';
-    const PREMIO_COPY = 'Por las 4 de Boyacá te llevas la MT15 · 2027 0KM y el invertido te llevas $7 Millones';
+    const PREMIO_COPY = 'Por las 4 de Boyacá te llevas la MT-15 o $16 Millones. Y $7 Millones con el invertido';
 
     /** @var list<int> */
     const PACKAGES = [3, 5, 8, 10, 20, 25, 50];
@@ -331,12 +331,12 @@ class DinamicaHelper
      * Ejemplo: '12345'  o  'x12345'
      */
     const BENDECIDOS_200 = [
-        '', '', '', '', '', '', '', '', '', '',
+        '1998', '1234', '0000', '1111', '9898', '7272', '5555', '8991', '0614', '7777',
     ];
 
     const BENDECIDOS_300 = [
-        '', '', '', '', '', '', '', '', '', '',
-        '', '', '', '', '', '', '', '', '', '',
+        '0314', '1212', '9999', '2121', '0987', '2222', '6431', '0075', '9010', '0101',
+        '8877', '5434', '8656', '4582', '3069', '8140', '6703', '2548', '1390', '4827',
     ];
 
     public static function renderBendecidosGrupo(array $numeros, string $titulo, string $premio, string $variant): string
