@@ -27,7 +27,7 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="assets/css/styles-v20.css?v=39">
+    <link rel="stylesheet" href="assets/css/styles-v20.css?v=40">
     <link rel="stylesheet" href="assets/css/paquetes.css?v=5">
     <link rel="stylesheet" href="assets/css/urgencia.css?v=6">
     <script src="https://t.contentsquare.net/uxa/8c88e0bc219df.js"></script>
@@ -124,12 +124,9 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
             <div class="row g-3 align-items-start">
 
                 <div class="col-lg-5">
-                    <h1 class="hero-title mb-2">
+                    <h1 class="hero-title mb-3">
                         ¡DÚO <br><span class="millonario">FÉNIX</span>!
                     </h1>
-                    <p class="hero-premio-copy text-muted fw-semibold mb-3">
-                        <?= htmlspecialchars(DinamicaHelper::PREMIO_COPY, ENT_QUOTES, 'UTF-8') ?>
-                    </p>
 
                     <div class="card border-0 shadow-sm text-center d-none d-lg-block">
                         <div class="card-body py-3">
