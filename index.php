@@ -60,7 +60,7 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
     <div class="promo-bar text-center py-2">
         <div class="container fw-bold">
             <?php if ($preventaPhase === 'upcoming'): ?>
-                Preventa desde el <strong>21 de septiembre</strong> · paga menos, recibe más
+                Preventa desde el <strong>16 de septiembre</strong> · paga menos, recibe más
             <?php elseif ($preventaActive): ?>
                 PREVENTA · <strong>paga menos, recibe más</strong> · $9.000
             <?php else: ?>
@@ -90,7 +90,7 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
             <div class="promo-2x1-sticky-inner">
                 <?php if ($preventaPhase === 'upcoming'): ?>
                     <span class="promo-2x1-badge">PREVENTA</span>
-                    <span>Arranca el <strong>21 de septiembre</strong> · paga menos, recibe más</span>
+                    <span>Arranca el <strong>16 de septiembre</strong> · paga menos, recibe más</span>
                     <span class="promo-2x1-countdown">
                         Inicia en <span class="promo-countdown-value promo2x1-countdown">--:--:--</span>
                     </span>
@@ -586,10 +586,10 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
     ], JSON_UNESCAPED_UNICODE) ?>;
     window.SALES_CLOSED = <?= json_encode(SalesClosedHelper::frontendConfig(), JSON_UNESCAPED_UNICODE) ?>;
     </script>
-    <script src="assets/js/promo-2x1.js?v=36"></script>
+    <script src="assets/js/promo-2x1.js?v=37"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <script src="assets/js/countdown-urgencia.js?v=1"></script>
-    <script src="assets/js/frontend-v3.js?v=38"></script>
+    <script src="assets/js/frontend-v3.js?v=39"></script>
     <script src="assets/js/confeti-ganadores.js?v=1"></script>
     <script src="assets/js/progreso-ventas.js?v=29"></script>
     <script src="assets/js/buscarTickets.js?v=29"></script>

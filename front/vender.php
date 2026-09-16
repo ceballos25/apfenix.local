@@ -8,7 +8,7 @@ $couponActive = CouponHelper::isActive();
 $promo2x1Active = Promo2x1Helper::isActive();
 $extra_css = '
 <link rel="stylesheet" href="' . ASSETS_URL . '/css/paquetes.css?v=5" />
-<link rel="stylesheet" href="' . ASSETS_URL . '/css/vender.css?v=1" />
+<link rel="stylesheet" href="' . ASSETS_URL . '/css/vender.css?v=5" />
 ';
 include_once ROOT_PATH . "/includes/head.php";
 ?>
@@ -152,6 +152,10 @@ include_once ROOT_PATH . "/includes/head.php";
                                     <span>Preventa</span>
                                     <strong id="lblPreventaVenderDesk">—</strong>
                                 </div>
+                                <div class="vm-row vm-row--promo d-none" id="lineaVolumenVenderDesk">
+                                    <span>Desde 25 nums</span>
+                                    <strong id="lblVolumenVenderDesk">$8.000 c/u</strong>
+                                </div>
                                 <div class="d-flex justify-content-between align-items-end d-none vm-row" id="lineaDescuentoVenderDesk">
                                     <span class="text-success">Descuento APF15</span>
                                     <strong class="text-success" id="montoDescuentoVenderDesk">-$0</strong>
@@ -176,7 +180,7 @@ include_once ROOT_PATH . "/includes/head.php";
 
                 </div>
 
-                <div class="d-lg-none" style="height:170px"></div>
+                <div class="d-lg-none" style="height:132px"></div>
 
             </div>
         </div>
@@ -184,20 +188,20 @@ include_once ROOT_PATH . "/includes/head.php";
 </div>
 
 <div class="fixed-bottom vm-bar d-lg-none">
-    <div class="vm-bar__top">
-        <div>
+    <div class="vm-pay vm-pay--pills">
+        <input type="radio" class="btn-check" name="metodoPagoMobile" id="pagoEfecMob" value="Efectivo">
+        <label for="pagoEfecMob"><i class="ti ti-cash"></i>Efectivo</label>
+        <input type="radio" class="btn-check" name="metodoPagoMobile" id="pagoTransMob" value="Transferencia">
+        <label for="pagoTransMob"><i class="ti ti-building-bank"></i>Transferencia</label>
+    </div>
+    <div class="vm-bar__row">
+        <div class="vm-bar__total">
             <small>Total <span id="lblCantidadMobileBadge"></span></small>
             <span class="small text-success d-none" id="lineaDescuentoVenderMob">Desc. APF15: <span id="montoDescuentoVenderMob">-$0</span></span>
             <strong id="lblTotalMobile">$0</strong>
         </div>
+        <button type="button" class="vm-confirm" onclick="procesarVentaMobile()">Cobrar</button>
     </div>
-    <div class="vm-pay">
-        <input type="radio" class="btn-check" name="metodoPagoMobile" id="pagoEfecMob" value="Efectivo">
-        <label for="pagoEfecMob"><i class="ti ti-cash"></i>Efectivo</label>
-        <input type="radio" class="btn-check" name="metodoPagoMobile" id="pagoTransMob" value="Transferencia">
-        <label for="pagoTransMob"><i class="ti ti-building-bank"></i>Transf.</label>
-    </div>
-    <button type="button" class="vm-confirm" onclick="procesarVentaMobile()">Confirmar venta</button>
 </div>
 
 <div class="modal fade vm-modal" id="modalConfirmarVenta" tabindex="-1" aria-hidden="true">
@@ -259,8 +263,8 @@ window.PROMO_2X1 = ' . json_encode([
     'expira' => DinamicaHelper::getExpiresForJs(),
 ], JSON_UNESCAPED_UNICODE) . ';
 </script>
-<script src="' . ASSETS_URL . '/js/promo-2x1.js?v=36"></script>
-<script src="' . ASSETS_URL . '/js/vender.js?v=37"></script>
+<script src="' . ASSETS_URL . '/js/promo-2x1.js?v=37"></script>
+<script src="' . ASSETS_URL . '/js/vender.js?v=38"></script>
 ';
 include_once ROOT_PATH . "/includes/footer.php";
 ?>

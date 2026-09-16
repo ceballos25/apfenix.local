@@ -387,6 +387,7 @@ function initPromo2x1() {
 
     window.Promo2x1.initCountdown('.promo2x1-countdown', () => {
         actualizarUI();
+        document.querySelectorAll('.promo-2x1-wrap').forEach((el) => el.classList.add('d-none'));
     });
 }
 

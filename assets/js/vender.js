@@ -393,6 +393,7 @@ function initPromo2x1() {
 
     window.Promo2x1.initCountdown('.promo2x1-countdown', () => {
         actualizarCarritoUI();
+        document.querySelectorAll('.promo-2x1-wrap').forEach((el) => el.classList.add('d-none'));
     });
 }
 
@@ -442,8 +443,17 @@ function actualizarCarritoUI() {
         const entregados = window.Promo2x1.entregados(cantidad);
         $('#lineaPreventaVenderDesk').removeClass('d-none');
         $('#lblPreventaVenderDesk').text('Paga ' + cantidad + ', recibe ' + entregados);
+        $('#lineaVolumenVenderDesk').addClass('d-none');
     } else {
         $('#lineaPreventaVenderDesk').addClass('d-none');
+        const d = window.DINAMICA || {};
+        const desde = d.desdePromo || 25;
+        if (!d.preventaActiva && cantidad >= desde) {
+            $('#lineaVolumenVenderDesk').removeClass('d-none');
+            $('#lblVolumenVenderDesk').text((d.precioPromo || 8000).toLocaleString('es-CO') + ' c/u');
+        } else {
+            $('#lineaVolumenVenderDesk').addClass('d-none');
+        }
     }
 }
 

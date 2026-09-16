@@ -64,10 +64,21 @@
         return `${pagados} → ${entregados(pagados)}`;
     }
 
+    function apagarPreventaCliente() {
+        if (global.DINAMICA) {
+            global.DINAMICA.preventaActiva = false;
+            global.DINAMICA.preventaFase = 'ended';
+        }
+        if (global.PROMO_2X1) {
+            global.PROMO_2X1.activo = false;
+        }
+    }
+
     function initCountdown(selectors, onExpire) {
         const c = cfg();
         if (!c.expira) return null;
 
+        const empezóActiva = !!(global.DINAMICA && global.DINAMICA.preventaActiva);
         const expira = new Date(c.expira).getTime();
         const nodes = typeof selectors === 'string'
             ? document.querySelectorAll(selectors)
@@ -80,8 +91,15 @@
 
             if (restante <= 0) {
                 clearInterval(timer);
-                c.activo = false;
-                if (typeof onExpire === 'function') onExpire();
+                if (empezóActiva) {
+                    apagarPreventaCliente();
+                    if (sessionStorage.getItem('preventaEndedReload') !== '1') {
+                        sessionStorage.setItem('preventaEndedReload', '1');
+                        location.reload();
+                        return;
+                    }
+                    if (typeof onExpire === 'function') onExpire();
+                }
             }
         };
 

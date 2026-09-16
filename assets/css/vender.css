@@ -1,12 +1,14 @@
 /* Venta manual — cobro */
 
 .vm-page {
-    --vm-ink: #1c1917;
-    --vm-muted: #78716c;
-    --vm-line: #e7e5e4;
-    --vm-soft: #fafaf9;
-    --vm-dark: #1c1917;
-    --vm-gold: #c9a227;
+    --vm-ink: #334155;
+    --vm-muted: #64748b;
+    --vm-line: #e2e8f0;
+    --vm-soft: #f8fafc;
+    --vm-dark: #334155;
+    --vm-accent: #2D0434;
+    --vm-ok: #16a34a;
+    --vm-ok-hover: #15803d;
 }
 
 .vm-head {
@@ -128,22 +130,24 @@
 }
 
 .vm-cobro__head {
-    background: var(--vm-dark);
-    color: #fff;
-    padding: 1rem 1.15rem 0.95rem;
+    background: #fff;
+    color: var(--vm-ink);
+    padding: 1rem 1.15rem 0.85rem;
+    border-bottom: 1px solid var(--vm-line);
 }
 
 .vm-cobro__head h6 {
     margin: 0;
     font-weight: 800;
     letter-spacing: 0.02em;
+    color: var(--vm-ink);
 }
 
 .vm-cobro__rifa {
     display: block;
     margin-top: 0.2rem;
     font-size: 0.75rem;
-    color: #a8a29e;
+    color: var(--vm-muted);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -241,55 +245,55 @@
     justify-content: center;
     gap: 0.2rem;
     margin: 0;
-    min-height: 76px;
-    border: 1.5px solid var(--vm-line);
-    border-radius: 12px;
-    background: var(--vm-soft);
+    min-height: 72px;
+    border: 1px solid var(--vm-line);
+    border-radius: 10px;
+    background: #fff;
     color: var(--vm-ink);
-    font-weight: 800;
+    font-weight: 700;
     font-size: 0.82rem;
     cursor: pointer;
-    transition: border-color 0.15s, background 0.15s, color 0.15s;
+    transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
 }
 
 .vm-pay .btn-check + label i {
-    font-size: 1.25rem;
-    color: #57534e;
+    font-size: 1.2rem;
+    color: #94a3b8;
 }
 
 .vm-pay .btn-check + label small {
-    font-weight: 600;
+    font-weight: 500;
     color: var(--vm-muted);
     font-size: 0.68rem;
 }
 
 .vm-pay .btn-check:checked + label {
-    background: var(--vm-dark);
-    border-color: var(--vm-dark);
-    color: #fff;
+    background: #ecfdf5;
+    border-color: #16a34a;
+    color: #166534;
+    box-shadow: none;
 }
 
 .vm-pay .btn-check:checked + label i,
 .vm-pay .btn-check:checked + label small {
-    color: var(--vm-gold);
+    color: #16a34a;
 }
 
 .vm-confirm {
     width: 100%;
     border: 0;
-    border-radius: 12px;
-    background: var(--vm-gold);
-    color: #1c1917;
-    font-weight: 800;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    padding: 0.85rem 1rem;
+    border-radius: 10px;
+    background: var(--vm-ok);
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 0.8rem 1rem;
 }
 
 .vm-confirm:hover,
 .vm-confirm:focus {
-    background: #b8921c;
-    color: #1c1917;
+    background: var(--vm-ok-hover);
+    color: #fff;
 }
 
 .vm-confirm:disabled {
@@ -300,51 +304,127 @@
 .vm-bar {
     background: #fff;
     border-top: 1px solid var(--vm-line);
-    padding: 0.75rem 0.85rem calc(0.75rem + env(safe-area-inset-bottom));
-    box-shadow: 0 -8px 24px rgba(28, 25, 23, 0.08);
+    padding: 0.65rem 0.85rem calc(0.65rem + env(safe-area-inset-bottom));
 }
 
-.vm-bar__top {
+.vm-bar__row {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 0.55rem;
+    align-items: center;
+    gap: 0.75rem;
 }
 
-.vm-bar__top small {
+.vm-bar__total {
+    min-width: 0;
+    flex: 0 0 auto;
+}
+
+.vm-bar__total small {
     display: block;
     font-size: 0.65rem;
-    font-weight: 800;
-    letter-spacing: 0.1em;
+    font-weight: 700;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--vm-muted);
 }
 
-.vm-bar__top strong {
-    font-size: 1.45rem;
+.vm-bar__total strong {
+    display: block;
+    font-size: 1.2rem;
     font-weight: 800;
     letter-spacing: -0.03em;
     color: var(--vm-ink);
-    line-height: 1.1;
+    line-height: 1.15;
 }
 
-.vm-bar .vm-pay {
-    margin-bottom: 0.6rem;
+.vm-pay--pills {
+    display: flex;
+    grid-template-columns: none;
+    gap: 4px;
+    margin-bottom: 0.55rem;
+    padding: 4px;
+    background: #f1f5f9;
+    border-radius: 999px;
 }
 
-.vm-bar .vm-pay .btn-check + label {
-    min-height: 52px;
+.vm-pay--pills .btn-check + label {
+    flex: 1;
+    min-height: 36px;
     flex-direction: row;
-    gap: 0.4rem;
-    font-size: 0.78rem;
+    gap: 0.35rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    font-size: 0.8rem;
+    font-weight: 700;
+    box-shadow: none;
 }
 
-.vm-bar .vm-pay .btn-check + label small {
+.vm-pay--pills .btn-check + label i {
+    font-size: 1rem;
+    color: #94a3b8;
+}
+
+.vm-pay--pills .btn-check + label small {
     display: none;
 }
 
+.vm-pay--pills .btn-check:checked + label {
+    background: #16a34a;
+    border-color: transparent;
+    color: #fff;
+    box-shadow: none;
+}
+
+.vm-pay--pills .btn-check:checked + label i,
+.vm-pay--pills .btn-check:checked + label small {
+    color: #fff;
+}
+
 .vm-bar .vm-confirm {
-    padding: 0.75rem;
+    flex: 1;
+    min-height: 48px;
+    padding: 0.7rem 1rem;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 991.98px) {
+    .vm-head h4 {
+        font-size: 1.15rem;
+    }
+
+    .vm-head p {
+        display: none;
+    }
+
+    .vm-card .card-header,
+    .vm-card .card-body {
+        padding: 0.85rem !important;
+    }
+
+    .vm-page .body-wrapper-inner .container-xxl {
+        padding-bottom: 0.5rem;
+    }
+
+    .vm-bar {
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -10px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    .vm-modal .modal-dialog {
+        margin: 0.75rem;
+    }
+
+    .vm-modal .modal-footer {
+        flex-direction: column-reverse;
+        gap: 0.45rem;
+    }
+
+    .vm-modal .btn-ghost,
+    .vm-modal .btn-cobrar {
+        width: 100%;
+        padding: 0.8rem;
+        margin: 0;
+    }
 }
 
 /* Modal confirmar cobro */
@@ -355,9 +435,9 @@
 }
 
 .vm-modal .modal-header {
-    background: var(--vm-dark);
-    color: #fff;
-    border: 0;
+    background: #fff;
+    color: var(--vm-ink);
+    border-bottom: 1px solid var(--vm-line);
     padding: 1rem 1.25rem;
 }
 
@@ -366,7 +446,7 @@
 }
 
 .vm-modal .btn-close {
-    filter: invert(1);
+    filter: none;
 }
 
 .vm-ticket {
@@ -416,9 +496,15 @@
 }
 
 .vm-modal .btn-cobrar {
-    background: var(--vm-gold);
+    background: var(--vm-ok);
     border: 0;
-    color: #1c1917;
-    font-weight: 800;
+    color: #fff;
+    font-weight: 700;
     border-radius: 10px;
+}
+
+.vm-modal .btn-cobrar:hover,
+.vm-modal .btn-cobrar:focus {
+    background: var(--vm-ok-hover);
+    color: #fff;
 }
