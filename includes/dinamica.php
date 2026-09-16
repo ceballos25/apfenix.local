@@ -13,7 +13,7 @@ class DinamicaHelper
     const BONUS_RATE = 0.30;
 
     const PREVENTA_START = '2026-09-16 00:00:00';
-    const PREVENTA_END = '2026-09-25 23:59:59';
+    const PREVENTA_END = '2026-09-15 23:59:59';
 
     const DRAW_DATE_LABEL = 'sábado 7 de noviembre';
     const DRAW_DATETIME = '2026-11-07 22:00:00';
