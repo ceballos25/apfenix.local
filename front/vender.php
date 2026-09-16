@@ -41,8 +41,6 @@ include_once ROOT_PATH . "/includes/head.php";
                 </div>
                 <?php endif; ?>
 
-                <?php endif; ?>
-
                 <div class="row g-3">
 
                     <div class="col-lg-8">
