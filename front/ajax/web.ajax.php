@@ -32,6 +32,15 @@ try {
     }
 
     /* =====================================
+     * CLIENTE POR CELULAR (público – solo 10 dígitos)
+     * ===================================== */
+    if ($action === 'buscar_cliente') {
+        require_once "../../controllers/clientes.controller.php";
+        echo json_encode(ClientesController::buscarPorCelular($_POST['search'] ?? ''));
+        exit;
+    }
+
+    /* =====================================
      * 1. CREAR RESPALDO (OK)
      * ===================================== */
     if ($action === 'crear_respaldo') {

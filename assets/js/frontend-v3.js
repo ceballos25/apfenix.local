@@ -16,7 +16,7 @@ const estado = {
     rutas: {
         numeros: 'front/ajax/numeros.ajax.php',
         ventas: 'front/ajax/ventas.ajax.php',
-        clientes: 'front/ajax/clientes.ajax.php'
+        web: 'front/ajax/web.ajax.php'
     }
 };
 
@@ -140,19 +140,7 @@ $(document).ready(function () {
 
     inicializarSistema();
 
-    $('#celularCliente').on('input paste', function () {
-
-        let val = $(this).val().replace(/\D/g, '');
-
-        if (val.startsWith('57') && val.length > 10)
-            val = val.substring(2);
-
-        $(this).val(val);
-
-        if (val.length === 10)
-            buscarClientePorCelular(val);
-
-    });
+    $('#celularCliente').on('input', programarBusquedaCliente);
 
     if (typeof datosColombia !== 'undefined') {
 
@@ -533,23 +521,59 @@ function cargarCiudades(dep) {
 
 /* ================== CLIENTE ================== */
 
+let timerBusquedaCliente = null;
+let ultimaBusquedaCelular = '';
+
+function normalizarCelular(raw) {
+    let val = String(raw || '').replace(/\D/g, '');
+    if (val.startsWith('57') && val.length >= 12) {
+        val = val.slice(-10);
+    }
+    if (val.length > 10) {
+        val = val.slice(-10);
+    }
+    return val;
+}
+
+function programarBusquedaCliente() {
+    const $el = $('#celularCliente');
+    const val = normalizarCelular($el.val());
+    if ($el.val() !== val) {
+        $el.val(val);
+    }
+
+    clearTimeout(timerBusquedaCliente);
+
+    if (val.length !== 10) {
+        ultimaBusquedaCelular = '';
+        return;
+    }
+
+    timerBusquedaCliente = setTimeout(() => {
+        if (val === ultimaBusquedaCelular) return;
+        ultimaBusquedaCelular = val;
+        buscarClientePorCelular(val);
+    }, 400);
+}
+
 async function buscarClientePorCelular(tel) {
 
-    const fd = new FormData();
+    if (normalizarCelular(tel).length !== 10) return;
 
-    fd.append('action', 'obtener');
+    const fd = new FormData();
+    fd.append('action', 'buscar_cliente');
     fd.append('search', tel);
 
-    const r = await fetch(estado.rutas.clientes, {
-        method: 'POST',
-        body: fd
-    });
+    try {
+        const r = await fetch(estado.rutas.web, {
+            method: 'POST',
+            body: fd
+        });
+        const j = await r.json();
 
-    const j = await r.json();
+        if (!j || !j.success || !Array.isArray(j.data) || !j.data.length) return;
 
-    if (j.success && j.data.length) {
-
-        const c = j.data[0];
+        const c = j.data.find(item => normalizarCelular(item.phone_customer) === tel) || j.data[0];
 
         $('#nombreCliente').val(c.name_customer);
         $('#apellidoCliente').val(c.lastname_customer);
@@ -562,7 +586,8 @@ async function buscarClientePorCelular(tel) {
         setTimeout(() => {
             $('#ciudad').val(c.city_customer);
         }, 200);
-
+    } catch (err) {
+        console.warn('No se pudo cargar el cliente:', err);
     }
 
 }

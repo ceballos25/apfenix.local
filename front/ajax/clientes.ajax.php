@@ -53,6 +53,10 @@ try {
       $result = ClientesController::obtenerClientes();
       break;
 
+    case 'buscar_por_celular':
+      $result = ClientesController::buscarPorCelular($_POST['search'] ?? '', $_POST['status'] ?? '');
+      break;
+
     case 'crear':
       // Asegúrate de enviar $_POST, el controlador espera el array completo
       $result = ClientesController::crearCliente($_POST);

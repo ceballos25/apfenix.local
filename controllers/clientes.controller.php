@@ -22,6 +22,11 @@ class ClientesController {
                 $columnasCandidatas = ['email_customer'];
             } elseif (is_numeric($telefonoLimpio) && strlen($telefonoLimpio) >= 3) {
                 $columnasCandidatas = ['phone_customer'];
+                if (strlen($telefonoLimpio) >= 10) {
+                    $search = self::normalizarCelular($telefonoLimpio);
+                } else {
+                    $search = $telefonoLimpio;
+                }
             } else {
                 // Primero Nombre, luego Apellido
                 $columnasCandidatas = ['name_customer', 'lastname_customer'];
@@ -92,7 +97,7 @@ class ClientesController {
         $datos = [
             'name_customer'       => trim($data['name_customer']),
             'lastname_customer'   => trim($data['lastname_customer']),
-            'phone_customer'      => trim($data['phone_customer']),
+            'phone_customer'      => self::normalizarCelular($data['phone_customer']),
             'email_customer'      => trim($data['email_customer']),
             'department_customer' => trim($data['department_customer']),
             'city_customer'       => trim($data['city_customer']),
@@ -128,7 +133,7 @@ class ClientesController {
         $datosActualizar = [
             'name_customer'       => trim($data['name_customer']),
             'lastname_customer'   => trim($data['lastname_customer']),
-            'phone_customer'      => trim($data['phone_customer']),
+            'phone_customer'      => self::normalizarCelular($data['phone_customer']),
             'email_customer'      => trim($data['email_customer']),
             'department_customer' => trim($data['department_customer']),
             'city_customer'       => trim($data['city_customer']),
@@ -156,15 +161,83 @@ class ClientesController {
             ? ['success' => true, 'message' => 'Cliente eliminado'] 
             : ['success' => false, 'message' => 'Error al eliminar'];
     }
+    public static function normalizarCelular($raw): string
+    {
+        $tel = preg_replace('/[^0-9]/', '', (string) $raw);
+        if (strlen($tel) >= 12 && substr($tel, 0, 2) === '57') {
+            $tel = substr($tel, -10);
+        }
+        if (strlen($tel) > 10) {
+            $tel = substr($tel, -10);
+        }
+        return $tel;
+    }
+
+    /**
+     * Busca un cliente por celular de 10 dígitos (ignora 57 y caracteres).
+     */
+    public static function buscarPorCelular($telefono, $status = '')
+    {
+        $tel = self::normalizarCelular($telefono);
+        if (strlen($tel) !== 10) {
+            return ['success' => true, 'data' => []];
+        }
+
+        $select = 'id_customer,name_customer,lastname_customer,phone_customer,email_customer,department_customer,city_customer,status_customer';
+        $encontrados = [];
+
+        $probar = function (array $params) use ($tel, &$encontrados) {
+            $apiResult = ApiRequest::get(self::TABLE, $params);
+            if (!ApiRequest::isSuccess($apiResult) || empty($apiResult->total)) {
+                return;
+            }
+            $data = $apiResult->results ?? [];
+            $rows = is_array($data) ? $data : [$data];
+            foreach ($rows as $row) {
+                if (self::normalizarCelular($row->phone_customer ?? '') !== $tel) {
+                    continue;
+                }
+                $encontrados[(int) ($row->id_customer ?? 0)] = $row;
+            }
+        };
+
+        foreach ([$tel, '57' . $tel] as $variante) {
+            $params = [
+                'select' => $select,
+                'linkTo' => 'phone_customer',
+                'equalTo' => $variante,
+            ];
+            if ($status !== '') {
+                $params['linkTo'] = 'phone_customer,status_customer';
+                $params['equalTo'] = $variante . ',' . $status;
+            }
+            $probar($params);
+            if ($encontrados) {
+                break;
+            }
+        }
+
+        if (!$encontrados) {
+            $params = [
+                'select' => $select,
+                'linkTo' => 'phone_customer',
+                'search' => $tel,
+            ];
+            $probar($params);
+        }
+
+        return [
+            'success' => true,
+            'data' => array_values($encontrados),
+        ];
+    }
+
     /**
      * 5. OBTENER O CREAR CLIENTE: Busca por celular y crea si no existe
      */
     public static function obtenerOCrearCliente(array $data): int
     {
-        // 1️⃣ Buscar por celular (exacto)
-        $_POST['search'] = $data['phone_customer'];
-
-        $res = self::obtenerClientes();
+        $res = self::buscarPorCelular($data['phone_customer'] ?? '');
 
         if (!empty($res['data'])) {
             return (int)$res['data'][0]->id_customer;
@@ -178,8 +251,7 @@ class ClientesController {
         }
 
         // 3️⃣ Volver a buscar para obtener el ID
-        $_POST['search'] = $data['phone_customer'];
-        $res = self::obtenerClientes();
+        $res = self::buscarPorCelular($data['phone_customer'] ?? '');
 
         if (empty($res['data'])) {
             throw new Exception('Cliente creado pero no encontrado');

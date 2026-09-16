@@ -62,7 +62,7 @@ include_once ROOT_PATH . "/includes/head.php";
                                     <div class="row g-3">
                                         <div class="col-12 col-md-4">
                                             <label class="small fw-bold mb-1">Celular <span class="text-danger">*</span></label>
-                                            <input type="tel" class="form-control" id="celularCliente" required>
+                                            <input type="tel" class="form-control" id="celularCliente" required inputmode="numeric" autocomplete="tel">
                                         </div>
                                         <div class="col-6 col-md-4">
                                             <label class="small fw-bold mb-1">Nombre <span class="text-danger">*</span></label>
@@ -284,7 +284,7 @@ window.PROMO_2X1 = ' . json_encode([
 ], JSON_UNESCAPED_UNICODE) . ';
 </script>
 <script src="' . ASSETS_URL . '/js/promo-2x1.js?v=38"></script>
-<script src="' . ASSETS_URL . '/js/vender.js?v=40"></script>
+<script src="' . ASSETS_URL . '/js/vender.js?v=41"></script>
 ';
 include_once ROOT_PATH . "/includes/footer.php";
 ?>

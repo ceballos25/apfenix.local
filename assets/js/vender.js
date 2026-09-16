@@ -88,17 +88,7 @@ function asignarEventos() {
 
     $('#btnLimpiarCliente').on('click', resetClienteForm);
 
-    $('#celularCliente').on('input paste', function () {
-
-        let val = $(this).val().replace(/\D/g, '');
-
-        if (val.startsWith('57') && val.length > 10) val = val.substring(2);
-
-        $(this).val(val);
-
-        if (val.length === 10) buscarClientePorCelular(val);
-        actualizarCarritoUI();
-    });
+    $('#celularCliente').on('input', programarBusquedaClienteVenta);
 
     $('#nombreCliente, #apellidoCliente').on('input', actualizarCarritoUI);
 
@@ -124,13 +114,55 @@ function obtenerMetodoPago() {
 }
 
 // --- CLIENTES ---
+let timerBusquedaCliente = null;
+let ultimaBusquedaCelular = '';
+let rellenandoCliente = false;
+
+function normalizarCelular(raw) {
+    let val = String(raw || '').replace(/\D/g, '');
+    if (val.startsWith('57') && val.length >= 12) {
+        val = val.slice(-10);
+    }
+    if (val.length > 10) {
+        val = val.slice(-10);
+    }
+    return val;
+}
+
+function programarBusquedaClienteVenta() {
+    const $el = $('#celularCliente');
+    const val = normalizarCelular($el.val());
+    if ($el.val() !== val) {
+        $el.val(val);
+    }
+
+    actualizarCarritoUI();
+
+    if (rellenandoCliente) return;
+
+    clearTimeout(timerBusquedaCliente);
+
+    if (val.length !== 10) {
+        ultimaBusquedaCelular = '';
+        return;
+    }
+
+    timerBusquedaCliente = setTimeout(() => {
+        if (val === ultimaBusquedaCelular) return;
+        ultimaBusquedaCelular = val;
+        buscarClientePorCelular(val);
+    }, 400);
+}
+
 async function buscarClientePorCelular(numero) {
+
+    numero = normalizarCelular(numero);
+    if (numero.length !== 10) return;
 
     const fd = new FormData();
 
-    fd.append('action', 'obtener');
+    fd.append('action', 'buscar_por_celular');
     fd.append('search', numero);
-    fd.append('status', 1);
 
     try {
 
@@ -141,14 +173,13 @@ async function buscarClientePorCelular(numero) {
 
         const json = await res.json();
 
-        if (json.success && json.data && json.data.length > 0) {
+        if (!json || !json.success || !json.data || !json.data.length) return;
 
-            const clienteEncontrado = json.data[0];
+        const clienteEncontrado = json.data.find(c => normalizarCelular(c.phone_customer) === numero)
+            || json.data[0];
 
-            if (clienteEncontrado.phone_customer === numero) {
-
-                llenarFormulario(clienteEncontrado);
-            }
+        if (normalizarCelular(clienteEncontrado.phone_customer) === numero) {
+            llenarFormulario(clienteEncontrado);
         }
 
     } catch (e) {
@@ -658,11 +689,17 @@ window.procesarVentaMobile = () => procesarVenta();
 
 function llenarFormulario(c) {
 
+    rellenandoCliente = true;
+
+    const celular = normalizarCelular(c.phone_customer);
+
     $('#idCliente').val(c.id_customer);
     $('#nombreCliente').val(c.name_customer);
     $('#apellidoCliente').val(c.lastname_customer);
-    $('#celularCliente').val(c.phone_customer);
+    $('#celularCliente').val(celular);
     $('#emailCliente').val(c.email_customer);
+
+    ultimaBusquedaCelular = celular;
 
     if (c.department_customer) {
 
@@ -675,6 +712,11 @@ function llenarFormulario(c) {
     $('#btnLimpiarCliente').removeClass('d-none');
 
     toggleInputs(true);
+
+    setTimeout(() => {
+        rellenandoCliente = false;
+        actualizarCarritoUI();
+    }, 200);
 }
 
 function resetClienteForm() {
@@ -688,6 +730,9 @@ function resetClienteForm() {
         .trigger('change');
 
     $('#btnLimpiarCliente').addClass('d-none');
+
+    ultimaBusquedaCelular = '';
+    rellenandoCliente = false;
 
     toggleInputs(false);
 }
