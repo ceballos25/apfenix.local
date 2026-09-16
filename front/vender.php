@@ -8,7 +8,7 @@ $couponActive = CouponHelper::isActive();
 $promo2x1Active = Promo2x1Helper::isActive();
 $extra_css = '
 <link rel="stylesheet" href="' . ASSETS_URL . '/css/paquetes.css?v=5" />
-<link rel="stylesheet" href="' . ASSETS_URL . '/css/vender.css?v=5" />
+<link rel="stylesheet" href="' . ASSETS_URL . '/css/vender.css?v=6" />
 ';
 include_once ROOT_PATH . "/includes/head.php";
 ?>
@@ -173,7 +173,7 @@ include_once ROOT_PATH . "/includes/head.php";
                                     <input type="radio" class="btn-check" name="metodoPago" id="pagoTransDesk" value="Transferencia">
                                     <label for="pagoTransDesk"><i class="ti ti-building-bank"></i>Transferencia<small>Nequi / banco</small></label>
                                 </div>
-                                <button type="button" class="vm-confirm" id="btnCompletarVenta" onclick="procesarVenta()">Confirmar venta</button>
+                                <button type="button" class="btn btn-success vm-confirm" id="btnCompletarVenta" onclick="procesarVenta()">Confirmar venta</button>
                             </div>
                         </div>
                     </div>
@@ -200,7 +200,7 @@ include_once ROOT_PATH . "/includes/head.php";
             <span class="small text-success d-none" id="lineaDescuentoVenderMob">Desc. APF15: <span id="montoDescuentoVenderMob">-$0</span></span>
             <strong id="lblTotalMobile">$0</strong>
         </div>
-        <button type="button" class="vm-confirm" onclick="procesarVentaMobile()">Cobrar</button>
+        <button type="button" class="btn btn-success vm-confirm" onclick="procesarVentaMobile()">Cobrar</button>
     </div>
 </div>
 
@@ -237,7 +237,7 @@ include_once ROOT_PATH . "/includes/head.php";
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-ghost flex-fill py-2" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-cobrar flex-fill py-2" id="btnSiCobrar">Sí, cobrar</button>
+                <button type="button" class="btn btn-success flex-fill py-3 fw-bold" id="btnSiCobrar">Sí, cobrar</button>
             </div>
         </div>
     </div>

@@ -279,21 +279,33 @@
     color: #16a34a;
 }
 
-.vm-confirm {
+.vm-confirm,
+#btnCompletarVenta,
+#btnSiCobrar {
     width: 100%;
-    border: 0;
-    border-radius: 10px;
-    background: var(--vm-ok);
-    color: #fff;
-    font-weight: 700;
+    border: 0 !important;
+    border-radius: 10px !important;
+    background: #16a34a !important;
+    background-color: #16a34a !important;
+    color: #fff !important;
+    font-weight: 800 !important;
     letter-spacing: 0.02em;
-    padding: 0.8rem 1rem;
+    padding: 0.9rem 1rem !important;
+    --bs-btn-bg: #16a34a;
+    --bs-btn-color: #fff;
+    --bs-btn-hover-bg: #15803d;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-border-color: #16a34a;
 }
 
 .vm-confirm:hover,
-.vm-confirm:focus {
-    background: var(--vm-ok-hover);
-    color: #fff;
+.vm-confirm:focus,
+#btnCompletarVenta:hover,
+#btnSiCobrar:hover,
+#btnSiCobrar:focus {
+    background: #15803d !important;
+    background-color: #15803d !important;
+    color: #fff !important;
 }
 
 .vm-confirm:disabled {
@@ -419,10 +431,10 @@
         gap: 0.45rem;
     }
 
-    .vm-modal .btn-ghost,
-    .vm-modal .btn-cobrar {
+    .vm-modal .btn-success,
+    #btnSiCobrar {
         width: 100%;
-        padding: 0.8rem;
+        padding: 0.9rem !important;
         margin: 0;
     }
 }
@@ -495,16 +507,21 @@
     border-radius: 10px;
 }
 
-.vm-modal .btn-cobrar {
-    background: var(--vm-ok);
-    border: 0;
-    color: #fff;
-    font-weight: 700;
-    border-radius: 10px;
+.vm-modal .btn-success,
+#btnSiCobrar {
+    background: #16a34a !important;
+    background-color: #16a34a !important;
+    border: 0 !important;
+    color: #fff !important;
+    font-weight: 800 !important;
+    border-radius: 10px !important;
 }
 
-.vm-modal .btn-cobrar:hover,
-.vm-modal .btn-cobrar:focus {
-    background: var(--vm-ok-hover);
-    color: #fff;
+.vm-modal .btn-success:hover,
+.vm-modal .btn-success:focus,
+#btnSiCobrar:hover,
+#btnSiCobrar:focus {
+    background: #15803d !important;
+    background-color: #15803d !important;
+    color: #fff !important;
 }
