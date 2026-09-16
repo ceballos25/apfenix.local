@@ -385,7 +385,6 @@ class DinamicaHelper
 
     const BENDECIDOS_300 = [
         '0314', '1212', '9999', '2121', '0987', '2222', '6431', '0075', '9010', '0101',
-        '8877', '5434', '8656', '4582', '3069', '8140', '6703', '2548', '1390', '4827',
     ];
 
     public static function renderBendecidosGrupo(array $numeros, string $titulo, string $premio, string $variant): string

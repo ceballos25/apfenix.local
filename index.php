@@ -188,7 +188,7 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
                             <?= DinamicaHelper::renderBendecidosGrupo(DinamicaHelper::BENDECIDOS_200, '10 Bendecidos', '$200.000', '200') ?>
                         </div>
                         <div class="col-12">
-                            <?= DinamicaHelper::renderBendecidosGrupo(DinamicaHelper::BENDECIDOS_300, '20 Bendecidos', '$300.000', '300') ?>
+                            <?= DinamicaHelper::renderBendecidosGrupo(DinamicaHelper::BENDECIDOS_300, '10 Bendecidos', '$300.000', '300') ?>
                         </div>
 
                     </div>
