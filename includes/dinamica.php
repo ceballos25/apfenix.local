@@ -321,6 +321,60 @@ class DinamicaHelper
         return $html;
     }
 
+    public static function normalizeNumber(string $numero): string
+    {
+        $n = trim($numero);
+        if ($n !== '' && ($n[0] === 'x' || $n[0] === 'X')) {
+            $n = substr($n, 1);
+        }
+
+        return $n;
+    }
+
+    public static function numbersMatch(string $a, string $b): bool
+    {
+        $a = self::normalizeNumber($a);
+        $b = self::normalizeNumber($b);
+        if ($a === '' || $b === '') {
+            return false;
+        }
+        if ($a === $b) {
+            return true;
+        }
+
+        return ctype_digit($a) && ctype_digit($b) && (int) $a === (int) $b;
+    }
+
+    /** @return '200'|'300'|null */
+    public static function tipoBendecido(string $numero): ?string
+    {
+        foreach (self::BENDECIDOS_200 as $raw) {
+            if (self::numbersMatch($numero, (string) $raw)) {
+                return '200';
+            }
+        }
+        foreach (self::BENDECIDOS_300 as $raw) {
+            if (self::numbersMatch($numero, (string) $raw)) {
+                return '300';
+            }
+        }
+
+        return null;
+    }
+
+    /** @return array{bg:string,color:string,border:string} */
+    public static function estiloChipBendecido(?string $tipo): array
+    {
+        if ($tipo === '200') {
+            return ['bg' => '#0f766e', 'color' => '#ffffff', 'border' => '#0f766e'];
+        }
+        if ($tipo === '300') {
+            return ['bg' => '#b45309', 'color' => '#ffffff', 'border' => '#b45309'];
+        }
+
+        return ['bg' => '#f5f5f5', 'color' => '#000000', 'border' => '#ddd'];
+    }
+
     /**
      * Números bendecidos. Vacío = pendiente. Prefijo x = ya salió (tachado).
      * Ejemplo: '12345'  o  'x12345'

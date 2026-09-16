@@ -97,7 +97,30 @@ function asignarEventos() {
         $(this).val(val);
 
         if (val.length === 10) buscarClientePorCelular(val);
+        actualizarCarritoUI();
     });
+
+    $('#nombreCliente, #apellidoCliente').on('input', actualizarCarritoUI);
+
+    $('input[name="metodoPago"], input[name="metodoPagoMobile"]').on('change', function () {
+        sincronizarMetodoPago(this.value);
+    });
+
+    const btnCobrar = document.getElementById('btnSiCobrar');
+    if (btnCobrar) {
+        btnCobrar.addEventListener('click', ejecutarVenta);
+    }
+}
+
+function sincronizarMetodoPago(valor) {
+    $('input[name="metodoPago"][value="' + valor + '"]').prop('checked', true);
+    $('input[name="metodoPagoMobile"][value="' + valor + '"]').prop('checked', true);
+}
+
+function obtenerMetodoPago() {
+    return $('input[name="metodoPago"]:checked').val()
+        || $('input[name="metodoPagoMobile"]:checked').val()
+        || '';
 }
 
 // --- CLIENTES ---
@@ -239,6 +262,8 @@ async function cargarRifasActivas() {
 
             });
 
+            actualizarCarritoUI();
+
         }
 
     } catch (e) {
@@ -375,14 +400,36 @@ function obtenerCodigoCuponParaVenta() {
     return (cuponConfig.activo && estado.cupon.aplicado) ? estado.cupon.codigo : '';
 }
 
+function nombreClienteResumen() {
+    const nombre = ($('#nombreCliente').val() || '').trim();
+    const apellido = ($('#apellidoCliente').val() || '').trim();
+    const full = (nombre + ' ' + apellido).trim();
+    return full || 'Sin datos';
+}
+
+function textoNumerosResumen(cantidad) {
+    if (!cantidad) {
+        return '0';
+    }
+    if (window.Promo2x1 && window.Promo2x1.aplica(cantidad)) {
+        return cantidad + ' → ' + window.Promo2x1.entregados(cantidad);
+    }
+    return String(cantidad);
+}
+
 // --- RESUMEN ---
 function actualizarCarritoUI() {
 
     const cantidad = estado.cantidadSeleccionada;
     const montos = calcularMontos(cantidad);
     const fmt = formatearMoneda;
+    const aplica2x1 = window.Promo2x1 && window.Promo2x1.aplica(cantidad);
+    const textoNums = textoNumerosResumen(cantidad);
 
     $('#lblTotalDesktop, #lblTotalMobile').text(fmt(montos.total));
+    $('#lblClienteResumen').text(nombreClienteResumen());
+    $('#lblRifaResumen').text($('#selectRifa option:selected').text() || 'Sin rifa');
+    $('#lblCantidadMobileBadge, #lblCantidadDesktop').text(textoNums);
 
     if (montos.descuento > 0) {
         $('#lineaDescuentoVenderDesk, #lineaDescuentoVenderMob').removeClass('d-none');
@@ -391,39 +438,20 @@ function actualizarCarritoUI() {
         $('#lineaDescuentoVenderDesk, #lineaDescuentoVenderMob').addClass('d-none');
     }
 
-    $('#lblCantidadMobileBadge, #lblCantidadDesktop').text(
-        window.Promo2x1 ? window.Promo2x1.textoCantidad(cantidad) : cantidad
-    );
-
-    const aplica2x1 = window.Promo2x1 && window.Promo2x1.aplica(cantidad);
-    const extra2x1 = aplica2x1
-        ? `<div class="small text-promo-2x1 fw-bold mt-1">Preventa: pagas ${cantidad}, recibes ${window.Promo2x1.entregados(cantidad)}</div>`
-        : '';
-
-    const listaHtml = cantidad === 0
-        ? '<li class="list-group-item text-center text-muted py-4 border-0 small">Selecciona cantidad de números</li>'
-        : `<li class="list-group-item d-flex justify-content-between align-items-center px-0 border-light">
-            <div>
-            <span class="badge bg-dark rounded-pill">${cantidad} pagados</span>
-            ${extra2x1}
-            </div>
-            <span class="fw-bold small text-primary">${fmt(montos.total)}</span>
-        </li>`;
-
-    $('#listaCarritoDesktop, #listaCarritoMobile').html(listaHtml);
+    if (aplica2x1) {
+        const entregados = window.Promo2x1.entregados(cantidad);
+        $('#lineaPreventaVenderDesk').removeClass('d-none');
+        $('#lblPreventaVenderDesk').text('Paga ' + cantidad + ', recibe ' + entregados);
+    } else {
+        $('#lineaPreventaVenderDesk').addClass('d-none');
+    }
 }
 
-// --- PROCESAR VENTA ---
-async function procesarVenta() {
+let ventaPendiente = null;
+let ventaEnCurso = false;
 
-    const btnD = document.getElementById('btnCompletarVenta');
-
-    if (btnD.disabled) return;
-
-    if (!estado.rifa || !estado.rifa.id)
-        return alertify.error("No hay sorteo seleccionado.");
-
-    const cliente = {
+function leerClienteFormulario() {
+    return {
         id: $('#idCliente').val(),
         nombre: $('#nombreCliente').val().trim(),
         apellido: $('#apellidoCliente').val().trim(),
@@ -432,10 +460,25 @@ async function procesarVenta() {
         depto: $('#departamento').val(),
         ciudad: $('#ciudad').val()
     };
+}
 
-    const metodo =
-        $('input[name="metodoPago"]:checked').val()
-        || $('input[name="metodoPagoMobile"]:checked').val();
+function modalConfirmar() {
+    const el = document.getElementById('modalConfirmarVenta');
+    return el && typeof bootstrap !== 'undefined'
+        ? bootstrap.Modal.getOrCreateInstance(el)
+        : null;
+}
+
+// --- PROCESAR VENTA ---
+function procesarVenta() {
+
+    if (ventaEnCurso) return;
+
+    if (!estado.rifa || !estado.rifa.id)
+        return alertify.error("No hay sorteo seleccionado.");
+
+    const cliente = leerClienteFormulario();
+    const metodo = obtenerMetodoPago();
 
     if (estado.cantidadSeleccionada <= 0)
         return alertify.error("Debes indicar la cantidad de números.");
@@ -444,86 +487,121 @@ async function procesarVenta() {
         return alertify.error("Todos los campos obligatorios (*) deben estar llenos.");
 
     if (!metodo)
-        return alertify.error("Debes seleccionar un método de pago.");
+        return alertify.error("Elige si pagó en efectivo o transferencia.");
 
     const montos = calcularMontos(estado.cantidadSeleccionada);
-    const total = montos.total;
-    const msgDescuento = montos.descuento > 0
-        ? `<br><span class="text-success">Descuento APF15: -${formatearMoneda(montos.descuento)}</span>`
-        : '';
-    const msg2x1 = (window.Promo2x1 && window.Promo2x1.aplica(estado.cantidadSeleccionada))
-        ? `<br><span class="text-promo-2x1 fw-bold">Preventa: pagas ${estado.cantidadSeleccionada}, recibes ${window.Promo2x1.entregados(estado.cantidadSeleccionada)}</span>`
-        : '';
+    const aplica2x1 = window.Promo2x1 && window.Promo2x1.aplica(estado.cantidadSeleccionada);
 
-    alertify.confirm(
-        "Confirmar Venta",
-        `¿Deseas registrar la venta de <b>${estado.cantidadSeleccionada}</b> números por <b>${formatearMoneda(total)}</b>?${msg2x1}${msgDescuento}`,
-        async function () {
+    ventaPendiente = { cliente, metodo, montos };
 
-            const codigoVenta = "AP" + Date.now() + Math.floor(Math.random() * 100);
+    $('#modalCliente').text(nombreClienteResumen());
+    $('#modalCantidad').text(textoNumerosResumen(estado.cantidadSeleccionada) + ' nums');
+    $('#modalMetodo').text(metodo);
+    $('#modalTotal').text(formatearMoneda(montos.total));
 
-            btnD.disabled = true;
-            btnD.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Procesando...';
+    if (aplica2x1) {
+        $('#modalLineaPreventa').removeClass('d-none');
+        $('#modalPreventa').text(
+            'Paga ' + estado.cantidadSeleccionada
+            + ', recibe ' + window.Promo2x1.entregados(estado.cantidadSeleccionada)
+        );
+    } else {
+        $('#modalLineaPreventa').addClass('d-none');
+    }
 
-            const fd = new FormData();
+    const modal = modalConfirmar();
+    if (modal) {
+        modal.show();
+        return;
+    }
 
-            fd.append('action', 'crear_venta');
-            fd.append('code_sale', codigoVenta);
-            fd.append('quantity_sale', estado.cantidadSeleccionada);
-            fd.append('id_customer', cliente.id);
-            fd.append('id_raffle', estado.rifa.id);
-            fd.append('total_sale', total);
-            fd.append('coupon_code', obtenerCodigoCuponParaVenta());
-            fd.append('payment_method_sale', metodo);
+    ejecutarVenta();
+}
 
-            fd.append('name_customer', cliente.nombre);
-            fd.append('lastname_customer', cliente.apellido);
-            fd.append('phone_customer', cliente.celular);
-            fd.append('email_customer', cliente.email);
-            fd.append('department_customer', cliente.depto);
-            fd.append('city_customer', cliente.ciudad);
+async function ejecutarVenta() {
 
-            try {
+    if (ventaEnCurso || !ventaPendiente) return;
 
-                const res = await fetch(estado.config.rutas.ventas, {
-                    method: 'POST',
-                    body: fd
-                });
+    const { cliente, metodo, montos } = ventaPendiente;
+    const btnD = document.getElementById('btnCompletarVenta');
+    const btnModal = document.getElementById('btnSiCobrar');
+    const codigoVenta = "AP" + Date.now() + Math.floor(Math.random() * 100);
 
-                const text = await res.text();
-                let json;
-                try {
-                    json = JSON.parse(text);
-                } catch (parseErr) {
-                    console.error('Respuesta no JSON:', text.slice(0, 400));
-                    throw new Error('Error en el servidor');
-                }
+    ventaEnCurso = true;
+    if (btnD) {
+        btnD.disabled = true;
+        btnD.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Procesando...';
+    }
+    if (btnModal) {
+        btnModal.disabled = true;
+        btnModal.innerHTML = 'Procesando...';
+    }
 
-                if (json.success) {
+    const fd = new FormData();
+    fd.append('action', 'crear_venta');
+    fd.append('code_sale', codigoVenta);
+    fd.append('quantity_sale', estado.cantidadSeleccionada);
+    fd.append('id_customer', cliente.id);
+    fd.append('id_raffle', estado.rifa.id);
+    fd.append('total_sale', montos.total);
+    fd.append('coupon_code', obtenerCodigoCuponParaVenta());
+    fd.append('payment_method_sale', metodo);
+    fd.append('name_customer', cliente.nombre);
+    fd.append('lastname_customer', cliente.apellido);
+    fd.append('phone_customer', cliente.celular);
+    fd.append('email_customer', cliente.email);
+    fd.append('department_customer', cliente.depto);
+    fd.append('city_customer', cliente.ciudad);
 
-                    alertify.success("Venta exitosa");
-                    if (json.warning) {
-                        alertify.warning(json.warning);
-                    }
-                    generarReciboFinal(json.id_sale);
+    const resetBotones = () => {
+        ventaEnCurso = false;
+        if (btnD) {
+            btnD.disabled = false;
+            btnD.innerHTML = 'Confirmar venta';
+        }
+        if (btnModal) {
+            btnModal.disabled = false;
+            btnModal.innerHTML = 'Sí, cobrar';
+        }
+    };
 
-                } else {
+    try {
 
-                    alertify.error(json.message);
-                    btnD.disabled = false;
-                    btnD.innerHTML = 'CONFIRMAR VENTA';
-                }
+        const res = await fetch(estado.config.rutas.ventas, {
+            method: 'POST',
+            body: fd
+        });
 
-            } catch (e) {
+        const text = await res.text();
+        let json;
+        try {
+            json = JSON.parse(text);
+        } catch (parseErr) {
+            console.error('Respuesta no JSON:', text.slice(0, 400));
+            throw new Error('Error en el servidor');
+        }
 
-                alertify.error("Error en el servidor");
-                btnD.disabled = false;
-                btnD.innerHTML = 'CONFIRMAR VENTA';
+        if (json.success) {
+
+            const modal = modalConfirmar();
+            if (modal) modal.hide();
+            alertify.success("Venta exitosa");
+            if (json.warning) {
+                alertify.warning(json.warning);
             }
-        },
-        null
-    ).set('labels', { ok: 'SÍ, VENDER', cancel: 'CANCELAR' });
+            generarReciboFinal(json.id_sale);
 
+        } else {
+
+            alertify.error(json.message);
+            resetBotones();
+        }
+
+    } catch (e) {
+
+        alertify.error("Error en el servidor");
+        resetBotones();
+    }
 }
 
 // --- RECIBO ---
@@ -638,14 +716,6 @@ function cargarCiudadesVenta(depto) {
 
 $('.paquete-radio').on('change', function(){
 
-    estado.cantidadSeleccionada = parseInt(this.value);
-
-    actualizarCarritoUI();
-
-});
-
-$('.paquete-radio').on('change', function(){
-
     if(this.value === "custom"){
 
         $('#cantidadManual').show().focus();
@@ -656,10 +726,9 @@ $('.paquete-radio').on('change', function(){
         $('#cantidadManual').hide().val('');
 
         estado.cantidadSeleccionada = parseInt(this.value);
-
-        actualizarCarritoUI();
     }
 
+    actualizarCarritoUI();
 });
 
 $('#cantidadManual').on('input', function(){

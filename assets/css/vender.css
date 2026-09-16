@@ -1,0 +1,424 @@
+/* Venta manual — cobro */
+
+.vm-page {
+    --vm-ink: #1c1917;
+    --vm-muted: #78716c;
+    --vm-line: #e7e5e4;
+    --vm-soft: #fafaf9;
+    --vm-dark: #1c1917;
+    --vm-gold: #c9a227;
+}
+
+.vm-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.vm-head h4 {
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--vm-ink);
+}
+
+.vm-head p {
+    margin: 0.15rem 0 0;
+    font-size: 0.82rem;
+    color: var(--vm-muted);
+}
+
+.vm-reset {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    border: 1px solid var(--vm-line);
+    background: #fff;
+    color: #a8a29e;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vm-reset:hover {
+    color: #b91c1c;
+    border-color: #fecaca;
+    background: #fef2f2;
+}
+
+.vm-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    background: #fff;
+    border: 1px solid var(--vm-line);
+    border-radius: 14px;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1rem;
+}
+
+.vm-banner strong {
+    font-size: 0.82rem;
+    color: var(--vm-ink);
+}
+
+.vm-banner small {
+    display: block;
+    color: var(--vm-muted);
+    font-size: 0.75rem;
+}
+
+.vm-card {
+    border: 1px solid var(--vm-line);
+    border-radius: 16px;
+    box-shadow: none;
+    overflow: hidden;
+}
+
+.vm-card .card-header {
+    background: #fff;
+    border-bottom: 1px solid var(--vm-line);
+    padding: 0.9rem 1.1rem;
+}
+
+.vm-step {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    background: var(--vm-ink);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 800;
+    margin-right: 0.5rem;
+}
+
+.vm-card .form-control,
+.vm-card .form-select {
+    border-radius: 10px;
+    border-color: #d6d3d1;
+    min-height: 42px;
+}
+
+.vm-card .form-control:focus,
+.vm-card .form-select:focus {
+    border-color: #a8a29e;
+    box-shadow: 0 0 0 3px rgba(28, 25, 23, 0.08);
+}
+
+.vm-card label.small {
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--vm-muted) !important;
+}
+
+/* Cobro */
+.vm-cobro {
+    border: 1px solid var(--vm-line);
+    border-radius: 16px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.vm-cobro__head {
+    background: var(--vm-dark);
+    color: #fff;
+    padding: 1rem 1.15rem 0.95rem;
+}
+
+.vm-cobro__head h6 {
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+}
+
+.vm-cobro__rifa {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.75rem;
+    color: #a8a29e;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.vm-cobro__body {
+    padding: 1rem 1.15rem 0.25rem;
+}
+
+.vm-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.45rem 0;
+    font-size: 0.86rem;
+    border-bottom: 1px dashed var(--vm-line);
+}
+
+.vm-row span {
+    color: var(--vm-muted);
+}
+
+.vm-row strong {
+    color: var(--vm-ink);
+    text-align: right;
+    font-weight: 700;
+}
+
+.vm-row--promo strong {
+    color: #0f766e;
+}
+
+.vm-row--empty {
+    color: var(--vm-muted);
+    font-size: 0.82rem;
+    text-align: center;
+    padding: 1.25rem 0 0.5rem;
+}
+
+.vm-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0.9rem 0 0.35rem;
+}
+
+.vm-total span {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--vm-muted);
+}
+
+.vm-total strong {
+    font-size: 1.7rem;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--vm-ink);
+}
+
+.vm-cobro__pay {
+    padding: 0.5rem 1.15rem 1.15rem;
+}
+
+.vm-pay-label {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--vm-muted);
+    margin: 0.35rem 0 0.55rem;
+}
+
+.vm-pay {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.55rem;
+    margin-bottom: 0.85rem;
+}
+
+.vm-pay .btn-check {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.vm-pay .btn-check + label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    margin: 0;
+    min-height: 76px;
+    border: 1.5px solid var(--vm-line);
+    border-radius: 12px;
+    background: var(--vm-soft);
+    color: var(--vm-ink);
+    font-weight: 800;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.vm-pay .btn-check + label i {
+    font-size: 1.25rem;
+    color: #57534e;
+}
+
+.vm-pay .btn-check + label small {
+    font-weight: 600;
+    color: var(--vm-muted);
+    font-size: 0.68rem;
+}
+
+.vm-pay .btn-check:checked + label {
+    background: var(--vm-dark);
+    border-color: var(--vm-dark);
+    color: #fff;
+}
+
+.vm-pay .btn-check:checked + label i,
+.vm-pay .btn-check:checked + label small {
+    color: var(--vm-gold);
+}
+
+.vm-confirm {
+    width: 100%;
+    border: 0;
+    border-radius: 12px;
+    background: var(--vm-gold);
+    color: #1c1917;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.85rem 1rem;
+}
+
+.vm-confirm:hover,
+.vm-confirm:focus {
+    background: #b8921c;
+    color: #1c1917;
+}
+
+.vm-confirm:disabled {
+    opacity: 0.65;
+}
+
+/* Barra móvil */
+.vm-bar {
+    background: #fff;
+    border-top: 1px solid var(--vm-line);
+    padding: 0.75rem 0.85rem calc(0.75rem + env(safe-area-inset-bottom));
+    box-shadow: 0 -8px 24px rgba(28, 25, 23, 0.08);
+}
+
+.vm-bar__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 0.55rem;
+}
+
+.vm-bar__top small {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--vm-muted);
+}
+
+.vm-bar__top strong {
+    font-size: 1.45rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--vm-ink);
+    line-height: 1.1;
+}
+
+.vm-bar .vm-pay {
+    margin-bottom: 0.6rem;
+}
+
+.vm-bar .vm-pay .btn-check + label {
+    min-height: 52px;
+    flex-direction: row;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+}
+
+.vm-bar .vm-pay .btn-check + label small {
+    display: none;
+}
+
+.vm-bar .vm-confirm {
+    padding: 0.75rem;
+}
+
+/* Modal confirmar cobro */
+.vm-modal .modal-content {
+    border: 0;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.vm-modal .modal-header {
+    background: var(--vm-dark);
+    color: #fff;
+    border: 0;
+    padding: 1rem 1.25rem;
+}
+
+.vm-modal .modal-title {
+    font-weight: 800;
+}
+
+.vm-modal .btn-close {
+    filter: invert(1);
+}
+
+.vm-ticket {
+    background: var(--vm-soft);
+    border: 1px dashed #d6d3d1;
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+}
+
+.vm-ticket .vm-row:last-child {
+    border-bottom: 0;
+}
+
+.vm-ticket-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 0.5rem;
+    padding-top: 0.65rem;
+    border-top: 1px solid var(--vm-line);
+}
+
+.vm-ticket-total span {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--vm-muted);
+}
+
+.vm-ticket-total strong {
+    font-size: 1.45rem;
+    font-weight: 800;
+}
+
+.vm-modal .modal-footer {
+    border: 0;
+    padding: 0 1.25rem 1.15rem;
+    gap: 0.5rem;
+}
+
+.vm-modal .btn-ghost {
+    border: 1px solid var(--vm-line);
+    background: #fff;
+    color: var(--vm-ink);
+    font-weight: 700;
+    border-radius: 10px;
+}
+
+.vm-modal .btn-cobrar {
+    background: var(--vm-gold);
+    border: 0;
+    color: #1c1917;
+    font-weight: 800;
+    border-radius: 10px;
+}

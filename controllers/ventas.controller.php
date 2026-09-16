@@ -607,43 +607,35 @@ public static function obtenerAdmins() {
         $fecha->setTimezone(new DateTimeZone('America/Bogota'));
         $fechaFormateada = $fecha->format('d/m/Y h:i A');
 
-        $numerosGanadores = [
-            '30405' => true,
-            '00007' => true,
-            '30068' => true,
-            '26034' => true,
-            '77777' => true,
-            '82041' => true,
-            '12998' => true,
-            '95585' => true,
-            '57001' => true,
-            '53760' => true
-        ];
-
         $htmlTickets = '';
+        $hayBendecido = false;
 
         shuffle($tickets);
 
         foreach ($tickets as $t) {
 
-            $numero = $t->number_ticket; // 👈 ESTE ES EL FIX
-
-            $esGanador = isset($numerosGanadores[$numero]);
-
-            $bg     = $esGanador ? '#198754' : '#f5f5f5';
-            $color  = $esGanador ? '#ffffff' : '#000000';
-            $border = $esGanador ? '#198754' : '#ddd';
+            $numero = (string) ($t->number_ticket ?? '');
+            $tipo = DinamicaHelper::tipoBendecido($numero);
+            $estilo = DinamicaHelper::estiloChipBendecido($tipo);
+            if ($tipo !== null) {
+                $hayBendecido = true;
+            }
 
             $htmlTickets .= '<span style="
                 display:inline-block;
                 margin:3px;
                 padding:6px 11px;
-                background:' . $bg . ';
-                color:' . $color . ';
-                border:1px solid ' . $border . ';
+                background:' . $estilo['bg'] . ';
+                color:' . $estilo['color'] . ';
+                border:1px solid ' . $estilo['border'] . ';
                 border-radius:6px;
                 font-weight:bold;
-            ">' . $numero . '</span>';
+            ">' . htmlspecialchars($numero, ENT_QUOTES, 'UTF-8') . '</span>';
+        }
+
+        if ($hayBendecido) {
+            $htmlTickets .= '<div style="margin-top:8px;font-size:11px;color:#6b7280;font-weight:700;">'
+                . 'Verde = bendecido $200.000 · Naranja = bendecido $300.000</div>';
         }
 
         // Cargar plantilla

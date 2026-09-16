@@ -6,21 +6,28 @@ require_once "../includes/promo2x1.php";
 $page_title = "Nueva Venta";
 $couponActive = CouponHelper::isActive();
 $promo2x1Active = Promo2x1Helper::isActive();
+$extra_css = '
+<link rel="stylesheet" href="' . ASSETS_URL . '/css/paquetes.css?v=5" />
+<link rel="stylesheet" href="' . ASSETS_URL . '/css/vender.css?v=1" />
+';
 include_once ROOT_PATH . "/includes/head.php";
 ?>
 
-<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+<div class="page-wrapper vm-page" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
     <?php include_once ROOT_PATH . "/includes/sidebar.php" ?>
-    
+
     <div class="body-wrapper bg-light min-vh-100">
         <?php include_once ROOT_PATH . "/includes/header.php" ?>
-        
-        <div class="body-wrapper-inner">
-            <div class="container-xxl p-2 p-lg-4 pb-5 mb-5"> 
 
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="mb-0 fw-bold text-dark">Registrar Venta</h4>
-                    <button class="btn btn-light border shadow-sm px-3 text-danger fw-bold rounded-pill" onclick="location.reload()">
+        <div class="body-wrapper-inner">
+            <div class="container-xxl p-2 p-lg-4 pb-5 mb-5">
+
+                <div class="vm-head">
+                    <div>
+                        <h4>Nueva venta</h4>
+                        <p>Cliente, números y cobro en un solo paso</p>
+                    </div>
+                    <button type="button" class="vm-reset" onclick="location.reload()" title="Reiniciar">
                         <i class="ti ti-refresh"></i>
                     </button>
                 </div>
@@ -35,87 +42,80 @@ include_once ROOT_PATH . "/includes/head.php";
                 <?php endif; ?>
 
                 <?php if ($promo2x1Active): ?>
-                <div class="alert alert-promo-2x1-vender shadow-sm mb-3 py-3 promo-2x1-wrap">
-                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
-                        <div>
-                            <span class="promo-2x1-badge">PREVENTA</span>
-                            <span class="fw-bold text-promo-2x1 ms-1">Preventa activa</span>
-                            <div class="small mt-1">El cliente paga y recibe extras. 3→4, 5→7, 10→13.</div>
-                        </div>
-                        <span class="badge badge-promo-2x1 promo2x1-countdown">--:--:--</span>
+                <div class="vm-banner promo-2x1-wrap">
+                    <div>
+                        <strong>Preventa activa</strong>
+                        <small>El cliente paga y recibe extras. 3→4, 5→7, 10→13.</small>
                     </div>
+                    <span class="badge badge-promo-2x1 promo2x1-countdown">--:--:--</span>
                 </div>
                 <?php endif; ?>
 
                 <div class="row g-3">
-                    
+
                     <div class="col-lg-8">
-                        
-                        <div class="card border-0 shadow-sm rounded-4 mb-3">
-                            <div class="card-header bg-white border-bottom py-3">
-                                <h6 class="mb-0 fw-bold text-primary"><span class="badge bg-primary rounded-pill me-2">1</span>Cliente</h6>
+
+                        <div class="card vm-card mb-3">
+                            <div class="card-header">
+                                <h6 class="mb-0 fw-bold text-dark"><span class="vm-step">1</span>Cliente</h6>
                             </div>
                             <div class="card-body p-3 p-lg-4">
-                                
+
                                 <div class="mb-3">
-                                    <label class="form-label small fw-bold text-muted">BUSCAR (Opcional)</label>
+                                    <label class="form-label small fw-bold">Buscar existente</label>
                                     <select id="buscadorCliente" class="form-control w-100"></select>
                                 </div>
 
-                                <div class="bg-white p-1 rounded-3">
-                                    <form id="formClienteVenta">
-                                        <input type="hidden" id="idCliente" name="id_customer">
-                                        
-                                        <div class="row g-3">
-                                            <div class="col-12 col-md-4">
-                                                <label class="small fw-bold text-dark mb-1">Celular <span class="text-danger">*</span></label>
-                                                <input type="tel" class="form-control shadow-sm" id="celularCliente" required>
-                                            </div>
-                                            <div class="col-6 col-md-4">
-                                                <label class="small fw-bold text-dark mb-1">Nombre <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control shadow-sm text-capitalize" id="nombreCliente" required>
-                                            </div>
-                                            <div class="col-6 col-md-4">
-                                                <label class="small fw-bold text-dark mb-1">Apellido <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control shadow-sm text-capitalize" id="apellidoCliente" required>
-                                            </div>
+                                <form id="formClienteVenta">
+                                    <input type="hidden" id="idCliente" name="id_customer">
 
-                                            <div class="col-12 col-md-4">
-                                                <label class="small fw-bold text-dark mb-1">Email <span class="text-danger">*</span></label>
-                                                <input type="email" class="form-control shadow-sm text-lowercase" id="emailCliente">
-                                            </div>
-                                            <div class="col-6 col-md-4">
-                                                <label class="small fw-bold text-dark mb-1">Depto <span class="text-danger">*</span></label>
-                                                <select class="form-select shadow-sm select2-ubicacion" id="departamento"></select>
-                                            </div>
-                                            <div class="col-6 col-md-4">
-                                                <label class="small fw-bold text-dark mb-1">Ciudad <span class="text-danger">*</span></label>
-                                                <select class="form-select shadow-sm select2-ubicacion" id="ciudad" disabled></select>
-                                            </div>
+                                    <div class="row g-3">
+                                        <div class="col-12 col-md-4">
+                                            <label class="small fw-bold mb-1">Celular <span class="text-danger">*</span></label>
+                                            <input type="tel" class="form-control" id="celularCliente" required>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <label class="small fw-bold mb-1">Nombre <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control text-capitalize" id="nombreCliente" required>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <label class="small fw-bold mb-1">Apellido <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control text-capitalize" id="apellidoCliente" required>
                                         </div>
 
-                                        <div class="d-flex justify-content-end mt-3">
-                                            <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill fw-bold" id="btnLimpiarCliente" onclick="resetClienteForm()">
-                                                <i class="ti ti-eraser me-1"></i> Limpiar campos
-                                            </button>
+                                        <div class="col-12 col-md-4">
+                                            <label class="small fw-bold mb-1">Email <span class="text-danger">*</span></label>
+                                            <input type="email" class="form-control text-lowercase" id="emailCliente">
                                         </div>
-                                    </form>
-                                </div>
+                                        <div class="col-6 col-md-4">
+                                            <label class="small fw-bold mb-1">Depto <span class="text-danger">*</span></label>
+                                            <select class="form-select select2-ubicacion" id="departamento"></select>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <label class="small fw-bold mb-1">Ciudad <span class="text-danger">*</span></label>
+                                            <select class="form-select select2-ubicacion" id="ciudad" disabled></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-end mt-3">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill fw-bold d-none" id="btnLimpiarCliente" onclick="resetClienteForm()">
+                                            <i class="ti ti-eraser me-1"></i> Limpiar campos
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
 
-                        <div class="card border-0 shadow-sm rounded-4">
-                            <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
-                                <h6 class="mb-0 fw-bold text-primary"><span class="badge bg-primary rounded-pill me-2">2</span>Números</h6>                                
+                        <div class="card vm-card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0 fw-bold text-dark"><span class="vm-step">2</span>Números</h6>
                             </div>
-                            
+
                             <div class="card-body p-3 p-lg-4">
-                                
+
                                 <div class="mb-3">
-                                    <select class="form-select form-select fw-bold shadow-sm text-dark border-secondary" id="selectRifa">
-                                    </select>
+                                    <select class="form-select fw-bold" id="selectRifa"></select>
                                 </div>
-                                
 
                                 <div class="row g-2 g-md-3 cr-paquetes-grid" id="paquetesNumeros">
                                     <?= DinamicaHelper::renderPackageCards(false, true) ?>
@@ -127,88 +127,120 @@ include_once ROOT_PATH . "/includes/head.php";
                                 <div class="cr-paquetes-hint">
                                     <?= $priceHints ?>
                                 </div>
-                                <?php endif; ?>                  
+                                <?php endif; ?>
 
                             </div>
                         </div>
                     </div>
 
                     <div class="col-lg-4 d-none d-lg-block">
-                        <div class="card border-0 shadow-sm rounded-4 sticky-top" style="top: 90px;">
-                            <div class="card-header text-white py-3 rounded-top-4">
-                                <h6 class="mb-0 fw-bold"><i class="ti ti-receipt-2 me-2"></i>Resumen</h6>
+                        <div class="vm-cobro sticky-top" style="top: 90px;">
+                            <div class="vm-cobro__head">
+                                <h6>Cobro</h6>
+                                <span class="vm-cobro__rifa" id="lblRifaResumen">Sin rifa</span>
                             </div>
-                            <div class="card-body p-0 bg-white">
-                                <ul class="list-group list-group-flush" id="listaCarritoDesktop" style="max-height: 300px; overflow-y: auto;">
-                                    <li class="list-group-item text-center text-muted py-5 border-0"><small>Sin selección</small></li>
-                                </ul>
-                            </div>
-                                <div class="card-footer bg-light p-4 border-top">
-                                    <div class="d-flex justify-content-between align-items-end mb-1 d-none" id="lineaDescuentoVenderDesk">
-                                        <span class="small text-success fw-bold">Descuento APF15 (15%)</span>
-                                        <span class="small text-success fw-bold" id="montoDescuentoVenderDesk">-$0</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-end mb-3">
-                                        <span class="h6 mb-0 text-muted">
-                                            Total a Pagar 
-                                            <small class="ms-1 text-muted">(<span id="lblCantidadDesktop">0</span> nums)</small>
-                                        </span>
-                                        <span class="h2 mb-0 fw-bolder text-primary" id="lblTotalDesktop">$0</span>
-                                    </div>
-                                    
-                                    <div class="row g-2 mb-3">
-                                        <div class="col-6">
-                                            <input type="radio" class="btn-check" name="metodoPago" id="pagoEfecDesk" value="Efectivo">
-                                            <label class="btn btn-outline-primary w-100 fw-bold py-2" for="pagoEfecDesk">💵 Efectivo</label>
-                                        </div>
-                                        <div class="col-6">
-                                            <input type="radio" class="btn-check" name="metodoPago" id="pagoTransDesk" value="Transferencia">
-                                            <label class="btn btn-outline-primary w-100 fw-bold py-2" for="pagoTransDesk">🏦 Transf.</label>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-success w-100 py-2 fw-bold rounded-3 shadow" id="btnCompletarVenta" onclick="procesarVenta()">CONFIRMAR VENTA</button>
+                            <div class="vm-cobro__body">
+                                <div class="vm-row">
+                                    <span>Cliente</span>
+                                    <strong id="lblClienteResumen">Sin datos</strong>
                                 </div>
+                                <div class="vm-row">
+                                    <span>Números</span>
+                                    <strong id="lblCantidadDesktop">0</strong>
+                                </div>
+                                <div class="vm-row vm-row--promo d-none" id="lineaPreventaVenderDesk">
+                                    <span>Preventa</span>
+                                    <strong id="lblPreventaVenderDesk">—</strong>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-end d-none vm-row" id="lineaDescuentoVenderDesk">
+                                    <span class="text-success">Descuento APF15</span>
+                                    <strong class="text-success" id="montoDescuentoVenderDesk">-$0</strong>
+                                </div>
+                                <div class="vm-total">
+                                    <span>Total</span>
+                                    <strong id="lblTotalDesktop">$0</strong>
+                                </div>
+                            </div>
+                            <div class="vm-cobro__pay">
+                                <p class="vm-pay-label">Cómo pagó</p>
+                                <div class="vm-pay">
+                                    <input type="radio" class="btn-check" name="metodoPago" id="pagoEfecDesk" value="Efectivo">
+                                    <label for="pagoEfecDesk"><i class="ti ti-cash"></i>Efectivo<small>En mano</small></label>
+                                    <input type="radio" class="btn-check" name="metodoPago" id="pagoTransDesk" value="Transferencia">
+                                    <label for="pagoTransDesk"><i class="ti ti-building-bank"></i>Transferencia<small>Nequi / banco</small></label>
+                                </div>
+                                <button type="button" class="vm-confirm" id="btnCompletarVenta" onclick="procesarVenta()">Confirmar venta</button>
+                            </div>
                         </div>
                     </div>
 
-                </div> 
-                
-                <div class="d-lg-none" style="height:20px"></div>
+                </div>
+
+                <div class="d-lg-none" style="height:170px"></div>
 
             </div>
         </div>
     </div>
 </div>
 
-<div class="fixed-bottom bg-white border-top shadow-lg p-3 d-lg-none">
-    <div class="d-flex justify-content-between align-items-center mb-2">
-        
-        <div class="cursor-pointer">
-            <span class="d-block small text-muted fw-bold lh-1">
-                TOTAL <i class="ti ti-chevron-up ms-1 text-primary"></i>
-            </span>
+<div class="fixed-bottom vm-bar d-lg-none">
+    <div class="vm-bar__top">
+        <div>
+            <small>Total <span id="lblCantidadMobileBadge"></span></small>
             <span class="small text-success d-none" id="lineaDescuentoVenderMob">Desc. APF15: <span id="montoDescuentoVenderMob">-$0</span></span>
-            <span class="h3 fw-bolder text-primary" id="lblTotalMobile">$0</span>
-        </div>
-        
-        <div class="btn-group" role="group">
-            <input type="radio" class="btn-check" name="metodoPagoMobile" id="pagoEfecMob" value="Efectivo">
-            <label class="btn btn-outline-primary btn-sm px-3" for="pagoEfecMob">💵</label>
-            
-            <input type="radio" class="btn-check" name="metodoPagoMobile" id="pagoTransMob" value="Transferencia">
-            <label class="btn btn-outline-primary btn-sm px-3" for="pagoTransMob">🏦</label>
+            <strong id="lblTotalMobile">$0</strong>
         </div>
     </div>
-    
-    <button class="btn btn-success w-100 py-3 fw-bold rounded-pill shadow" onclick="procesarVentaMobile()">
-        CONFIRMAR VENTA <i class="ti ti-check ms-1"></i>
-    </button>
+    <div class="vm-pay">
+        <input type="radio" class="btn-check" name="metodoPagoMobile" id="pagoEfecMob" value="Efectivo">
+        <label for="pagoEfecMob"><i class="ti ti-cash"></i>Efectivo</label>
+        <input type="radio" class="btn-check" name="metodoPagoMobile" id="pagoTransMob" value="Transferencia">
+        <label for="pagoTransMob"><i class="ti ti-building-bank"></i>Transf.</label>
+    </div>
+    <button type="button" class="vm-confirm" onclick="procesarVentaMobile()">Confirmar venta</button>
 </div>
 
+<div class="modal fade vm-modal" id="modalConfirmarVenta" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar cobro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body px-4 pt-3 pb-2">
+                <div class="vm-ticket">
+                    <div class="vm-row">
+                        <span>Cliente</span>
+                        <strong id="modalCliente">—</strong>
+                    </div>
+                    <div class="vm-row">
+                        <span>Números</span>
+                        <strong id="modalCantidad">—</strong>
+                    </div>
+                    <div class="vm-row">
+                        <span>Pago</span>
+                        <strong id="modalMetodo">—</strong>
+                    </div>
+                    <div class="vm-row d-none" id="modalLineaPreventa">
+                        <span>Preventa</span>
+                        <strong id="modalPreventa">—</strong>
+                    </div>
+                    <div class="vm-ticket-total">
+                        <span>A cobrar</span>
+                        <strong id="modalTotal">$0</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-ghost flex-fill py-2" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-cobrar flex-fill py-2" id="btnSiCobrar">Sí, cobrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <?php
 $extra_js = '
-<link rel="stylesheet" href="' . ASSETS_URL . '/css/paquetes.css?v=5" />
 <link href="' . ASSETS_URL . '/libs/select2/css/select2.min.css" rel="stylesheet" />
 <link href="' . ASSETS_URL . '/libs/select2/css/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
 <script src="' . ASSETS_URL . '/libs/select2/js/select2.min.js"></script>
@@ -228,7 +260,7 @@ window.PROMO_2X1 = ' . json_encode([
 ], JSON_UNESCAPED_UNICODE) . ';
 </script>
 <script src="' . ASSETS_URL . '/js/promo-2x1.js?v=36"></script>
-<script src="' . ASSETS_URL . '/js/vender.js?v=36"></script>
+<script src="' . ASSETS_URL . '/js/vender.js?v=37"></script>
 ';
 include_once ROOT_PATH . "/includes/footer.php";
 ?>

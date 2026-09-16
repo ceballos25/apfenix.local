@@ -162,6 +162,11 @@
     border: 1px dashed #e2e8f0;
 }
 
+.bendecido-num.tachado {
+    opacity: 0.45;
+    text-decoration: line-through;
+}
+
 .bendecidos-grupo__nota {
     display: block;
     margin-top: 0.55rem;
