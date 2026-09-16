@@ -1,0 +1,316 @@
+/* Paquetes: fila limpia, sin barras de badge */
+#paquetesNumeros.cr-paquetes-grid,
+.cr-paquetes-grid {
+    --pack-row-gap: 0.5rem;
+}
+
+#paquetesNumeros.cr-paquetes-grid > [class*="col-"],
+.cr-paquetes-grid > [class*="col-"] {
+    margin-bottom: var(--pack-row-gap);
+}
+
+#paquetesNumeros .paquete-card,
+.cr-paquetes-grid .paquete-card {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    background: #fff !important;
+    color: #0f172a !important;
+    border: 1px solid #e5e7eb !important;
+    border-radius: 12px !important;
+    padding: 0.85rem 1rem !important;
+    min-height: 0;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    box-shadow: none;
+    text-align: left;
+}
+
+#paquetesNumeros .paquete-card:hover,
+.cr-paquetes-grid .paquete-card:hover {
+    transform: none !important;
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06) !important;
+}
+
+#paquetesNumeros .paquete-card__body,
+.cr-paquetes-grid .paquete-card__body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+#paquetesNumeros .paquete-card__meta,
+.cr-paquetes-grid .paquete-card__meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+#paquetesNumeros .paquete-qty,
+.cr-paquetes-grid .paquete-qty {
+    font-size: 1.08rem;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: inherit !important;
+}
+
+#paquetesNumeros .paquete-qty small,
+.cr-paquetes-grid .paquete-qty small {
+    font-size: 0.78rem;
+    font-weight: 650;
+    opacity: 0.55;
+}
+
+#paquetesNumeros .paquete-unit-price,
+.cr-paquetes-grid .paquete-unit-price {
+    font-size: 0.75rem;
+    font-weight: 650;
+    line-height: 1.2;
+    color: #64748b !important;
+    white-space: nowrap;
+}
+
+#paquetesNumeros .paquete-card--con-ahorro .paquete-unit-price {
+    color: #15803d !important;
+    font-weight: 700;
+}
+
+#paquetesNumeros .paquete-unit-price--muted,
+.cr-paquetes-grid .paquete-unit-price--muted {
+    color: #94a3b8 !important;
+    font-weight: 600;
+}
+
+#paquetesNumeros .paquete-precios,
+.cr-paquetes-grid .paquete-precios {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0.08rem;
+    flex-shrink: 0;
+    text-align: right;
+    line-height: 1.1;
+}
+
+#paquetesNumeros .paquete-precio-antes,
+.cr-paquetes-grid .paquete-precio-antes {
+    font-size: 0.68rem;
+    font-weight: 650;
+    color: #94a3b8 !important;
+    white-space: nowrap;
+}
+
+#paquetesNumeros .paquete-precio-antes s,
+.cr-paquetes-grid .paquete-precio-antes s {
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
+}
+
+#paquetesNumeros .paquete-precio-final,
+.cr-paquetes-grid .paquete-precio-final {
+    font-size: 1.12rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    white-space: nowrap;
+    color: #0f172a !important;
+}
+
+#paquetesNumeros .paquete-card--con-ahorro .paquete-precio-final,
+.cr-paquetes-grid .paquete-card--con-ahorro .paquete-precio-final {
+    color: #15803d !important;
+}
+
+#paquetesNumeros .paquete-precio-final--muted,
+.cr-paquetes-grid .paquete-precio-final--muted {
+    color: #94a3b8 !important;
+    font-size: 1.2rem !important;
+}
+
+#paquetesNumeros .badge-paquete,
+.cr-paquetes-grid .badge-paquete {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+    display: inline-flex !important;
+    width: auto !important;
+    max-width: max-content;
+    align-items: center;
+    background: #ecfdf5 !important;
+    color: #166534 !important;
+    border: 0;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 0.12rem 0.42rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    line-height: 1.2;
+    box-shadow: none !important;
+    animation: none !important;
+}
+
+#paquetesNumeros .badge-paquete--preventa,
+#paquetesNumeros .badge-paquete--popular {
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+}
+
+#paquetesNumeros .paquete-card--popular,
+#paquetesNumeros .paquete-card--preventa {
+    border-color: #e5e7eb !important;
+    background: #fff !important;
+}
+
+#paquetesNumeros .paquete-card--con-ahorro,
+#paquetesNumeros .paquete-card--ahorro,
+#paquetesNumeros .paquete-card--mas-vendido {
+    background: #f8fdf9 !important;
+    border-color: #bbf7d0 !important;
+}
+
+#paquetesNumeros .paquete-card--personalizado {
+    border-style: dashed !important;
+}
+
+#paquetesNumeros .btn-check:checked + .paquete-card,
+#paquetesNumeros .btn-check:checked + .paquete-card.paquete-card--con-ahorro,
+#paquetesNumeros .btn-check:checked + .paquete-card.paquete-card--mas-vendido,
+#paquetesNumeros .btn-check:checked + .paquete-card.paquete-card--popular,
+#paquetesNumeros .btn-check:checked + .paquete-card.paquete-card--preventa {
+    background: #f8fafc !important;
+    border: 1.5px solid #0f172a !important;
+    color: #0f172a !important;
+    box-shadow: none !important;
+    transform: none !important;
+    padding-right: 2.5rem !important;
+}
+
+#paquetesNumeros .btn-check:checked + .paquete-card::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0.85rem;
+    transform: translateY(-50%);
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 50%;
+    background: #0f172a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center / 0.62rem no-repeat;
+    pointer-events: none;
+}
+
+#paquetesNumeros .btn-check:checked + .paquete-card .paquete-precio-final,
+#paquetesNumeros .btn-check:checked + .paquete-card.paquete-card--con-ahorro .paquete-precio-final {
+    color: #0f172a !important;
+}
+
+#paquetesNumeros .btn-check:checked + .paquete-card .paquete-qty,
+#paquetesNumeros .btn-check:checked + .paquete-card .fw-bold,
+#paquetesNumeros .btn-check:checked + .paquete-card .fs-5 {
+    color: #0f172a !important;
+}
+
+#paquetesNumeros .btn-check:checked + .paquete-card .paquete-unit-price:not(.paquete-unit-price--muted) {
+    color: #64748b !important;
+}
+
+#paquetesNumeros .btn-check:checked + .paquete-card.paquete-card--con-ahorro .paquete-precio-final {
+    color: #15803d !important;
+}
+
+#paquetesNumeros .btn-check:checked + .paquete-card .paquete-precio-antes {
+    color: #94a3b8 !important;
+}
+
+.cr-paquetes-hint {
+    margin-top: 0.85rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.cr-paquetes-hint__desktop {
+    display: none;
+}
+
+.cr-paquetes-hint__mobile {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #64748b;
+    text-align: center;
+    line-height: 1.45;
+}
+
+.cr-paquetes-hint__desktop p {
+    font-size: 0.8rem;
+    color: #64748b;
+    text-align: center;
+    line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+    #paquetesNumeros.cr-paquetes-grid > [class*="col-"] {
+        margin-bottom: 0;
+    }
+
+    #paquetesNumeros .paquete-card,
+    .cr-paquetes-grid .paquete-card {
+        padding: 1rem 0.85rem !important;
+        min-height: 6.25rem;
+        align-items: stretch;
+        height: 100%;
+        text-align: center;
+        overflow: visible;
+    }
+
+    #paquetesNumeros .paquete-card__body {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 0.4rem;
+    }
+
+    #paquetesNumeros .paquete-card__meta,
+    #paquetesNumeros .paquete-precios {
+        align-items: center;
+        text-align: center;
+    }
+
+    #paquetesNumeros .paquete-precio-final {
+        font-size: 1.28rem !important;
+    }
+
+    .cr-paquetes-hint__mobile {
+        display: none;
+    }
+
+    .cr-paquetes-hint__desktop {
+        display: block;
+    }
+
+    #paquetesNumeros .btn-check:checked + .paquete-card {
+        padding-right: 0.85rem !important;
+    }
+
+    #paquetesNumeros .btn-check:checked + .paquete-card::after {
+        top: 0.6rem;
+        right: 0.6rem;
+        transform: none;
+    }
+}

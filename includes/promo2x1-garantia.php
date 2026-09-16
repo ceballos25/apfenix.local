@@ -44,7 +44,8 @@ class Promo2x1Garantia
         $idSale = (int) $venta->id_sale;
         $idCustomer = (int) $venta->id_customer_sale;
         $idRaffle = (int) $venta->id_raffle_sale;
-        $paid = (int) round(((float) $venta->total_sale) / 900);
+        require_once __DIR__ . '/dinamica.php';
+        $paid = DinamicaHelper::inferPaidFromTotal((float) $venta->total_sale);
 
         // Preferir quantity del backup si existe
         $backup = ApiRequest::get('payment_backups', [

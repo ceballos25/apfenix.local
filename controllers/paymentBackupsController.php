@@ -283,13 +283,11 @@ class PaymentBackupsController
         ? $res->results
         : [$res->results];
 
-    // Hard fallback por si OPcache carga Promo2x1Helper viejo
-    $tz = new DateTimeZone('America/Bogota');
-    $nowPromo = new DateTime('now', $tz);
-    $expPromo = new DateTime('2026-07-16 23:59:59', $tz);
-    if ($cantidad >= 50 && $nowPromo <= $expPromo) {
-        $cantidadEntregada = max($cantidadEntregada, $cantidad * 2);
-    }
+    require_once __DIR__ . '/../includes/dinamica.php';
+    $cantidadEntregada = max(
+        $cantidadEntregada,
+        DinamicaHelper::quantityDelivered($cantidad)
+    );
 
     if (count($ticketsDisponibles) < $cantidadEntregada) {
         self::log('❌ No hay suficientes números disponibles (hay ' . count($ticketsDisponibles) . ', se necesitan ' . $cantidadEntregada . ')');
@@ -421,15 +419,11 @@ class PaymentBackupsController
             return $result;
         }
 
-        $need = Promo2x1Helper::quantityDelivered($cantidadPagada);
-
-        // Fallback duro por si OPcache sirve Promo2x1Helper viejo
-        $tz = new DateTimeZone('America/Bogota');
-        $now = new DateTime('now', $tz);
-        $exp = new DateTime('2026-07-16 23:59:59', $tz);
-        if ($cantidadPagada >= 50 && $now <= $exp) {
-            $need = max($need, $cantidadPagada * 2);
-        }
+        require_once __DIR__ . '/../includes/dinamica.php';
+        $need = max(
+            Promo2x1Helper::quantityDelivered($cantidadPagada),
+            DinamicaHelper::quantityDelivered($cantidadPagada)
+        );
 
         $result['need'] = $need;
 

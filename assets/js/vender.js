@@ -266,7 +266,22 @@ function cambiarRifa() {
 }
 
 function obtenerPrecioUnitario(cantidad) {
-    return cantidad >= 20 ? 900 : (estado.rifa?.precio || 0);
+    if (window.Promo2x1 && typeof window.Promo2x1.precioUnitario === 'function') {
+        return window.Promo2x1.precioUnitario(cantidad);
+    }
+
+    const d = window.DINAMICA || {};
+    const promo = d.precioPromo || 8000;
+    const full = d.precio || estado.rifa?.precio || 9000;
+    const desde = d.desdePromo || 25;
+    if (d.preventaActiva) {
+        return full;
+    }
+    if (cantidad >= desde) {
+        return promo;
+    }
+
+    return full;
 }
 
 function formatearMoneda(n) {
@@ -382,7 +397,7 @@ function actualizarCarritoUI() {
 
     const aplica2x1 = window.Promo2x1 && window.Promo2x1.aplica(cantidad);
     const extra2x1 = aplica2x1
-        ? `<div class="small text-promo-2x1 fw-bold mt-1">2×1: recibe ${window.Promo2x1.entregados(cantidad)} números</div>`
+        ? `<div class="small text-promo-2x1 fw-bold mt-1">Preventa: pagas ${cantidad}, recibes ${window.Promo2x1.entregados(cantidad)}</div>`
         : '';
 
     const listaHtml = cantidad === 0
@@ -437,7 +452,7 @@ async function procesarVenta() {
         ? `<br><span class="text-success">Descuento APF15: -${formatearMoneda(montos.descuento)}</span>`
         : '';
     const msg2x1 = (window.Promo2x1 && window.Promo2x1.aplica(estado.cantidadSeleccionada))
-        ? `<br><span class="text-promo-2x1 fw-bold">Promo 2×1: recibe ${window.Promo2x1.entregados(estado.cantidadSeleccionada)} números</span>`
+        ? `<br><span class="text-promo-2x1 fw-bold">Preventa: pagas ${estado.cantidadSeleccionada}, recibes ${window.Promo2x1.entregados(estado.cantidadSeleccionada)}</span>`
         : '';
 
     alertify.confirm(

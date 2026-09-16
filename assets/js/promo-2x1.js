@@ -1,17 +1,45 @@
 /**
- * Promoción 2×1 — helpers compartidos (landing + venta manual).
+ * Preventa: ~30% extra (no es 2×1).
+ * 3→4, 5→7, 8→10, 10→13, 20→26, 25→33, 50→65
  */
 (function (global) {
-    const cfg = () => global.PROMO_2X1 || { activo: false, minimo: 50 };
+    function cfg() {
+        const d = global.DINAMICA || {};
+        const p = global.PROMO_2X1 || {};
+        return {
+            activo: !!(d.preventaActiva || p.activo),
+            minimo: d.minimo || p.minimo || 3,
+            bonusRate: typeof d.bonusRate === 'number' ? d.bonusRate : 0.30,
+            expira: d.expira || p.expira || null,
+        };
+    }
+
+    function precioUnitario(cantidad) {
+        const d = global.DINAMICA || {};
+        const promo = d.precioPromo || 8000;
+        const full = d.precio || 9000;
+        const desde = d.desdePromo || 25;
+        const qty = parseInt(cantidad, 10) || 0;
+        if (d.preventaActiva) return full;
+        if (qty >= desde) return promo;
+        return full;
+    }
 
     function aplica(cantidad) {
         const c = cfg();
-        return !!(c.activo && cantidad >= (c.minimo || 50));
+        const pagados = parseInt(cantidad, 10) || 0;
+        return !!(c.activo && pagados >= c.minimo);
+    }
+
+    function bonus(cantidad) {
+        const pagados = parseInt(cantidad, 10) || 0;
+        if (!aplica(pagados)) return 0;
+        return Math.max(1, Math.round(pagados * cfg().bonusRate));
     }
 
     function entregados(cantidad) {
         const pagados = parseInt(cantidad, 10) || 0;
-        return aplica(pagados) ? pagados * 2 : pagados;
+        return pagados + bonus(pagados);
     }
 
     function formatearCuentaRegresiva(ms) {
@@ -38,7 +66,7 @@
 
     function initCountdown(selectors, onExpire) {
         const c = cfg();
-        if (!c.activo || !c.expira) return null;
+        if (!c.expira) return null;
 
         const expira = new Date(c.expira).getTime();
         const nodes = typeof selectors === 'string'
@@ -48,13 +76,11 @@
         const tick = () => {
             const restante = expira - Date.now();
             const texto = restante > 0 ? formatearCuentaRegresiva(restante) : '00:00:00';
-
             nodes.forEach((el) => { el.textContent = texto; });
 
             if (restante <= 0) {
                 clearInterval(timer);
                 c.activo = false;
-                document.querySelectorAll('.promo-2x1-wrap').forEach((el) => el.classList.add('d-none'));
                 if (typeof onExpire === 'function') onExpire();
             }
         };
@@ -66,7 +92,9 @@
 
     global.Promo2x1 = {
         aplica,
+        bonus,
         entregados,
+        precioUnitario,
         textoCantidad,
         initCountdown,
         formatearCuentaRegresiva,

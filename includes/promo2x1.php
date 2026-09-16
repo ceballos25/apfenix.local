@@ -1,28 +1,25 @@
 <?php
 
+require_once __DIR__ . '/dinamica.php';
+
 /**
- * Promoción 2×1 — desde 50 números pagados, el cliente recibe el doble.
+ * Compatibilidad: la preventa reemplaza el 2×1.
+ * Los controladores siguen llamando Promo2x1Helper::quantityDelivered().
  */
 class Promo2x1Helper
 {
-    const MIN_QTY = 50;
-    const EXPIRES = '2026-07-16 23:59:59';
-    const TIMEZONE = 'America/Bogota';
+    const MIN_QTY = DinamicaHelper::MIN_QTY;
+    const EXPIRES = DinamicaHelper::PREVENTA_END;
+    const TIMEZONE = DinamicaHelper::TIMEZONE;
 
     public static function isActive(): bool
     {
-        $tz = new DateTimeZone(self::TIMEZONE);
-        $now = new DateTime('now', $tz);
-        $expires = new DateTime(self::EXPIRES, $tz);
-
-        return $now <= $expires;
+        return DinamicaHelper::isPreventaActive();
     }
 
     public static function getExpiresForJs(): string
     {
-        $dt = new DateTime(self::EXPIRES, new DateTimeZone(self::TIMEZONE));
-
-        return $dt->format('c');
+        return DinamicaHelper::getExpiresForJs();
     }
 
     public static function applies(int $paidQuantity): bool
@@ -30,14 +27,13 @@ class Promo2x1Helper
         return self::isActive() && $paidQuantity >= self::MIN_QTY;
     }
 
-    /** Números que recibe el cliente (pagados × 2 si aplica promo). */
     public static function quantityDelivered(int $paidQuantity): int
     {
-        return self::applies($paidQuantity) ? $paidQuantity * 2 : $paidQuantity;
+        return DinamicaHelper::quantityDelivered($paidQuantity);
     }
 
     public static function bonusQuantity(int $paidQuantity): int
     {
-        return self::quantityDelivered($paidQuantity) - $paidQuantity;
+        return DinamicaHelper::bonusQuantity($paidQuantity);
     }
 }

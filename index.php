@@ -1,12 +1,16 @@
 <?php
 require_once "config/config.php";
 require_once "includes/coupon.php";
+require_once "includes/dinamica.php";
 require_once "includes/promo2x1.php";
 require_once "includes/salesClosed.php";
 $couponActive = CouponHelper::isActive();
 $promo2x1Active = Promo2x1Helper::isActive();
+$preventaPhase = DinamicaHelper::preventaPhase();
+$preventaActive = DinamicaHelper::isPreventaActive();
 $salesClosed = SalesClosedHelper::isActive();
 $salesClosedMessage = SalesClosedHelper::message();
+$proximoAnticipado = DinamicaHelper::proximoAnticipado();
 ?>
 <!doctype html>
 <html lang="es" data-sales-closed="<?= $salesClosed ? '1' : '0' ?>">
@@ -23,7 +27,9 @@ $salesClosedMessage = SalesClosedHelper::message();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="assets/css/styles-v20.css?v=29">
+    <link rel="stylesheet" href="assets/css/styles-v20.css?v=35">
+    <link rel="stylesheet" href="assets/css/paquetes.css?v=5">
+    <link rel="stylesheet" href="assets/css/urgencia.css?v=5">
     <script src="https://t.contentsquare.net/uxa/8c88e0bc219df.js"></script>
 
 
@@ -50,10 +56,16 @@ $salesClosedMessage = SalesClosedHelper::message();
 
 <body>
 
-    <!-- PROMO $900 (scroll normal) -->
+    <!-- PRECIO / PREVENTA -->
     <div class="promo-bar text-center py-2">
         <div class="container fw-bold">
-            🚨 ¡ATENCIÓN! sticker a <strong>$900</strong> 🚨
+            <?php if ($preventaPhase === 'upcoming'): ?>
+                Preventa desde el <strong>21 de septiembre</strong> · paga menos, recibe más
+            <?php elseif ($preventaActive): ?>
+                PREVENTA · <strong>paga menos, recibe más</strong> · $9.000
+            <?php else: ?>
+                Números a <strong>$9.000</strong> · Desde 25 a <strong>$8.000</strong>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -73,36 +85,40 @@ $salesClosedMessage = SalesClosedHelper::message();
     </div>
     <?php endif; ?>
 
-    <?php if ($promo2x1Active): ?>
     <div class="promo-2x1-sticky promo-2x1-wrap" id="promo2x1Bar">
         <div class="container">
             <div class="promo-2x1-sticky-inner">
-                <span class="promo-2x1-badge">2×1</span>
-                <span>Desde <strong>50 números</strong> · tu compra se <strong>DOBLA</strong></span>
-                <span class="d-none d-md-inline">· Paga menos, lleva más 🔥</span>
-                <span class="promo-2x1-countdown">
-                    Termina en <span class="promo-countdown-value promo2x1-countdown">--:--:--</span>
-                    <span class="promo-countdown-note">(16 de julio)</span>
-                </span>
+                <?php if ($preventaPhase === 'upcoming'): ?>
+                    <span class="promo-2x1-badge">PREVENTA</span>
+                    <span>Arranca el <strong>21 de septiembre</strong> · paga menos, recibe más</span>
+                    <span class="promo-2x1-countdown">
+                        Inicia en <span class="promo-countdown-value promo2x1-countdown">--:--:--</span>
+                    </span>
+                <?php elseif ($preventaActive): ?>
+                    <span class="promo-2x1-badge">PREVENTA</span>
+                    <span><strong>paga menos, recibe más</strong></span>
+                    <span class="d-none d-md-inline">· 3+1 · 5+2 · 10+3</span>
+                    <span class="promo-2x1-countdown">
+                        Termina en <span class="promo-countdown-value promo2x1-countdown">--:--:--</span>
+                    </span>
+                <?php else: ?>
+                    <span class="promo-2x1-badge">7 NOV</span>
+                    <span><strong><?= htmlspecialchars(DinamicaHelper::DRAW_WITH_LOTTERY, ENT_QUOTES, 'UTF-8') ?></strong></span>
+                    <span class="promo-2x1-countdown">
+                        Faltan <span class="promo-countdown-value promo2x1-countdown">--:--:--</span>
+                    </span>
+                <?php endif; ?>
             </div>
         </div>
     </div>
-    <?php endif; ?>
 
     <!-- NAV -->
-    <nav class="navbar navbar-expand-lg navbar-custom shadow-sm py-2">
-        <div class="container justify-content-center justify-content-lg-between align-items-center">
-            <a class="navbar-brand d-flex align-items-center gap-2 m-0" href="#">
+    <nav class="navbar navbar-custom">
+        <div class="container navbar-inner">
+            <a class="navbar-brand m-0 p-0" href="#">
                 <img src="assets/images/logos/logo.jpg" class="navbar-logo" alt="AP Fenix">
-                <span class="fw-bold text-light lh-sm navbar-brand-text">AP FENIX</span>
             </a>
-            <div id="promoCheckoutmMobile"
-             class="alert alert-success py-2 mt-2 text-center fw-bold d-none">
-                
-            </div>
-            <span class="badge bg-dark text-light px-3 py-2">
-                <i class="ti ti-calendar-event me-1"></i> Ju3ga el <strong>viernes 28 de Agosto</strong>
-            </span>
+            <span class="navbar-draw">7 Nov · Por Boyacá</span>
         </div>
     </nav>
 
@@ -110,323 +126,101 @@ $salesClosedMessage = SalesClosedHelper::message();
     <section class="py-3">
         <div class="container">
 
-            <?php if ($promo2x1Active): ?>
-            <div class="promo-2x1-hero promo-2x1-wrap text-center text-md-start">
-                <p class="promo-2x1-hero__titulo mb-0">
-                    <span class="promo-2x1-badge">2×1</span>
-                    Desde <strong>50 números</strong>: pagas y recibes el <strong>doble</strong>. Paga menos, lleva más.
-                </p>
-            </div>
-            <?php endif; ?>
-
             <div class="row g-3 align-items-start">
 
-                <div class="col-lg-6 hero-fotos-col">
-
-                    <h1 class="hero-title mb-3">
-                        ¡Gran combo <br><span class="millonario">Millonario 🤑</span>!
+                <div class="col-lg-5">
+                    <h1 class="hero-title mb-2">
+                        ¡Gran combo <br><span class="millonario">Millonario</span>!
                     </h1>
-
-                    <p class="text-muted fw-semibold mb-4 d-none">
+                    <p class="hero-premio-copy text-muted fw-semibold mb-3">
+                        <?= htmlspecialchars(DinamicaHelper::PREMIO_COPY, ENT_QUOTES, 'UTF-8') ?>
                     </p>
 
-                    <div class="card border-0 bg-transparent shadow-none rounded-4 overflow-hidden" style="text-align: center;">
-
-                    <!-- Carrusel principal -->
-                    <section id="main-carousel" class="splide">
-                        <div class="splide__track">
-                        <ul class="splide__list">
-                            <li class="splide__slide">
-                            <img class="premios-primer-sorteo" src="assets/images/1.jpg" alt="Imagen 1" loading="lazy">
-                            </li>
-                            <li class="splide__slide">
-                            <img class="premios-primer-sorteo" src="assets/images/2.jpg" alt="Imagen 2" loading="lazy">
-                            </li>
-                        </ul>
-                        </div>
-                    </section>
-
-                    <!-- Miniaturas -->
-                    <section id="thumbnail-carousel" class="splide mt-3">
-                        <div class="splide__track">
-                        <ul class="splide__list">
-                            <li class="splide__slide">
-                            <img src="assets/images/1.jpg" alt="Miniatura 1" loading="lazy">
-                            </li>
-                            <li class="splide__slide">
-                            <img src="assets/images/2.jpg" alt="Miniatura 2" loading="lazy">
-                            </li>
-                        </ul>
-                        </div>
-                    </section>
-                    </div>
-
-                    <!-- Progreso bajo fotos (desktop) -->
-                    <div class="card border-0 shadow-sm text-center mt-3 d-none d-lg-block">
+                    <div class="card border-0 shadow-sm text-center d-none d-lg-block">
                         <div class="card-body py-3">
                             <div class="d-flex justify-content-between fw-bold">
-                                <span>🔥 Vendidos</span>
+                                <span>Vendidos</span>
                                 <span class="progreso-venta-pct">--%</span>
                             </div>
                             <div class="progress my-2">
                                 <div class="progress-bar progress-bar-striped progress-bar-animated progreso-venta-bar"
                                     style="width:0%"></div>
                             </div>
-                            <small class="text-muted d-block">Ju3ga el <strong>viernes 28 de Agosto</strong></small>
+                            <small class="text-muted d-block"><?= htmlspecialchars(DinamicaHelper::DRAW_WITH_LOTTERY, ENT_QUOTES, 'UTF-8') ?></small>
                         </div>
                     </div>
-
                 </div>
 
-                <div class="col-lg-6 hero-premios-col">
+                <div class="col-lg-7 hero-premios-col">
+                    <div class="row g-3 mb-3">
 
-                    <div class="row g-3 mb-4">
-
-                        <!-- PREMIO MAYOR -->
-                        <div class="col-12 my-2">
-                            <div class="my-2">
-                                <div class="card-body d-flex align-items-start gap-3 premio-mayor">
-
-                                    <div class="bg-warning bg-opacity-25 rounded-circle p-3">
-                                        <i class="ti ti-trophy fs-4 text-warning"></i>
-                                    </div>
-
-                                    <div>
-                                        <h5 class="fw-bold mb-1 title-premio-mayor">Premio Mayor</h5>
-                                        <p class="fs-6 text-muted fw-bold  mb-0">
-                                            Nmax 0 km +
-                                            $3.000.000 💰
-                                        </p>
-                                        <span class="small text-muted d-block">Ju3ga el <strong class="text-dark">viernes 28 de Agosto</strong></span>
-                                        <span class="small text-muted">Por la lotería de Medellín 🎫</span>
-                                    </div>
-
+                        <div class="col-12">
+                            <div class="card-body d-flex align-items-center gap-3 premio-mayor px-0">
+                                <div class="bg-warning bg-opacity-25 rounded-circle p-3 fs-3 lh-1">
+                                    🏍️
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-1 title-premio-mayor"><?= htmlspecialchars(DinamicaHelper::PREMIO_MAYOR, ENT_QUOTES, 'UTF-8') ?></h5>
+                                    <span class="small title-premio-mayor">Por las 4 de Boyacá te la llevas</span>
                                 </div>
                             </div>
                         </div>
 
-
-                        <!-- NUMERO INVERTIDO -->
-                        <div class="col-md-12 d-flex my-2">
+                        <div class="col-12">
                             <div class="card border-0 shadow-sm text-center w-100">
-                                <div class="card-body">
-
-                                    <h3 class="fw-bold mb-1">
-                                        Pulsar NS 125 FI + <span class="color-dinero-premio"> $2.000.000</span>
-                                    </h3>
-
-                                    <small class="fw-bold text-muted">
-                                        Número invertido
-                                    </small>                                    
+                                <div class="card-body py-3">
+                                    <h3 class="fw-bold mb-1"><?= htmlspecialchars(DinamicaHelper::PREMIO_INVERTIDO, ENT_QUOTES, 'UTF-8') ?></h3>
+                                    <small class="fw-bold text-muted">El invertido te lo llevas</small>
                                 </div>
-                                <span class="small text-muted">Ju3ga el <strong class="text-dark">viernes 28 de Agosto</strong> · Lotería de Medellín 🎫</span>
-                            </div>
-                        </div>                        
-
-
-                        <!-- ANTICIPADOS -->
-                        <div class="col-md-12 d-flex my-2">
-                            <div class="card border-0 shadow-sm text-center w-100">
-                                <div class="card-body">
-
-                                    <h3 class="fw-bold mb-1">
-                                        Anticipados
-                                    </h3>
-                                    <p class="small text-muted mb-0">
-                                        5 fechas programadas · Lotería de Medellín 🎫 · Pago inmediato
-                                    </p>
-
-                                    <div class="confirmados-panel confirmados-panel--anticipado text-start mt-3">
-                                        <p class="anticipados-proximo small fw-bold mb-3">
-                                            <i class="ti ti-star text-warning me-1"></i>
-                                            Próximo anticipado: <span class="color-dinero-premio">14 de agosto</span>
-                                            · <span class="color-dinero-premio">$500.000</span>
-                                        </p>
-
-                                        <p class="confirmados-panel__titulo fw-bold mb-2">📅 Calendario</p>
-                                        <div class="anticipados-calendario">
-                                            <div class="anticipados-calendario__head">
-                                                <span>Fecha</span>
-                                                <span>Premio</span>
-                                            </div>
-                                            <div class="anticipados-calendario__fila anticipados-calendario__fila--jugado">
-                                                <span>10 de julio</span>
-                                                <span class="color-dinero-premio">$1.000.000 ✓</span>
-                                            </div>
-                                            <div class="anticipados-calendario__fila anticipados-calendario__fila--jugado">
-                                                <span>17 de julio</span>
-                                                <span class="color-dinero-premio">$500.000 ✓</span>
-                                            </div>
-                                            <div class="anticipados-calendario__fila anticipados-calendario__fila--jugado">
-                                                <span>31 de julio</span>
-                                                <span class="color-dinero-premio">$500.000 acumulado ✓</span>
-                                            </div>
-                                            <div class="anticipados-calendario__fila anticipados-calendario__fila--jugado">
-                                                <span>8 de agosto</span>
-                                                <span class="color-dinero-premio">$1.000.000 ✓</span>
-                                            </div>
-                                            <div class="anticipados-calendario__fila anticipados-calendario__fila--destacado">
-                                                <span>14 de agosto</span>
-                                                <span class="color-dinero-premio">$500.000</span>
-                                            </div>
-                                        </div>
-
-                                        <h4 class="confirmados-panel__titulo fw-bold mb-2 mt-3">🎉 Anticipados confirmados</h4>
-                                        <div class="confirmados-lista">
-                                            <div class="confirmados-fila">
-                                                <span class="confirmados-fila__fecha">10 de julio</span>
-                                                <span class="confirmados-fila__nombre">Claudia Gómez</span>
-                                                <span class="numero-apfenix numero-apfenix--bendecido">83265</span>
-                                            </div>
-                                            <div class="confirmados-fila">
-                                                <span class="confirmados-fila__fecha">17 de julio</span>
-                                                <span class="confirmados-fila__nombre">Jose Morelos</span>
-                                                <span class="numero-apfenix numero-apfenix--bendecido">98643</span>
-                                            </div>
-                                            <div class="confirmados-fila">
-                                                <span class="confirmados-fila__fecha">8 de agosto</span>
-                                                <span class="confirmados-fila__nombre">Luis Mendoza</span>
-                                                <span class="numero-apfenix numero-apfenix--bendecido">43660</span>
-                                            </div>
-                                        </div>
-                                        <p class="confirmados-fila__nota small text-muted mb-0 mt-2">
-                                            1er anticipado: $1.000.000 (acumulado) — número <strong>83265</strong>.
-                                            El del 31 de julio se acumuló y cayó el 8 de agosto en <strong>$1.000.000</strong> — número <strong>43660</strong>.
-                                        </p>
-                                    </div>
-
-                                </div>
-                                <span class="small text-muted"></span>
                             </div>
                         </div>
 
-                        <!-- AFORTUNADOS -->
-                        <div class="col-12 d-flex">
-                            <div class="card border-0 shadow-sm text-center w-100">
-                                <div class="card-body">
-
-                                    <h3 class="fw-bold text-dark mb-1">
-                                        10 Bendecidos de <span class="color-dinero-premio">$500.000</span>
-                                    </h3>
-                                    <button class="btn btn-success m-2 fw-bold tachado">30405</button>
-                                    <button class="btn btn-success m-2 fw-bold tachado">00007</button>
-                                    <button class="btn btn-success m-2 fw-bold tachado">30068</button>
-                                    <button class="btn btn-success m-2 fw-bold">26034</button>
-                                    <button class="btn btn-success m-2 fw-bold tachado">77777</button>
-                                    <button class="btn btn-success m-2 fw-bold tachado">82041</button>
-                                    <button class="btn btn-success m-2 fw-bold tachado">12998</button>
-                                    <button class="btn btn-success m-2 fw-bold tachado">95585</button>
-                                    <button class="btn btn-success m-2 fw-bold tachado">57001</button>
-                                    <button class="btn btn-success m-2 fw-bold">53760</button>
-
-                                    <div class="display-flex m-1">
-                                    <small class="fw-bold text-muted m-5 justify-content-center">
-                                        ¡Pago Inmediato!
-                                    </small>
+                        <div class="col-12">
+                            <div class="card border-0 shadow-sm w-100">
+                                <div class="card-body py-3">
+                                    <div class="d-flex flex-wrap justify-content-between align-items-baseline gap-2">
+                                        <h3 class="fw-bold mb-0 fs-5">Anticipados</h3>
+                                        <span class="small text-muted">5 × <strong class="color-dinero-premio">$500.000</strong> · pago inmediato</span>
                                     </div>
-
-                                    <div class="confirmados-panel text-start mt-2 pt-3 border-top">
-                                        <p class="confirmados-panel__resumen small fw-bold mb-2">
-                                            Quedan <span class="color-dinero-premio">2</span> bendecidos por jugar
-                                        </p>
-                                        <h4 class="confirmados-panel__titulo fw-bold mb-2">✨ Bendecidos confirmados</h4>
-                                        <div class="confirmados-lista">
-                                            <div class="confirmados-fila">
-                                                <span class="confirmados-fila__fecha">16 de abril</span>
-                                                <span class="confirmados-fila__nombre">Henry Carrillo</span>
-                                                <span class="numero-apfenix numero-apfenix--bendecido">95585</span>
-                                            </div>
-                                            <div class="confirmados-fila">
-                                                <span class="confirmados-fila__fecha">23 de abril</span>
-                                                <span class="confirmados-fila__nombre">Fabio Gómez</span>
-                                                <span class="numero-apfenix numero-apfenix--bendecido">30405</span>
-                                            </div>
-                                            <div class="confirmados-fila">
-                                                <span class="confirmados-fila__fecha">07 de mayo</span>
-                                                <span class="confirmados-fila__nombre">Luz Goez</span>
-                                                <span class="numero-apfenix numero-apfenix--bendecido">82041</span>
-                                            </div>
-                                            <div class="confirmados-fila">
-                                                <span class="confirmados-fila__fecha">19 de mayo</span>
-                                                <span class="confirmados-fila__nombre">Migdonia García</span>
-                                                <span class="numero-apfenix numero-apfenix--bendecido">30068</span>
-                                            </div>
-                                            <div class="confirmados-fila">
-                                                <span class="confirmados-fila__fecha">24 de mayo</span>
-                                                <span class="confirmados-fila__nombre">Antonio Martínez</span>
-                                                <span class="numero-apfenix numero-apfenix--bendecido">12998</span>
-                                            </div>
-                                            <div class="confirmados-fila">
-                                                <span class="confirmados-fila__fecha">19 de junio</span>
-                                                <span class="confirmados-fila__nombre">María Espinosa</span>
-                                                <span class="numero-apfenix numero-apfenix--bendecido">31903</span>
-                                            </div>
-                                            <div class="confirmados-fila">
-                                                <span class="confirmados-fila__fecha">15 de julio</span>
-                                                <span class="confirmados-fila__nombre">Leandra Saibis</span>
-                                                <span class="numero-apfenix numero-apfenix--bendecido">00007</span>
-                                            </div>
-                                            <div class="confirmados-fila">
-                                                <span class="confirmados-fila__fecha">25 de agosto</span>
-                                                <span class="confirmados-fila__nombre">Yilber Garcia</span>
-                                                <span class="numero-apfenix numero-apfenix--bendecido">77777</span>
-                                            </div>
-                                            <div class="confirmados-fila">
-                                                <span class="confirmados-fila__fecha">28 de agosto</span>
-                                                <span class="confirmados-fila__nombre">Laura Ateortua</span>
-                                                <span class="numero-apfenix numero-apfenix--bendecido">57001</span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="col-12">
+                            <?= DinamicaHelper::renderBendecidosGrupo(DinamicaHelper::BENDECIDOS_200, '10 Bendecidos', '$200.000', '200') ?>
+                        </div>
+                        <div class="col-12">
+                            <?= DinamicaHelper::renderBendecidosGrupo(DinamicaHelper::BENDECIDOS_300, '20 Bendecidos', '$300.000', '300') ?>
                         </div>
 
                     </div>
 
-
-                    <!-- PROGRESO (móvil / tablet) -->
-                    <div class="card border-0 shadow-sm text-center mb-3 d-lg-none">
+                    <div class="card border-0 shadow-sm text-center mb-0 d-lg-none">
                         <div class="card-body">
-
                             <div class="d-flex justify-content-between fw-bold">
-                                <span>🔥 Vendidos</span>
+                                <span>Vendidos</span>
                                 <span class="progreso-venta-pct">--%</span>
                             </div>
-
                             <div class="progress my-2">
                                 <div class="progress-bar progress-bar-striped progress-bar-animated progreso-venta-bar"
                                     style="width:0%"></div>
                             </div>
-
                             <small class="text-muted d-block">
-                                 Ju3ga el <strong>viernes 28 de Agosto</strong>
+                                <?= htmlspecialchars(DinamicaHelper::DRAW_WITH_LOTTERY, ENT_QUOTES, 'UTF-8') ?>
                             </small>
-
                         </div>
                     </div>
 
-
-                    <!-- PRECIO BOLETA -->
                     <div class="card bg-dark text-center mb-3 d-none">
                         <div class="card-body">
-
                             <h2 class="fw-bold text-warning display-6 mb-2" id="precioBoletaDisplay">
                                 <div class="spinner-border spinner-border-sm"></div>
                             </h2>
-                
-                            <!-- Minimo -->
-
                             <small class="fw-bold text-center text-white mt-2">
-                                Mínimo 20 para participar
+                                Mínimo 3 para participar
                             </small>
-
                         </div>
                     </div>
-
-
                 </div>
 
             </div>
@@ -477,148 +271,23 @@ $salesClosedMessage = SalesClosedHelper::message();
                           
                             </div>
                                 <p>
-                                    <small class="text-muted py-1 px-3 d-flex justify-content-center align-items-center">🚧 Mínimo 20 para participar</small>     
+                                    <small class="text-muted py-1 px-3 d-flex justify-content-center align-items-center"><?= htmlspecialchars(DinamicaHelper::packagesSubtitle(), ENT_QUOTES, 'UTF-8') ?></small>
                                 </p>
                         </div>
 
                         <div class="card-body bg-light position-relative">
 
-                            <div class="row g-4" id="paquetesNumeros">
-
-                            <!-- 3 -->
-                            <div class="col-6 col-md-4">
-                            <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq3" value="20"<?= $salesClosed ? ' disabled' : '' ?>>
-                            <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card" for="paq3">
-                            <div class="fw-bold">20</div>
-                            <div class="fs-5 fw-bold">$18.000</div>
-                            </label>
-                            </div>
-
-
-                            <!-- 4 -->
-                            <div class="col-6 col-md-4">
-                            <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq4" value="30"<?= $salesClosed ? ' disabled' : '' ?>>
-                            <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card" for="paq4">
-                            <div class="fw-bold">30</div>
-                            <div class="fs-5 fw-bold">$27.000</div>
-                            </label>
-                            </div>
-
-
-                            <!-- 5 -->
-                            <div class="col-6 col-md-4">
-                            <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq5" value="50"<?= $salesClosed ? ' disabled' : '' ?>>
-                            <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card popular<?= $promo2x1Active ? ' promo-2x1-eligible' : '' ?>" for="paq5">
-
-                            <div class="paquete-badges">
-                                <span class="badge-paquete">🎯 Popular</span>
-                                <?php if ($promo2x1Active): ?><span class="badge-paquete badge-paquete--2x1">2×1</span><?php endif; ?>
-                            </div>
-
-                            <div class="fw-bold">50</div>
-                            <?php if ($promo2x1Active): ?><small class="linea-promo-2x1">Recibes 100</small><?php endif; ?>
-                            <div class="fs-5 fw-bold">$45.000</div>
-
-                            </label>
-                            </div>
-
-
-                            <!-- 7 -->
-                            <div class="col-6 col-md-4">
-                            <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq7" value="70"<?= $salesClosed ? ' disabled' : '' ?>>
-                            <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card recomendado<?= $promo2x1Active ? ' promo-2x1-eligible' : '' ?>" for="paq7">
-
-                            <div class="paquete-badges">
-                                <span class="badge-paquete">⭐ Recomendado</span>
-                                <?php if ($promo2x1Active): ?><span class="badge-paquete badge-paquete--2x1">2×1</span><?php endif; ?>
-                            </div>
-
-                            <div class="fw-bold">70</div>
-                            <?php if ($promo2x1Active): ?><small class="linea-promo-2x1">Recibes 140</small><?php endif; ?>
-                            <div class="fs-5 fw-bold">$63.000</div>
-
-                            </label>
-                            </div>
-
-
-                            <!-- 10 -->
-                            <div class="col-6 col-md-4">
-                            <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq10" value="100"<?= $salesClosed ? ' disabled' : '' ?>>
-                            <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card mas-vendido<?= $promo2x1Active ? ' promo-2x1-eligible' : '' ?>" for="paq10">
-
-                            <div class="paquete-badges">
-                                <span class="badge-paquete">🔥 Más vendido</span>
-                                <?php if ($promo2x1Active): ?><span class="badge-paquete badge-paquete--2x1">2×1</span><?php endif; ?>
-                            </div>
-
-                            <div class="fw-bold">100</div>
-                            <?php if ($promo2x1Active): ?><small class="linea-promo-2x1">Recibes 200</small><?php endif; ?>
-                            <div class="fs-5 fw-bold">$90.000</div>
-
-                            </label>
-                            </div>
-
-
-                            <!-- 20 -->
-                            <div class="col-6 col-md-4">
-                            <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq20" value="200"<?= $salesClosed ? ' disabled' : '' ?>>
-                            <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card mejor-valor<?= $promo2x1Active ? ' promo-2x1-eligible' : '' ?>" for="paq20">
-
-                            <div class="paquete-badges">
-                                <span class="badge-paquete">💰 VIP</span>
-                                <?php if ($promo2x1Active): ?><span class="badge-paquete badge-paquete--2x1">2×1</span><?php endif; ?>
-                            </div>
-
-                            <div class="fw-bold">200</div>
-                            <?php if ($promo2x1Active): ?><small class="linea-promo-2x1">Recibes 400</small><?php endif; ?>
-                            <div class="fs-5 fw-bold">$180.000</div>
-
-                            </label>
-                            </div>
-
-
-
-                            <!-- CUSTOM -->
-                            <div class="col-6 col-md-4">
-
-                            <input type="radio"
-                            class="btn-check paquete-radio"
-                            name="paqueteNumeros"
-                            id="paqCustom"
-                            value="custom"<?= $salesClosed ? ' disabled' : '' ?>>
-
-                            <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center paquete-card custom"
-                            for="paqCustom">
-
-                            <span class="badge-paquete">🎯 Personalizado</span>
-
-                            <div class="fw-bold">Otro</div>
-
-                            </label>
-
-                            <input
-                            type="tel"
-                            id="cantidadManual"
-                            class="form-control form-control-sm text-center mt-1"
-                            min="3"
-                            placeholder="#"
-                            style="display:none;"
-                            <?= $salesClosed ? 'disabled' : '' ?>
-                            >
-
-                            </div>
-
+                            <div class="row g-2 g-md-3 cr-paquetes-grid" id="paquetesNumeros">
+                                <?= DinamicaHelper::renderPackageCards($salesClosed) ?>
                             </div>
 
                             <?php if ($salesClosed): ?>
                             <div class="ventas-cerradas-overlay" id="overlayVentasCerradas" role="button" aria-label="Ventas cerradas"></div>
                             <?php endif; ?>
 
-                            <?php if (!$promo2x1Active): ?>
-                            <div class="alert alert-warning text-center small fw-bold mt-3">
-                                🎯 Más números = más oportunidades de ganar
+                            <div class="cr-paquetes-hint">
+                                <?= DinamicaHelper::renderPriceHints() ?>
                             </div>
-                            <?php endif; ?>
 
                         </div>
                     </div>
@@ -638,8 +307,12 @@ $salesClosedMessage = SalesClosedHelper::message();
                                     <strong id="cantTicketsDesktop">0</strong>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between text-promo-2x1 fw-bold d-none" id="lineaPromo2x1Desktop">
-                                    <span>Promo 2×1</span>
+                                    <span>Preventa</span>
                                     <strong id="textoPromo2x1Desktop">—</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between text-success d-none" id="lineaAhorroDesktop">
+                                    <span>Ahorro $8 mil</span>
+                                    <strong id="textoAhorroDesktop">—</strong>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between text-success d-none" id="lineaDescuentoDesktop">
                                     <span>Descuento APF15 (15%)</span>
@@ -686,47 +359,42 @@ $salesClosedMessage = SalesClosedHelper::message();
         </div>
     </section>
     
-      <section class="texto-ganadores d-none">
-        <div  >
-            <div id="prizesCarousel" class="carousel slide" data-bs-ride="carousel">
-                <h2 class="title-ganadores text-center title-premios">¡Últimos ganadores! 🥳</h2>
+    <section class="seccion-ganadores" id="ultimosBendecidos">
+        <canvas id="confetiGanadores" class="seccion-ganadores__canvas" aria-hidden="true"></canvas>
+        <div class="container position-relative">
+            <h2 class="title-ganadores text-center title-premios mb-3">¡Últimos bendecidos! 🥳</h2>
+            <div class="ganadores-carousel-wrap">
+                <div id="ganadores-carousel" class="splide" aria-label="Últimos bendecidos">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            <li class="splide__slide">
+                                <figure class="ganador-card">
+                                    <picture>
+                                        <source type="image/webp" media="(max-width: 767px)" srcset="assets/images/ganadores/nmax-combo-m.webp">
+                                        <source type="image/webp" srcset="assets/images/ganadores/nmax-combo.webp">
+                                        <img src="assets/images/ganadores/nmax-combo.jpg" alt="Bendecido NMAX Combo Millonario" width="1050" height="1400" loading="lazy" decoding="async">
+                                    </picture>
+                                    <figcaption>NMAX · Combo Millonario</figcaption>
+                                </figure>
+                            </li>
+                            <li class="splide__slide">
+                                <figure class="ganador-card">
+                                    <picture>
+                                        <source type="image/webp" media="(max-width: 767px)" srcset="assets/images/ganadores/pulsar-ns-combo-m.webp">
+                                        <source type="image/webp" srcset="assets/images/ganadores/pulsar-ns-combo.webp">
+                                        <img src="assets/images/ganadores/pulsar-ns-combo.jpg" alt="Bendecido Pulsar NS Combo Millonario" width="787" height="1400" loading="lazy" decoding="async">
+                                    </picture>
+                                    <figcaption>Pulsar NS · Combo Millonario</figcaption>
+                                </figure>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="container-ganadores d-none">
-        <div id="exampleCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item">
-                    <img src="" class="d-block w-100" alt="Ganador 1">
-                </div>
-                <div class="carousel-item">
-                    <img src="" class="d-block w-100" alt="Ganador 1">
-                </div>
-                <div class="carousel-item active">
-                    <img src="" class="d-block w-100" alt="Ganador 1">
-                </div>
-                <div class="carousel-item">
-                    <img src="" class="d-block w-100" alt="Ganador 1">
-                </div>
-                <div class="carousel-item">
-                    <img src="" class="d-block w-100" alt="Ganador 1">
-                </div>
-                <div class="carousel-item">
-                    <img src="" class="d-block w-100" alt="Ganador 1">
-                </div>
 
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#exampleCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Anterior</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#exampleCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Siguiente</span>
-            </button>
-        </div>
-    </section>
 
     <footer class="bg-dark text-light pt-5">
         <div class="container">
@@ -902,15 +570,19 @@ $salesClosedMessage = SalesClosedHelper::message();
         'descuento' => CouponHelper::DISCOUNT_PERCENT,
         'expira' => $couponActive ? CouponHelper::getExpiresForJs() : null,
     ], JSON_UNESCAPED_UNICODE) ?>;
+    window.DINAMICA = <?= json_encode(DinamicaHelper::frontendConfig(), JSON_UNESCAPED_UNICODE) ?>;
     window.PROMO_2X1 = <?= json_encode([
         'activo' => $promo2x1Active,
         'minimo' => Promo2x1Helper::MIN_QTY,
-        'expira' => $promo2x1Active ? Promo2x1Helper::getExpiresForJs() : null,
+        'expira' => DinamicaHelper::getExpiresForJs(),
     ], JSON_UNESCAPED_UNICODE) ?>;
     window.SALES_CLOSED = <?= json_encode(SalesClosedHelper::frontendConfig(), JSON_UNESCAPED_UNICODE) ?>;
     </script>
-    <script src="assets/js/promo-2x1.js?v=29"></script>
-    <script src="assets/js/frontend-v3.js?v=29"></script>
+    <script src="assets/js/promo-2x1.js?v=36"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="assets/js/countdown-urgencia.js?v=1"></script>
+    <script src="assets/js/frontend-v3.js?v=38"></script>
+    <script src="assets/js/confeti-ganadores.js?v=1"></script>
     <script src="assets/js/progreso-ventas.js?v=29"></script>
     <script src="assets/js/buscarTickets.js?v=29"></script>
 
@@ -954,6 +626,9 @@ $salesClosedMessage = SalesClosedHelper::message();
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        if (typeof Splide === 'undefined' || !document.getElementById('main-carousel')) {
+            return;
+        }
         new Splide('#main-carousel', {
             type: 'fade',
             autoplay: true,
@@ -1012,9 +687,9 @@ $salesClosedMessage = SalesClosedHelper::message();
                             <div class="card-body p-3">
                                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                                     <div>
-                                        <span class="promo-2x1-badge">2×1</span>
-                                        <span class="fw-bold text-promo-2x1 ms-1">¡Tu compra se dobla!</span>
-                                        <span class="small text-muted d-block" id="textoPromo2x1Checkout">Desde 50 números pagados</span>
+                                        <span class="promo-2x1-badge">PREVENTA</span>
+                                        <span class="fw-bold text-promo-2x1 ms-1">Preventa: paga menos, recibe más</span>
+                                        <span class="small text-muted d-block" id="textoPromo2x1Checkout">paga menos, recibe más</span>
                                     </div>
                                     <span class="badge badge-promo-2x1 promo2x1-countdown">--:--:--</span>
                                 </div>

@@ -1,6 +1,7 @@
 <?php
 require_once "../config/config.php";
 require_once "../includes/coupon.php";
+require_once "../includes/dinamica.php";
 require_once "../includes/promo2x1.php";
 $page_title = "Nueva Venta";
 $couponActive = CouponHelper::isActive();
@@ -37,9 +38,9 @@ include_once ROOT_PATH . "/includes/head.php";
                 <div class="alert alert-promo-2x1-vender shadow-sm mb-3 py-3 promo-2x1-wrap">
                     <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
                         <div>
-                            <span class="promo-2x1-badge">2×1</span>
-                            <span class="fw-bold text-promo-2x1 ms-1">Promo activa</span>
-                            <div class="small mt-1">Desde <strong>50 números</strong>: el cliente paga y recibe el <strong>doble</strong>. Paga menos, lleva más.</div>
+                            <span class="promo-2x1-badge">PREVENTA</span>
+                            <span class="fw-bold text-promo-2x1 ms-1">Preventa activa</span>
+                            <div class="small mt-1">El cliente paga y recibe extras. 3→4, 5→7, 10→13.</div>
                         </div>
                         <span class="badge badge-promo-2x1 promo2x1-countdown">--:--:--</span>
                     </div>
@@ -116,85 +117,11 @@ include_once ROOT_PATH . "/includes/head.php";
                                 </div>
                                 
 
-                                <div class="row g-2" id="paquetesNumeros">
-
-                                    <div class="col-6 col-md-4">
-                                        <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq3" value="20">
-                                        <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center" for="paq3">
-                                            <div class="fw-semibold">20 </div>
-                                            <div class="small">$18.000</div>
-                                        </label>
-                                    </div>
-
-                                    <div class="col-6 col-md-4">
-                                        <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq4" value="30">
-                                        <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center" for="paq4">
-                                            <div class="fw-semibold">30 </div>
-                                            <div class="small">$27.000</div>
-                                        </label>
-                                    </div>
-
-                                    <div class="col-6 col-md-4">
-                                        <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq5" value="50">
-                                        <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center" for="paq5">
-                                            <div class="fw-semibold">50</div>
-                                            <div class="small">$45.000</div>
-                                        </label>
-                                    </div>
-
-                                    <div class="col-6 col-md-4">
-                                        <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq7" value="70">
-                                        <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center" for="paq7">
-                                            <div class="fw-semibold">70</div>
-                                            <div class="small">$63.000</div>
-                                        </label>
-                                    </div>
-
-                                    <div class="col-6 col-md-4">
-                                        <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq10" value="100">
-                                        <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center" for="paq10">
-                                            <div class="fw-semibold">100</div>
-                                            <div class="small">$90.000</div>
-                                        </label>
-                                    </div>
-
-                                    <div class="col-6 col-md-4">
-                                        <input type="radio" class="btn-check paquete-radio" name="paqueteNumeros" id="paq20" value="200">
-                                        <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center" for="paq20">
-                                            <div class="fw-semibold">200</div>
-                                            <div class="small">$180.000</div>
-                                        </label>
-                                    </div>
-
-
-                                    <div class="col-6 col-md-4">
-
-                                        <input type="radio"
-                                            class="btn-check paquete-radio"
-                                            name="paqueteNumeros"
-                                            id="paqCustom"
-                                            value="custom">
-
-                                        <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center justify-content-center"
-                                            for="paqCustom">
-
-                                            <div class="fw-semibold">Otro</div>
-
-                                        </label>
-
-                                        <input
-                                            type="tel"
-                                            id="cantidadManual"
-                                            class="form-control form-control-sm text-center mt-1"
-                                            min="3"
-                                            placeholder="#"
-                                            style="display:none;"
-                                        >
-
-                                    </div>    
-
-
-
+                                <div class="row g-2 g-md-3 cr-paquetes-grid" id="paquetesNumeros">
+                                    <?= DinamicaHelper::renderPackageCards(false, true) ?>
+                                </div>
+                                <div class="cr-paquetes-hint">
+                                    <?= DinamicaHelper::renderPriceHints() ?>
                                 </div>                  
 
                             </div>
@@ -276,6 +203,7 @@ include_once ROOT_PATH . "/includes/head.php";
 
 <?php
 $extra_js = '
+<link rel="stylesheet" href="' . ASSETS_URL . '/css/paquetes.css?v=5" />
 <link href="' . ASSETS_URL . '/libs/select2/css/select2.min.css" rel="stylesheet" />
 <link href="' . ASSETS_URL . '/libs/select2/css/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
 <script src="' . ASSETS_URL . '/libs/select2/js/select2.min.js"></script>
@@ -287,14 +215,15 @@ window.CUPON_AP_FENIX = ' . json_encode([
     'descuento' => CouponHelper::DISCOUNT_PERCENT,
     'expira' => $couponActive ? CouponHelper::getExpiresForJs() : null,
 ], JSON_UNESCAPED_UNICODE) . ';
+window.DINAMICA = ' . json_encode(DinamicaHelper::frontendConfig(), JSON_UNESCAPED_UNICODE) . ';
 window.PROMO_2X1 = ' . json_encode([
     'activo' => $promo2x1Active,
     'minimo' => Promo2x1Helper::MIN_QTY,
-    'expira' => $promo2x1Active ? Promo2x1Helper::getExpiresForJs() : null,
+    'expira' => DinamicaHelper::getExpiresForJs(),
 ], JSON_UNESCAPED_UNICODE) . ';
 </script>
-<script src="' . ASSETS_URL . '/js/promo-2x1.js?v=1"></script>
-<script src="' . ASSETS_URL . '/js/vender.js?v=promo2x1"></script>
+<script src="' . ASSETS_URL . '/js/promo-2x1.js?v=36"></script>
+<script src="' . ASSETS_URL . '/js/vender.js?v=36"></script>
 ';
 include_once ROOT_PATH . "/includes/footer.php";
 ?>

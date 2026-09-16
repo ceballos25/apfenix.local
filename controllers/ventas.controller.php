@@ -600,6 +600,8 @@ public static function obtenerAdmins() {
             return null;
         }
 
+        require_once dirname(__DIR__) . '/includes/dinamica.php';
+
         // Formatear fecha
         $fecha = new DateTime($venta->date_created_sale);
         $fecha->setTimezone(new DateTimeZone('America/Bogota'));
@@ -654,6 +656,7 @@ public static function obtenerAdmins() {
             '{Fecha}' => $fechaFormateada,
             '{Cantidad}' => $venta->quantity_sale,
             '{Codigo}' => $venta->code_sale,
+            '{Juega}' => DinamicaHelper::DRAW_WITH_LOTTERY,
             '{NumerosHTML}' => $htmlTickets,
             '{Total}' => '$' . number_format($venta->total_sale, 0, ',', '.')
         ];

@@ -1,0 +1,279 @@
+.urgencia-timer {
+    background: #111;
+    color: #fff;
+    border-radius: 16px;
+    padding: 1.1rem 1rem 1.15rem;
+    text-align: center;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+}
+
+.urgencia-timer__kicker {
+    margin: 0 0 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #fca5a5;
+}
+
+.urgencia-timer__grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+}
+
+.urgencia-timer__unit {
+    min-width: 3.35rem;
+    background: #1f1f1f;
+    border: 1px solid #2e2e2e;
+    border-radius: 10px;
+    padding: 0.45rem 0.2rem 0.4rem;
+}
+
+.urgencia-timer__unit span {
+    display: block;
+    font-size: clamp(1.35rem, 6vw, 1.85rem);
+    font-weight: 800;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.urgencia-timer__unit small {
+    display: block;
+    margin-top: 0.28rem;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #9ca3af;
+}
+
+.urgencia-timer__unit--seg {
+    border-color: #7f1d1d;
+    background: #1c1010;
+}
+
+.urgencia-timer__unit--seg span {
+    color: #fecaca;
+}
+
+.urgencia-timer__sep {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #6b7280;
+    padding-bottom: 0.9rem;
+}
+
+.urgencia-timer__sep--pulse {
+    animation: urgencia-blink 1s steps(2, end) infinite;
+    color: #f87171;
+}
+
+.urgencia-timer__cta {
+    margin: 0.85rem 0 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #d1d5db;
+}
+
+.urgencia-timer.is-critical {
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.35);
+}
+
+.urgencia-timer.is-critical .urgencia-timer__kicker {
+    color: #fecaca;
+}
+
+@keyframes urgencia-blink {
+    50% { opacity: 0.2; }
+}
+
+.bendecidos-grupo {
+    background: #fff;
+    border-radius: 14px;
+    padding: 0.9rem 0.85rem 0.8rem;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.05);
+    border: 1px solid #eee;
+}
+
+.bendecidos-grupo__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.7rem;
+}
+
+.bendecidos-grupo__head strong {
+    font-size: 0.95rem;
+}
+
+.bendecidos-grupo__head span {
+    font-weight: 800;
+}
+
+.bendecidos-grupo--200 {
+    border-left: 4px solid #0f766e;
+}
+
+.bendecidos-grupo--200 .bendecidos-grupo__head span {
+    color: #0f766e;
+}
+
+.bendecidos-grupo--200 .bendecido-num:not(.is-empty) {
+    background: #0f766e;
+    color: #fff;
+}
+
+.bendecidos-grupo--300 {
+    border-left: 4px solid #b45309;
+}
+
+.bendecidos-grupo--300 .bendecidos-grupo__head span {
+    color: #b45309;
+}
+
+.bendecidos-grupo--300 .bendecido-num:not(.is-empty) {
+    background: #b45309;
+    color: #fff;
+}
+
+.bendecidos-grupo__nums {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.bendecido-num {
+    position: relative;
+    min-width: 3.4rem;
+    padding: 0.38rem 0.45rem;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 0.02em;
+}
+
+.bendecido-num.is-empty {
+    background: #f8fafc;
+    color: #cbd5e1;
+    border: 1px dashed #e2e8f0;
+}
+
+.bendecidos-grupo__nota {
+    display: block;
+    margin-top: 0.55rem;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.seccion-ganadores {
+    position: relative;
+    overflow: hidden;
+    padding: 1.75rem 0 2.25rem;
+    background: linear-gradient(180deg, #fff7ed 0%, #fdf2f8 45%, #f5f3ff 100%);
+}
+
+.seccion-ganadores__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.seccion-ganadores .title-ganadores {
+    position: relative;
+    z-index: 1;
+    font-weight: 800;
+    color: #111;
+    padding: 0 0 0.35rem !important;
+}
+
+.ganadores-carousel-wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 22.5rem;
+    margin: 0 auto;
+    padding-bottom: 1.35rem;
+}
+
+@media (min-width: 768px) {
+    .ganadores-carousel-wrap {
+        max-width: 26rem;
+    }
+}
+
+#ganadores-carousel .splide__slide {
+    padding: 0.15rem;
+}
+
+.ganador-card {
+    margin: 0;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 28px rgba(45, 4, 52, 0.12);
+}
+
+.ganador-card picture,
+.ganador-card img {
+    display: block;
+    width: 100%;
+}
+
+.ganador-card img {
+    aspect-ratio: 3 / 4;
+    height: auto;
+    max-height: min(62vh, 520px);
+    object-fit: cover;
+    object-position: center 18%;
+}
+
+.ganador-card figcaption {
+    padding: 0.65rem 0.8rem 0.8rem;
+    text-align: center;
+    font-weight: 800;
+    font-size: 0.88rem;
+    color: #2D0434;
+}
+
+#ganadores-carousel .splide__pagination {
+    bottom: -0.35rem;
+}
+
+#ganadores-carousel .splide__pagination__page {
+    background: #2D0434;
+    opacity: 0.25;
+}
+
+#ganadores-carousel .splide__pagination__page.is-active {
+    opacity: 1;
+    background: #d500f9;
+}
+
+#ganadores-carousel .splide__arrow {
+    background: #fff;
+    opacity: 1;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.18);
+}
+
+#ganadores-carousel .splide__arrow svg {
+    fill: #2D0434;
+}
+
+@media (max-width: 575.98px) {
+    .ganador-card img {
+        max-height: min(58vh, 440px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .seccion-ganadores__canvas {
+        display: none;
+    }
+}
+

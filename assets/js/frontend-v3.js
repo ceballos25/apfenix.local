@@ -67,33 +67,63 @@ function initVentasCerradas() {
 }
 
     document.addEventListener('DOMContentLoaded', function () {
-    var main = new Splide('#main-carousel', {
-        type: 'fade',
-        rewind: true,
-        pagination: false,
-        arrows: true,
-    });
+        if (typeof Splide === 'undefined') {
+            return;
+        }
 
-    var thumbnails = new Splide('#thumbnail-carousel', {
-        fixedWidth: 90,
-        fixedHeight: 60,
-        gap: 10,
-        rewind: true,
-        pagination: false,
-        isNavigation: true,
-        focus: 'center',
-        cover: true,
-        breakpoints: {
-        600: {
-            fixedWidth: 60,
-            fixedHeight: 44,
-        },
-        },
-    });
+        if (document.getElementById('ganadores-carousel')) {
+            new Splide('#ganadores-carousel', {
+                type: 'loop',
+                autoplay: true,
+                interval: 3800,
+                pauseOnHover: true,
+                pauseOnFocus: true,
+                speed: 650,
+                gap: '1rem',
+                arrows: true,
+                pagination: true,
+                rewind: true,
+                drag: true,
+                padding: { left: 0, right: '12%' },
+                breakpoints: {
+                    767: {
+                        padding: { left: 0, right: '10%' },
+                    },
+                },
+            }).mount();
+        }
 
-    main.sync(thumbnails);
-    main.mount();
-    thumbnails.mount();
+        if (!document.getElementById('main-carousel')) {
+            return;
+        }
+
+        var main = new Splide('#main-carousel', {
+            type: 'fade',
+            rewind: true,
+            pagination: false,
+            arrows: true,
+        });
+
+        var thumbnails = new Splide('#thumbnail-carousel', {
+            fixedWidth: 90,
+            fixedHeight: 60,
+            gap: 10,
+            rewind: true,
+            pagination: false,
+            isNavigation: true,
+            focus: 'center',
+            cover: true,
+            breakpoints: {
+                600: {
+                    fixedWidth: 60,
+                    fixedHeight: 44,
+                },
+            },
+        });
+
+        main.sync(thumbnails);
+        main.mount();
+        thumbnails.mount();
     });
 
 /* ================== INIT ================== */
@@ -244,11 +274,22 @@ $('#cantidadManual').on('blur', function () {
 /* ================== PRECIOS ================== */
 
 function obtenerPrecioUnitario(cantidad) {
+    if (window.Promo2x1 && typeof window.Promo2x1.precioUnitario === 'function') {
+        return window.Promo2x1.precioUnitario(cantidad);
+    }
 
-    return cantidad >= 20
-        ? 900
-        : estado.rifa.precio;
+    const d = window.DINAMICA || {};
+    const promo = d.precioPromo || 8000;
+    const full = d.precio || estado.rifa.precio || 9000;
+    const desde = d.desdePromo || 25;
+    if (d.preventaActiva) {
+        return full;
+    }
+    if (cantidad >= desde) {
+        return promo;
+    }
 
+    return full;
 }
 
 function formatearMoneda(n) {
@@ -350,21 +391,19 @@ function initPromo2x1() {
 }
 
 function actualizarPrecioVisual(cantidad) {
+    const unit = obtenerPrecioUnitario(cantidad);
+    const promo = (window.DINAMICA && window.DINAMICA.precioPromo) || 8000;
 
-    if (cantidad >= 20) {
-
+    if (unit <= promo) {
         $('#precioBoletaDisplay').html(
-            `$8.000 <small class="text-white fs-6">c/u · PROMO 🔥</small>`
+            `$8.000 <small class="text-white fs-6">c/u</small>`
         );
-
-    } else {
-
-        $('#precioBoletaDisplay').text(
-            '$' + estado.rifa.precio.toLocaleString('es-CO')
-        );
-
+        return;
     }
 
+    $('#precioBoletaDisplay').text(
+        '$' + unit.toLocaleString('es-CO')
+    );
 }
 
 
@@ -390,7 +429,7 @@ function actualizarUI() {
             const entregados = window.Promo2x1.entregados(cant);
             $mobileDetail
                 .removeClass('d-none')
-                .html(`<span class="mobile-cart-2x1">2×1</span>${cant} → <strong>${entregados} núms</strong>`);
+                .html(`<span class="mobile-cart-2x1">Preventa</span>${cant} → <strong>${entregados} núms</strong>`);
         } else {
             $mobileDetail.removeClass('d-none').text(`${cant} núms`);
         }
@@ -407,7 +446,7 @@ function actualizarUI() {
         $('#bloquePromo2x1Checkout').removeClass('d-none');
     } else {
         $('#lineaPromo2x1Desktop').addClass('d-none');
-        $('#textoPromo2x1Checkout').removeClass('d-none').text('Desde 50 números pagados');
+        $('#textoPromo2x1Checkout').removeClass('d-none').text('Preventa: paga menos, recibe más');
     }
 
     $('#totalDineroDesktop, #lblTotalMobile, #resumenTotal').text(fmt(montos.total));
@@ -424,7 +463,7 @@ function actualizarUI() {
 
         cant
             ? (aplica2x1
-                ? `<span class="fw-bold">${cant} → ${window.Promo2x1.entregados(cant)} núms</span> <span class="badge badge-promo-2x1">2×1</span>`
+                ? `<span class="fw-bold">${cant} → ${window.Promo2x1.entregados(cant)} núms</span> <span class="badge badge-promo-2x1">Preventa</span>`
                 : `<span class="fw-bold">${cant} núms</span>`)
             : '<span class="text-muted">Sin selección</span>'
 

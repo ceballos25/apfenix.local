@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../controllers/apiRequest.controller.php';
+require_once __DIR__ . '/dinamica.php';
 
 class CouponHelper
 {
@@ -8,8 +9,8 @@ class CouponHelper
     const DISCOUNT_PERCENT = 15;
     const EXPIRES = '2026-06-22 23:59:59';
     const TIMEZONE = 'America/Bogota';
-    const PROMO_UNIT_QTY = 20;
-    const PROMO_UNIT_PRICE = 900;
+    const PROMO_UNIT_QTY = DinamicaHelper::PROMO_QTY;
+    const PROMO_UNIT_PRICE = DinamicaHelper::PROMO_PRICE;
 
     public static function isActive(): bool
     {
@@ -38,9 +39,7 @@ class CouponHelper
 
     public static function unitPrice(int $quantity, float $rafflePrice): int
     {
-        return $quantity >= self::PROMO_UNIT_QTY
-            ? self::PROMO_UNIT_PRICE
-            : (int) $rafflePrice;
+        return DinamicaHelper::unitPrice($quantity);
     }
 
     public static function calculateAmount(int $quantity, float $rafflePrice, ?string $couponCode = null): array

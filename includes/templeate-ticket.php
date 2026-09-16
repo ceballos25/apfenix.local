@@ -92,12 +92,12 @@ src="https://www.facebook.com/tr?id=1574275570334087&ev=PageView&noscript=1"
                         <td align="right" style="padding: 6px 0; color: #000;">{Fecha}</td>
                     </tr>
 
-                    <!-- <tr>
+                    <tr>
                         <td style="padding: 6px 0; color:#333;"><strong>Juega:</strong></td>
                         <td align="right" style="padding: 6px 0; color: #d500f9; font-weight: bold;">
-                             17 de abril Por la de Medellin
+                             {Juega}
                         </td>
-                    </tr> -->
+                    </tr>
 
                     <tr>
                         <td style="padding: 6px 0; color:#333;"><strong>Cant. Números:</strong></td>
