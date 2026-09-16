@@ -640,6 +640,22 @@ if (!estado.cantidadSeleccionada || estado.cantidadSeleccionada < 3) {
 
 /* ================== PAGO ================== */
 
+async function leerJsonRespuesta(res) {
+    const text = await res.text();
+    if (!text) {
+        return { success: false, message: 'El servidor no respondió' };
+    }
+    try {
+        const json = JSON.parse(text);
+        if (!json || typeof json !== 'object') {
+            return { success: false, message: 'Respuesta inválida del pago' };
+        }
+        return json;
+    } catch (err) {
+        return { success: false, message: 'El servidor devolvió un error al pagar' };
+    }
+}
+
 async function iniciarPagoPSE() {
 
     if (ventasCerradas()) {
@@ -697,7 +713,7 @@ async function iniciarPagoPSE() {
             body: new URLSearchParams(payload)
         });
 
-        const json = await res.json();
+        const json = await leerJsonRespuesta(res);
 
         if (!json.success)
             throw new Error(json.message || 'No se pudo crear el respaldo');
@@ -755,7 +771,7 @@ async function irAOpenPay() {
             body: new URLSearchParams(data)
         });
 
-        const json = await res.json();
+        const json = await leerJsonRespuesta(res);
 
         if (!json.success)
             throw new Error(json.message || 'Error al ir a OpenPay');
@@ -924,7 +940,7 @@ async function procesarTransferencia(e) {
             body: formData
         });
 
-        const json = await res.json();
+        const json = await leerJsonRespuesta(res);
 
         if (!json.success)
             throw new Error(json.message);

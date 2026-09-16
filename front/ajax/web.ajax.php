@@ -37,7 +37,10 @@ try {
     if ($action === 'crear_respaldo') {
 
         echo json_encode(
-            PaymentBackupsController::crearRespaldo($_POST)
+            PaymentBackupsController::crearRespaldo($_POST) ?: [
+                'success' => false,
+                'message' => 'No se pudo crear el respaldo de pago',
+            ]
         );
         exit;
     }
@@ -48,7 +51,10 @@ try {
     if ($action === 'ir_openpay') {
 
         echo json_encode(
-            OpenPayController::irAOpenPay($_POST)
+            OpenPayController::irAOpenPay($_POST) ?: [
+                'success' => false,
+                'message' => 'No se pudo iniciar el pago con PSE',
+            ]
         );
         exit;
     }

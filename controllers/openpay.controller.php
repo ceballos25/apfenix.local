@@ -86,10 +86,37 @@ class OpenPayController {
                 ]
             );
 
+            $url = $responseData['payment_method']['url'] ?? '';
+
+            if ($url === '') {
+                return [
+                    'success' => false,
+                    'message' => 'OpenPay no devolvió la URL de PSE',
+                ];
+            }
+
             return [
                 'success'      => true,
-                'redirect_url' => $responseData['payment_method']['url']
+                'redirect_url' => $url
             ];
         }
+
+        $mensaje = 'No se pudo iniciar el pago con PSE';
+        if (is_array($responseData)) {
+            $mensaje = $responseData['description']
+                ?? $responseData['error_message']
+                ?? $responseData['message']
+                ?? $mensaje;
+            if (!empty($responseData['error_code'])) {
+                $mensaje .= ' (' . $responseData['error_code'] . ')';
+            }
+        } elseif ($curlErr) {
+            $mensaje = $curlErr;
+        }
+
+        return [
+            'success' => false,
+            'message' => $mensaje,
+        ];
     }
 }

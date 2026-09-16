@@ -586,7 +586,7 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
     <script src="assets/js/promo-2x1.js?v=38"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <script src="assets/js/countdown-urgencia.js?v=1"></script>
-    <script src="assets/js/frontend-v3.js?v=41"></script>
+    <script src="assets/js/frontend-v3.js?v=42"></script>
     <script src="assets/js/confeti-ganadores.js?v=2"></script>
     <script src="assets/js/progreso-ventas.js?v=29"></script>
     <script src="assets/js/buscarTickets.js?v=29"></script>
@@ -782,36 +782,23 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
                                         
                                         <div class="bg-white p-3 rounded border mb-3 d-flex justify-content-between align-items-center">
                                             <div>
-                                                <div class="text-secondary fw-bold small text-uppercase">Ahorros Bancolombia</div>
-                                                <span id="bancolombia" class="h5 fw-bold mb-0">68005493483</span><br>
-                                                <small class="text-muted">Titular: Angélica Paez</small>
+                                                <div class="text-secondary fw-bold small text-uppercase">Nequi</div>
+                                                <span id="nequi" class="h5 fw-bold mb-0">3202925348</span>
                                             </div>
-                                            <button type="button" class="btn btn-dark btn-sm rounded-pill" onclick="copiarTexto('bancolombia')">
+                                            <button type="button" class="btn btn-dark btn-sm rounded-pill" onclick="copiarTexto('nequi')">
                                                 Copiar
                                             </button>
                                         </div>
-                        
+
                                         <div class="bg-white p-3 rounded border mb-3 d-flex justify-content-between align-items-center">
                                             <div>
-                                                <div class="text-secondary fw-bold small text-uppercase">Llave Breve 🔑</div>
-                                                <span id="llave" class="h5 fw-bold mb-0">@angelicap5037</span><br>
-                                                <small class="text-muted">Titular: Angélica Paez</small>
+                                                <div class="text-secondary fw-bold small text-uppercase">Llave</div>
+                                                <span id="llave" class="h5 fw-bold mb-0">3202925348</span>
                                             </div>
                                             <button type="button" class="btn btn-dark btn-sm rounded-pill" onclick="copiarTexto('llave')">
                                                 Copiar
                                             </button>
                                         </div>
-                                        
-                                        <div class="bg-white p-3 rounded border mb-3 d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <div class="text-secondary fw-bold small text-uppercase">Nequi</div>
-                                                <span id="nequi" class="h5 fw-bold mb-0">3202925348</span><br>
-                                                <small class="text-muted">Titular: Angélica Paez</small>
-                                            </div>
-                                            <button type="button" class="btn btn-dark btn-sm rounded-pill" onclick="copiarTexto('nequi')">
-                                                Copiar
-                                            </button>
-                                        </div>                                        
                         
                                         <div class="mt-4 p-3 bg-white rounded border">
                                             <label class="fw-bold mb-2 small text-uppercase">📤 Sube tu comprobante</label>
