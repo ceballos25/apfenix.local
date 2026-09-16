@@ -1021,6 +1021,33 @@
         color: #d500f9 !important;
     }
 
+    .premio-anticipado-card {
+        border: 1px solid #f5d0fe !important;
+        background: #fdf4ff !important;
+    }
+
+    .premio-anticipado-monto {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        line-height: 1.15;
+    }
+
+    .premio-anticipado-monto strong {
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: #d500f9;
+        letter-spacing: -0.02em;
+    }
+
+    .premio-anticipado-monto span {
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
     /* Números Ap Fenix (mismo estilo que ventas / btn-ticket-revelo) */
     .numero-apfenix {
         display: inline-flex;

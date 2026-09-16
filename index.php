@@ -27,7 +27,7 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="assets/css/styles-v20.css?v=35">
+    <link rel="stylesheet" href="assets/css/styles-v20.css?v=36">
     <link rel="stylesheet" href="assets/css/paquetes.css?v=5">
     <link rel="stylesheet" href="assets/css/urgencia.css?v=5">
     <script src="https://t.contentsquare.net/uxa/8c88e0bc219df.js"></script>
@@ -176,11 +176,14 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
                         </div>
 
                         <div class="col-12">
-                            <div class="card border-0 shadow-sm w-100">
+                            <div class="card border-0 shadow-sm w-100 premio-anticipado-card">
                                 <div class="card-body py-3">
-                                    <div class="d-flex flex-wrap justify-content-between align-items-baseline gap-2">
+                                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
                                         <h3 class="fw-bold mb-0 fs-5">Anticipados</h3>
-                                        <span class="small text-muted">5 × <strong class="color-dinero-premio">$500.000</strong> · pago inmediato</span>
+                                        <div class="premio-anticipado-monto text-md-end">
+                                            <strong>5 × $500.000</strong>
+                                            <span>pago inmediato</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
