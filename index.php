@@ -161,7 +161,7 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
                                 </div>
                                 <div>
                                     <h5 class="fw-bold mb-1 title-premio-mayor"><?= htmlspecialchars(DinamicaHelper::PREMIO_MAYOR, ENT_QUOTES, 'UTF-8') ?></h5>
-                                    <span class="small title-premio-mayor">Por las 4 de Boyacá</span>
+                                    <span class="small title-premio-mayor">Por la de Boyacá</span>
                                 </div>
                             </div>
                         </div>
@@ -170,7 +170,7 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
                             <div class="card border-0 shadow-sm text-center w-100">
                                 <div class="card-body py-3">
                                     <h3 class="fw-bold mb-1"><?= htmlspecialchars(DinamicaHelper::PREMIO_INVERTIDO, ENT_QUOTES, 'UTF-8') ?></h3>
-                                    <small class="fw-bold text-muted">Y $7 Millones con el invertido</small>
+                                    <small class="fw-bold text-muted">Por la de Boyacá</small>
                                 </div>
                             </div>
                         </div>

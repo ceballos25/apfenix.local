@@ -22,7 +22,7 @@ class DinamicaHelper
 
     const PREMIO_MAYOR = 'MT-15 o $16 Millones';
     const PREMIO_INVERTIDO = '$7 Millones';
-    const PREMIO_COPY = 'Por las 4 de Boyacá te llevas la MT-15 o $16 Millones. Y $7 Millones con el invertido';
+    const PREMIO_COPY = 'Por la de Boyacá te llevas la MT-15 o $16 Millones. Y $7 Millones con el invertido';
 
     /** @var list<int> */
     const PACKAGES = [3, 5, 8, 10, 20, 25, 50];
