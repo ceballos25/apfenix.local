@@ -8,7 +8,7 @@ $couponActive = CouponHelper::isActive();
 $promo2x1Active = Promo2x1Helper::isActive();
 $extra_css = '
 <link rel="stylesheet" href="' . ASSETS_URL . '/css/paquetes.css?v=5" />
-<link rel="stylesheet" href="' . ASSETS_URL . '/css/vender.css?v=6" />
+<link rel="stylesheet" href="' . ASSETS_URL . '/css/vender.css?v=8" />
 ';
 include_once ROOT_PATH . "/includes/head.php";
 ?>
@@ -45,9 +45,9 @@ include_once ROOT_PATH . "/includes/head.php";
                 <div class="vm-banner promo-2x1-wrap">
                     <div>
                         <strong>Preventa activa</strong>
-                        <small>El cliente paga y recibe extras. 3→4, 5→7, 10→13.</small>
+                        <small> · extras de regalo</small>
                     </div>
-                    <span class="badge badge-promo-2x1 promo2x1-countdown">--:--:--</span>
+                    <span class="badge text-bg-light border promo2x1-countdown">--:--:--</span>
                 </div>
                 <?php endif; ?>
 
@@ -169,9 +169,9 @@ include_once ROOT_PATH . "/includes/head.php";
                                 <p class="vm-pay-label">Cómo pagó</p>
                                 <div class="vm-pay">
                                     <input type="radio" class="btn-check" name="metodoPago" id="pagoEfecDesk" value="Efectivo">
-                                    <label for="pagoEfecDesk"><i class="ti ti-cash"></i>Efectivo<small>En mano</small></label>
+                                    <label for="pagoEfecDesk"><i class="ti ti-cash"></i>Efectivo</label>
                                     <input type="radio" class="btn-check" name="metodoPago" id="pagoTransDesk" value="Transferencia">
-                                    <label for="pagoTransDesk"><i class="ti ti-building-bank"></i>Transferencia<small>Nequi / banco</small></label>
+                                    <label for="pagoTransDesk"><i class="ti ti-building-bank"></i>Transferencia</label>
                                 </div>
                                 <button type="button" class="btn btn-success vm-confirm" id="btnCompletarVenta" onclick="procesarVenta()">Confirmar venta</button>
                             </div>
@@ -180,7 +180,7 @@ include_once ROOT_PATH . "/includes/head.php";
 
                 </div>
 
-                <div class="d-lg-none" style="height:132px"></div>
+                <div class="d-lg-none" style="height:118px"></div>
 
             </div>
         </div>
@@ -236,8 +236,8 @@ include_once ROOT_PATH . "/includes/head.php";
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-ghost flex-fill py-2" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-success flex-fill py-3 fw-bold" id="btnSiCobrar">Sí, cobrar</button>
+                <button type="button" class="btn btn-ghost flex-fill" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success flex-fill" id="btnSiCobrar">Sí, cobrar</button>
             </div>
         </div>
     </div>

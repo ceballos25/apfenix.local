@@ -1,12 +1,10 @@
-/* Venta manual — cobro */
+/* Venta manual — POS */
 
 .vm-page {
-    --vm-ink: #334155;
+    --vm-ink: #1e293b;
     --vm-muted: #64748b;
     --vm-line: #e2e8f0;
     --vm-soft: #f8fafc;
-    --vm-dark: #334155;
-    --vm-accent: #2D0434;
     --vm-ok: #16a34a;
     --vm-ok-hover: #15803d;
 }
@@ -16,29 +14,29 @@
     justify-content: space-between;
     align-items: center;
     gap: 0.75rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.85rem;
 }
 
 .vm-head h4 {
     margin: 0;
-    font-weight: 800;
-    letter-spacing: -0.02em;
+    font-size: 1.15rem;
+    font-weight: 700;
     color: var(--vm-ink);
 }
 
 .vm-head p {
-    margin: 0.15rem 0 0;
-    font-size: 0.82rem;
+    margin: 0.1rem 0 0;
+    font-size: 0.78rem;
     color: var(--vm-muted);
 }
 
 .vm-reset {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
     border: 1px solid var(--vm-line);
     background: #fff;
-    color: #a8a29e;
+    color: #94a3b8;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -55,28 +53,26 @@
     justify-content: space-between;
     align-items: center;
     gap: 0.75rem;
-    flex-wrap: wrap;
     background: #fff;
     border: 1px solid var(--vm-line);
-    border-radius: 14px;
-    padding: 0.7rem 1rem;
-    margin-bottom: 1rem;
+    border-radius: 10px;
+    padding: 0.55rem 0.85rem;
+    margin-bottom: 0.85rem;
 }
 
 .vm-banner strong {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     color: var(--vm-ink);
 }
 
 .vm-banner small {
-    display: block;
     color: var(--vm-muted);
     font-size: 0.75rem;
 }
 
 .vm-card {
     border: 1px solid var(--vm-line);
-    border-radius: 16px;
+    border-radius: 12px;
     box-shadow: none;
     overflow: hidden;
 }
@@ -84,69 +80,83 @@
 .vm-card .card-header {
     background: #fff;
     border-bottom: 1px solid var(--vm-line);
-    padding: 0.9rem 1.1rem;
+    padding: 0.7rem 1rem;
+}
+
+.vm-card .card-header h6 {
+    font-size: 0.88rem;
+    font-weight: 700;
 }
 
 .vm-step {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     border-radius: 999px;
-    background: var(--vm-ink);
-    color: #fff;
-    font-size: 0.7rem;
-    font-weight: 800;
-    margin-right: 0.5rem;
+    background: #f1f5f9;
+    color: var(--vm-ink);
+    font-size: 0.68rem;
+    font-weight: 700;
+    margin-right: 0.4rem;
 }
 
 .vm-card .form-control,
 .vm-card .form-select {
-    border-radius: 10px;
-    border-color: #d6d3d1;
-    min-height: 42px;
+    border-radius: 8px;
+    border-color: #e2e8f0;
+    min-height: 38px;
+    font-size: 0.875rem;
 }
 
 .vm-card .form-control:focus,
 .vm-card .form-select:focus {
-    border-color: #a8a29e;
-    box-shadow: 0 0 0 3px rgba(28, 25, 23, 0.08);
+    border-color: #94a3b8;
+    box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.2);
 }
 
-.vm-card label.small {
-    font-size: 0.72rem;
-    letter-spacing: 0.04em;
+.vm-card label.small,
+.vm-card .form-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
     color: var(--vm-muted) !important;
+    margin-bottom: 0.25rem;
+}
+
+.vm-page #paquetesNumeros .paquete-card,
+.vm-page .cr-paquetes-grid .paquete-card {
+    padding: 0.65rem 0.8rem !important;
+    border-radius: 10px !important;
+    min-height: 0;
 }
 
 /* Cobro */
 .vm-cobro {
     border: 1px solid var(--vm-line);
-    border-radius: 16px;
+    border-radius: 12px;
     overflow: hidden;
     background: #fff;
 }
 
 .vm-cobro__head {
-    background: #fff;
-    color: var(--vm-ink);
-    padding: 1rem 1.15rem 0.85rem;
+    background: var(--vm-soft);
+    padding: 0.7rem 1rem;
     border-bottom: 1px solid var(--vm-line);
 }
 
 .vm-cobro__head h6 {
     margin: 0;
-    font-weight: 800;
-    letter-spacing: 0.02em;
+    font-size: 0.88rem;
+    font-weight: 700;
     color: var(--vm-ink);
 }
 
 .vm-cobro__rifa {
     display: block;
-    margin-top: 0.2rem;
-    font-size: 0.75rem;
+    margin-top: 0.1rem;
+    font-size: 0.72rem;
     color: var(--vm-muted);
     white-space: nowrap;
     overflow: hidden;
@@ -154,7 +164,7 @@
 }
 
 .vm-cobro__body {
-    padding: 1rem 1.15rem 0.25rem;
+    padding: 0.65rem 1rem 0.15rem;
 }
 
 .vm-row {
@@ -162,9 +172,9 @@
     justify-content: space-between;
     align-items: baseline;
     gap: 0.75rem;
-    padding: 0.45rem 0;
-    font-size: 0.86rem;
-    border-bottom: 1px dashed var(--vm-line);
+    padding: 0.38rem 0;
+    font-size: 0.82rem;
+    border-bottom: 1px solid var(--vm-soft);
 }
 
 .vm-row span {
@@ -174,62 +184,53 @@
 .vm-row strong {
     color: var(--vm-ink);
     text-align: right;
-    font-weight: 700;
+    font-weight: 650;
 }
 
 .vm-row--promo strong {
-    color: #0f766e;
-}
-
-.vm-row--empty {
-    color: var(--vm-muted);
-    font-size: 0.82rem;
-    text-align: center;
-    padding: 1.25rem 0 0.5rem;
+    color: #15803d;
 }
 
 .vm-total {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
-    padding: 0.9rem 0 0.35rem;
+    align-items: baseline;
+    padding: 0.7rem 0 0.35rem;
 }
 
 .vm-total span {
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-size: 0.72rem;
+    font-weight: 650;
     color: var(--vm-muted);
 }
 
 .vm-total strong {
-    font-size: 1.7rem;
+    font-size: 1.25rem;
     line-height: 1;
-    font-weight: 800;
-    letter-spacing: -0.03em;
+    font-weight: 750;
     color: var(--vm-ink);
 }
 
 .vm-cobro__pay {
-    padding: 0.5rem 1.15rem 1.15rem;
+    padding: 0.55rem 1rem 1rem;
 }
 
 .vm-pay-label {
-    font-size: 0.72rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-size: 0.7rem;
+    font-weight: 650;
     color: var(--vm-muted);
-    margin: 0.35rem 0 0.55rem;
+    margin: 0 0 0.4rem;
 }
 
 .vm-pay {
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.55rem;
-    margin-bottom: 0.85rem;
+    gap: 6px;
+    margin-bottom: 0.7rem;
+    padding: 3px;
+    background: var(--vm-soft);
+    border-radius: 8px;
 }
 
 .vm-pay .btn-check {
@@ -240,57 +241,56 @@
 
 .vm-pay .btn-check + label {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 0.2rem;
+    gap: 0.3rem;
     margin: 0;
-    min-height: 72px;
-    border: 1px solid var(--vm-line);
-    border-radius: 10px;
-    background: #fff;
-    color: var(--vm-ink);
-    font-weight: 700;
-    font-size: 0.82rem;
+    min-height: 36px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--vm-muted);
+    font-weight: 650;
+    font-size: 0.8rem;
     cursor: pointer;
-    transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
 }
 
 .vm-pay .btn-check + label i {
-    font-size: 1.2rem;
-    color: #94a3b8;
+    font-size: 0.95rem;
+    color: inherit;
 }
 
 .vm-pay .btn-check + label small {
-    font-weight: 500;
-    color: var(--vm-muted);
-    font-size: 0.68rem;
+    display: none;
 }
 
 .vm-pay .btn-check:checked + label {
-    background: #ecfdf5;
-    border-color: #16a34a;
-    color: #166534;
-    box-shadow: none;
+    background: #fff;
+    color: var(--vm-ink);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
 }
 
 .vm-pay .btn-check:checked + label i,
 .vm-pay .btn-check:checked + label small {
-    color: #16a34a;
+    color: inherit;
 }
 
 .vm-confirm,
 #btnCompletarVenta,
 #btnSiCobrar {
     width: 100%;
+    height: 38px;
     border: 0 !important;
-    border-radius: 10px !important;
-    background: #16a34a !important;
-    background-color: #16a34a !important;
+    border-radius: 8px !important;
+    background: var(--vm-ok) !important;
+    background-color: var(--vm-ok) !important;
     color: #fff !important;
-    font-weight: 800 !important;
-    letter-spacing: 0.02em;
-    padding: 0.9rem 1rem !important;
+    font-weight: 650 !important;
+    font-size: 0.84rem !important;
+    padding: 0 0.9rem !important;
+    line-height: 1 !important;
+    min-height: 38px !important;
     --bs-btn-bg: #16a34a;
     --bs-btn-color: #fff;
     --bs-btn-hover-bg: #15803d;
@@ -303,8 +303,8 @@
 #btnCompletarVenta:hover,
 #btnSiCobrar:hover,
 #btnSiCobrar:focus {
-    background: #15803d !important;
-    background-color: #15803d !important;
+    background: var(--vm-ok-hover) !important;
+    background-color: var(--vm-ok-hover) !important;
     color: #fff !important;
 }
 
@@ -316,34 +316,31 @@
 .vm-bar {
     background: #fff;
     border-top: 1px solid var(--vm-line);
-    padding: 0.65rem 0.85rem calc(0.65rem + env(safe-area-inset-bottom));
+    padding: 0.55rem 0.75rem calc(0.55rem + env(safe-area-inset-bottom));
 }
 
 .vm-bar__row {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.65rem;
 }
 
 .vm-bar__total {
-    min-width: 0;
+    min-width: 92px;
     flex: 0 0 auto;
 }
 
 .vm-bar__total small {
     display: block;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    font-size: 0.62rem;
+    font-weight: 650;
     color: var(--vm-muted);
 }
 
 .vm-bar__total strong {
     display: block;
-    font-size: 1.2rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
+    font-size: 1.05rem;
+    font-weight: 750;
     color: var(--vm-ink);
     line-height: 1.15;
 }
@@ -351,98 +348,20 @@
 .vm-pay--pills {
     display: flex;
     grid-template-columns: none;
-    gap: 4px;
-    margin-bottom: 0.55rem;
-    padding: 4px;
-    background: #f1f5f9;
-    border-radius: 999px;
-}
-
-.vm-pay--pills .btn-check + label {
-    flex: 1;
-    min-height: 36px;
-    flex-direction: row;
-    gap: 0.35rem;
-    border: 0;
-    border-radius: 999px;
-    background: transparent;
-    font-size: 0.8rem;
-    font-weight: 700;
-    box-shadow: none;
-}
-
-.vm-pay--pills .btn-check + label i {
-    font-size: 1rem;
-    color: #94a3b8;
-}
-
-.vm-pay--pills .btn-check + label small {
-    display: none;
-}
-
-.vm-pay--pills .btn-check:checked + label {
-    background: #16a34a;
-    border-color: transparent;
-    color: #fff;
-    box-shadow: none;
-}
-
-.vm-pay--pills .btn-check:checked + label i,
-.vm-pay--pills .btn-check:checked + label small {
-    color: #fff;
+    margin-bottom: 0.45rem;
 }
 
 .vm-bar .vm-confirm {
     flex: 1;
-    min-height: 48px;
-    padding: 0.7rem 1rem;
-    font-size: 0.95rem;
+    width: auto;
+    height: 38px;
+    min-height: 38px !important;
 }
 
-@media (max-width: 991.98px) {
-    .vm-head h4 {
-        font-size: 1.15rem;
-    }
-
-    .vm-head p {
-        display: none;
-    }
-
-    .vm-card .card-header,
-    .vm-card .card-body {
-        padding: 0.85rem !important;
-    }
-
-    .vm-page .body-wrapper-inner .container-xxl {
-        padding-bottom: 0.5rem;
-    }
-
-    .vm-bar {
-        border-radius: 16px 16px 0 0;
-        box-shadow: 0 -10px 30px rgba(15, 23, 42, 0.08);
-    }
-
-    .vm-modal .modal-dialog {
-        margin: 0.75rem;
-    }
-
-    .vm-modal .modal-footer {
-        flex-direction: column-reverse;
-        gap: 0.45rem;
-    }
-
-    .vm-modal .btn-success,
-    #btnSiCobrar {
-        width: 100%;
-        padding: 0.9rem !important;
-        margin: 0;
-    }
-}
-
-/* Modal confirmar cobro */
+/* Modal */
 .vm-modal .modal-content {
-    border: 0;
-    border-radius: 18px;
+    border: 1px solid var(--vm-line);
+    border-radius: 12px;
     overflow: hidden;
 }
 
@@ -450,22 +369,23 @@
     background: #fff;
     color: var(--vm-ink);
     border-bottom: 1px solid var(--vm-line);
-    padding: 1rem 1.25rem;
+    padding: 0.75rem 1rem;
 }
 
 .vm-modal .modal-title {
-    font-weight: 800;
+    font-size: 0.95rem;
+    font-weight: 700;
 }
 
-.vm-modal .btn-close {
-    filter: none;
+.vm-modal .modal-body {
+    padding: 0.85rem 1rem !important;
 }
 
 .vm-ticket {
     background: var(--vm-soft);
-    border: 1px dashed #d6d3d1;
-    border-radius: 12px;
-    padding: 0.85rem 1rem;
+    border: 1px solid var(--vm-line);
+    border-radius: 8px;
+    padding: 0.65rem 0.85rem;
 }
 
 .vm-ticket .vm-row:last-child {
@@ -476,52 +396,68 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-top: 0.5rem;
-    padding-top: 0.65rem;
+    margin-top: 0.35rem;
+    padding-top: 0.5rem;
     border-top: 1px solid var(--vm-line);
 }
 
 .vm-ticket-total span {
-    font-size: 0.75rem;
-    font-weight: 800;
-    text-transform: uppercase;
+    font-size: 0.72rem;
+    font-weight: 650;
     color: var(--vm-muted);
 }
 
 .vm-ticket-total strong {
-    font-size: 1.45rem;
-    font-weight: 800;
+    font-size: 1.15rem;
+    font-weight: 750;
 }
 
 .vm-modal .modal-footer {
-    border: 0;
-    padding: 0 1.25rem 1.15rem;
+    display: flex;
+    flex-direction: row !important;
+    border-top: 1px solid var(--vm-line);
+    padding: 0.75rem 1rem;
     gap: 0.5rem;
 }
 
 .vm-modal .btn-ghost {
+    height: 38px;
     border: 1px solid var(--vm-line);
     background: #fff;
     color: var(--vm-ink);
-    font-weight: 700;
-    border-radius: 10px;
+    font-weight: 650;
+    font-size: 0.84rem;
+    border-radius: 8px;
 }
 
 .vm-modal .btn-success,
 #btnSiCobrar {
-    background: #16a34a !important;
-    background-color: #16a34a !important;
-    border: 0 !important;
-    color: #fff !important;
-    font-weight: 800 !important;
-    border-radius: 10px !important;
+    height: 38px;
+    min-height: 38px !important;
+    width: auto;
+    flex: 1;
+    font-weight: 650 !important;
 }
 
-.vm-modal .btn-success:hover,
-.vm-modal .btn-success:focus,
-#btnSiCobrar:hover,
-#btnSiCobrar:focus {
-    background: #15803d !important;
-    background-color: #15803d !important;
-    color: #fff !important;
+@media (max-width: 991.98px) {
+    .vm-head p {
+        display: none;
+    }
+
+    .vm-card .card-header,
+    .vm-card .card-body {
+        padding: 0.75rem !important;
+    }
+
+    .vm-modal .modal-dialog {
+        margin: 0.75rem;
+    }
+
+    .vm-modal .btn-ghost,
+    .vm-modal .btn-success,
+    #btnSiCobrar {
+        flex: 1;
+        width: auto;
+        margin: 0;
+    }
 }
