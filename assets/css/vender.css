@@ -329,8 +329,15 @@
     color: #fff !important;
 }
 
-.vm-confirm:disabled {
-    opacity: 0.65;
+.vm-confirm:disabled,
+#btnSiCobrar:disabled,
+.vm-confirm.is-busy,
+#btnSiCobrar.is-busy {
+    opacity: 1 !important;
+    visibility: visible !important;
+    color: #fff !important;
+    background: #15803d !important;
+    background-color: #15803d !important;
 }
 
 /* Modal */

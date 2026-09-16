@@ -8,7 +8,7 @@ $couponActive = CouponHelper::isActive();
 $promo2x1Active = Promo2x1Helper::isActive();
 $extra_css = '
 <link rel="stylesheet" href="' . ASSETS_URL . '/css/paquetes.css?v=5" />
-<link rel="stylesheet" href="' . ASSETS_URL . '/css/vender.css?v=9" />
+<link rel="stylesheet" href="' . ASSETS_URL . '/css/vender.css?v=10" />
 ';
 include_once ROOT_PATH . "/includes/head.php";
 ?>
@@ -41,11 +41,6 @@ include_once ROOT_PATH . "/includes/head.php";
                 </div>
                 <?php endif; ?>
 
-                <?php if ($promo2x1Active): ?>
-                <div class="vm-banner promo-2x1-wrap">
-                    <strong>Preventa activa · extras de regalo</strong>
-                    <span class="vm-count promo2x1-countdown">--:--:--</span>
-                </div>
                 <?php endif; ?>
 
                 <div class="row g-3">
@@ -169,7 +164,7 @@ include_once ROOT_PATH . "/includes/head.php";
                                     <input type="radio" class="btn-check" name="metodoPagoMobile" id="pagoTransMob" value="Transferencia">
                                     <label for="pagoTransMob"><i class="ti ti-building-bank"></i>Transferencia</label>
                                 </div>
-                                <button type="button" class="btn btn-success vm-confirm" onclick="procesarVentaMobile()">Cobrar</button>
+                                <button type="button" class="btn btn-success vm-confirm" id="btnCompletarVentaMob" onclick="procesarVentaMobile()">Cobrar</button>
                             </div>
                         </div>
                     </div>
@@ -291,7 +286,7 @@ window.PROMO_2X1 = ' . json_encode([
 ], JSON_UNESCAPED_UNICODE) . ';
 </script>
 <script src="' . ASSETS_URL . '/js/promo-2x1.js?v=37"></script>
-<script src="' . ASSETS_URL . '/js/vender.js?v=39"></script>
+<script src="' . ASSETS_URL . '/js/vender.js?v=40"></script>
 ';
 include_once ROOT_PATH . "/includes/footer.php";
 ?>

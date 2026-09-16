@@ -27,7 +27,7 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="assets/css/styles-v20.css?v=36">
+    <link rel="stylesheet" href="assets/css/styles-v20.css?v=37">
     <link rel="stylesheet" href="assets/css/paquetes.css?v=5">
     <link rel="stylesheet" href="assets/css/urgencia.css?v=6">
     <script src="https://t.contentsquare.net/uxa/8c88e0bc219df.js"></script>
@@ -56,18 +56,14 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
 
 <body>
 
-    <!-- PRECIO / PREVENTA -->
+    <!-- PRECIO (solo cuando ya no hay preventa; si hay preventa el sticky de abajo basta) -->
+    <?php if (!$preventaActive && $preventaPhase !== 'upcoming'): ?>
     <div class="promo-bar text-center py-2">
         <div class="container fw-bold">
-            <?php if ($preventaPhase === 'upcoming'): ?>
-                Preventa desde el <strong>16 de septiembre</strong> · paga menos, recibe más
-            <?php elseif ($preventaActive): ?>
-                PREVENTA · <strong>paga menos, recibe más</strong> · $9.000
-            <?php else: ?>
-                Números a <strong>$9.000</strong> · Desde 25 a <strong>$8.000</strong>
-            <?php endif; ?>
+            Números a <strong>$9.000</strong> · Desde 25 a <strong>$8.000</strong>
         </div>
     </div>
+    <?php endif; ?>
 
     <?php if ($couponActive): ?>
     <div class="cupon-promo-sticky" id="cuponPromoBar">
@@ -90,14 +86,13 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
             <div class="promo-2x1-sticky-inner">
                 <?php if ($preventaPhase === 'upcoming'): ?>
                     <span class="promo-2x1-badge">PREVENTA</span>
-                    <span>Arranca el <strong>16 de septiembre</strong> · paga menos, recibe más</span>
+                    <span>Arranca el <strong>16 de septiembre</strong></span>
                     <span class="promo-2x1-countdown">
                         Inicia en <span class="promo-countdown-value promo2x1-countdown">--:--:--</span>
                     </span>
                 <?php elseif ($preventaActive): ?>
                     <span class="promo-2x1-badge">PREVENTA</span>
-                    <span><strong>paga menos, recibe más</strong></span>
-                    <span class="d-none d-md-inline">· 3+1 · 5+2 · 10+3</span>
+                    <span>$9.000 c/u · extras de regalo</span>
                     <span class="promo-2x1-countdown">
                         Termina en <span class="promo-countdown-value promo2x1-countdown">--:--:--</span>
                     </span>
@@ -481,19 +476,21 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
 
             <div class="text-center mb-5">
                 <p>Desarrollado por</p>
-                <a href="https://ccmsoftware.com.co"
+                <a href="https://wa.me/573233745913?text=<?= rawurlencode('Hola, vi la página de AP FENIX quiero una igual o mejor') ?>"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="ccm-footer-brand"
-                    title="Visitar CCM Software — ccmsoftware.com.co"
-                    aria-label="CCM Software">
+                    title="Escríbenos por WhatsApp"
+                    aria-label="WhatsApp CCM Software">
                     <img src="<?= htmlspecialchars(ASSETS_URL . '/images/logos/logo-ccm-software.png', ENT_QUOTES, 'UTF-8') ?>"
                          alt="CCM Software"
                          class="ccm-footer-brand__logo"
                          width="163"
                          height="32"
                          decoding="async">
-                    <span class="ccm-footer-brand__hint" aria-hidden="true" title="Abrir sitio">↗</span>
+                    <span class="ccm-footer-brand__wa" aria-hidden="true">
+                        <i class="ti ti-brand-whatsapp"></i>
+                    </span>
                 </a>
             </div>
 
@@ -589,7 +586,7 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
     <script src="assets/js/promo-2x1.js?v=37"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <script src="assets/js/countdown-urgencia.js?v=1"></script>
-    <script src="assets/js/frontend-v3.js?v=39"></script>
+    <script src="assets/js/frontend-v3.js?v=40"></script>
     <script src="assets/js/confeti-ganadores.js?v=1"></script>
     <script src="assets/js/progreso-ventas.js?v=29"></script>
     <script src="assets/js/buscarTickets.js?v=29"></script>
@@ -694,11 +691,7 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
                         <div class="card promo-2x1-checkout mb-4 shadow-sm promo-2x1-wrap" id="bloquePromo2x1Checkout">
                             <div class="card-body p-3">
                                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                                    <div>
-                                        <span class="promo-2x1-badge">PREVENTA</span>
-                                        <span class="fw-bold text-promo-2x1 ms-1">Preventa: paga menos, recibe más</span>
-                                        <span class="small text-muted d-block" id="textoPromo2x1Checkout">paga menos, recibe más</span>
-                                    </div>
+                                    <span class="fw-bold">Preventa · extras de regalo</span>
                                     <span class="badge badge-promo-2x1 promo2x1-countdown">--:--:--</span>
                                 </div>
                             </div>

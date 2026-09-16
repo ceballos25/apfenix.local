@@ -447,7 +447,7 @@ function actualizarUI() {
         $('#bloquePromo2x1Checkout').removeClass('d-none');
     } else {
         $('#lineaPromo2x1Desktop').addClass('d-none');
-        $('#textoPromo2x1Checkout').removeClass('d-none').text('Preventa: paga menos, recibe más');
+        $('#textoPromo2x1Checkout').addClass('d-none');
     }
 
     $('#totalDineroDesktop, #lblTotalMobile, #resumenTotal').text(fmt(montos.total));

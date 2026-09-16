@@ -528,24 +528,26 @@ function procesarVenta() {
     ejecutarVenta();
 }
 
+function setBotonesVentaCargando(on) {
+    document.querySelectorAll('#btnCompletarVenta, #btnCompletarVentaMob, #btnSiCobrar').forEach((btn) => {
+        if (!btn.dataset.label) {
+            btn.dataset.label = (btn.textContent || '').replace(/\s+/g, ' ').trim();
+        }
+        btn.disabled = !!on;
+        btn.classList.toggle('is-busy', !!on);
+        btn.textContent = on ? 'Procesando…' : btn.dataset.label;
+    });
+}
+
 async function ejecutarVenta() {
 
     if (ventaEnCurso || !ventaPendiente) return;
 
     const { cliente, metodo, montos } = ventaPendiente;
-    const btnD = document.getElementById('btnCompletarVenta');
-    const btnModal = document.getElementById('btnSiCobrar');
     const codigoVenta = "AP" + Date.now() + Math.floor(Math.random() * 100);
 
     ventaEnCurso = true;
-    if (btnD) {
-        btnD.disabled = true;
-        btnD.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Procesando...';
-    }
-    if (btnModal) {
-        btnModal.disabled = true;
-        btnModal.innerHTML = 'Procesando...';
-    }
+    setBotonesVentaCargando(true);
 
     const fd = new FormData();
     fd.append('action', 'crear_venta');
@@ -565,14 +567,7 @@ async function ejecutarVenta() {
 
     const resetBotones = () => {
         ventaEnCurso = false;
-        if (btnD) {
-            btnD.disabled = false;
-            btnD.innerHTML = 'Confirmar venta';
-        }
-        if (btnModal) {
-            btnModal.disabled = false;
-            btnModal.innerHTML = 'Sí, cobrar';
-        }
+        setBotonesVentaCargando(false);
     };
 
     try {
