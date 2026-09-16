@@ -52,22 +52,33 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 0.75rem;
-    background: #fff;
-    border: 1px solid var(--vm-line);
+    gap: 0.6rem;
+    background: #0f172a;
+    border: 0;
     border-radius: 10px;
-    padding: 0.55rem 0.85rem;
+    padding: 0.55rem 0.75rem;
     margin-bottom: 0.85rem;
 }
 
 .vm-banner strong {
-    font-size: 0.8rem;
-    color: var(--vm-ink);
+    font-size: 0.78rem;
+    color: #fff;
+    line-height: 1.3;
 }
 
-.vm-banner small {
-    color: var(--vm-muted);
-    font-size: 0.75rem;
+.vm-count {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    font-size: 0.8rem;
+    line-height: 1;
+    background: #fff;
+    color: #0f172a;
+    padding: 0.35rem 0.5rem;
+    border-radius: 6px;
+    white-space: nowrap;
 }
 
 .vm-card {
@@ -141,9 +152,18 @@
 }
 
 .vm-cobro__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
     background: var(--vm-soft);
     padding: 0.7rem 1rem;
     border-bottom: 1px solid var(--vm-line);
+}
+
+.vm-cobro__head .vm-count {
+    background: #0f172a;
+    color: #fff;
 }
 
 .vm-cobro__head h6 {
@@ -224,41 +244,41 @@
 
 .vm-pay {
     position: relative;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
+    display: flex;
+    gap: 8px;
     margin-bottom: 0.7rem;
-    padding: 3px;
-    background: var(--vm-soft);
-    border-radius: 8px;
 }
 
 .vm-pay .btn-check {
     position: absolute;
-    opacity: 0;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
     pointer-events: none;
 }
 
 .vm-pay .btn-check + label {
     display: flex;
+    flex: 1;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 0.3rem;
     margin: 0;
-    min-height: 36px;
-    border: 0;
-    border-radius: 6px;
-    background: transparent;
-    color: var(--vm-muted);
+    min-height: 44px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #fff;
+    color: #0f172a;
     font-weight: 650;
-    font-size: 0.8rem;
+    font-size: 0.84rem;
     cursor: pointer;
 }
 
 .vm-pay .btn-check + label i {
-    font-size: 0.95rem;
-    color: inherit;
+    font-size: 1rem;
+    color: #334155;
 }
 
 .vm-pay .btn-check + label small {
@@ -266,31 +286,32 @@
 }
 
 .vm-pay .btn-check:checked + label {
-    background: #fff;
-    color: var(--vm-ink);
-    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+    background: #ecfdf5;
+    border-color: #16a34a;
+    color: #166534;
+    box-shadow: none;
 }
 
 .vm-pay .btn-check:checked + label i,
 .vm-pay .btn-check:checked + label small {
-    color: inherit;
+    color: #16a34a;
 }
 
 .vm-confirm,
 #btnCompletarVenta,
 #btnSiCobrar {
     width: 100%;
-    height: 38px;
+    height: 44px;
     border: 0 !important;
     border-radius: 8px !important;
-    background: var(--vm-ok) !important;
-    background-color: var(--vm-ok) !important;
+    background: #16a34a !important;
+    background-color: #16a34a !important;
     color: #fff !important;
-    font-weight: 650 !important;
-    font-size: 0.84rem !important;
+    font-weight: 700 !important;
+    font-size: 0.9rem !important;
     padding: 0 0.9rem !important;
     line-height: 1 !important;
-    min-height: 38px !important;
+    min-height: 44px !important;
     --bs-btn-bg: #16a34a;
     --bs-btn-color: #fff;
     --bs-btn-hover-bg: #15803d;
@@ -310,52 +331,6 @@
 
 .vm-confirm:disabled {
     opacity: 0.65;
-}
-
-/* Barra móvil */
-.vm-bar {
-    background: #fff;
-    border-top: 1px solid var(--vm-line);
-    padding: 0.55rem 0.75rem calc(0.55rem + env(safe-area-inset-bottom));
-}
-
-.vm-bar__row {
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
-}
-
-.vm-bar__total {
-    min-width: 92px;
-    flex: 0 0 auto;
-}
-
-.vm-bar__total small {
-    display: block;
-    font-size: 0.62rem;
-    font-weight: 650;
-    color: var(--vm-muted);
-}
-
-.vm-bar__total strong {
-    display: block;
-    font-size: 1.05rem;
-    font-weight: 750;
-    color: var(--vm-ink);
-    line-height: 1.15;
-}
-
-.vm-pay--pills {
-    display: flex;
-    grid-template-columns: none;
-    margin-bottom: 0.45rem;
-}
-
-.vm-bar .vm-confirm {
-    flex: 1;
-    width: auto;
-    height: 38px;
-    min-height: 38px !important;
 }
 
 /* Modal */
@@ -449,6 +424,14 @@
         padding: 0.75rem !important;
     }
 
+    .vm-page #paquetesNumeros .paquete-card {
+        min-height: 48px;
+    }
+
+    .vm-cobro--page {
+        margin-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+    }
+
     .vm-modal .modal-dialog {
         margin: 0.75rem;
     }
@@ -458,6 +441,8 @@
     #btnSiCobrar {
         flex: 1;
         width: auto;
+        min-height: 44px !important;
+        height: 44px;
         margin: 0;
     }
 }

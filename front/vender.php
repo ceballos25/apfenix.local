@@ -8,7 +8,7 @@ $couponActive = CouponHelper::isActive();
 $promo2x1Active = Promo2x1Helper::isActive();
 $extra_css = '
 <link rel="stylesheet" href="' . ASSETS_URL . '/css/paquetes.css?v=5" />
-<link rel="stylesheet" href="' . ASSETS_URL . '/css/vender.css?v=8" />
+<link rel="stylesheet" href="' . ASSETS_URL . '/css/vender.css?v=9" />
 ';
 include_once ROOT_PATH . "/includes/head.php";
 ?>
@@ -43,11 +43,8 @@ include_once ROOT_PATH . "/includes/head.php";
 
                 <?php if ($promo2x1Active): ?>
                 <div class="vm-banner promo-2x1-wrap">
-                    <div>
-                        <strong>Preventa activa</strong>
-                        <small> · extras de regalo</small>
-                    </div>
-                    <span class="badge text-bg-light border promo2x1-countdown">--:--:--</span>
+                    <strong>Preventa activa · extras de regalo</strong>
+                    <span class="vm-count promo2x1-countdown">--:--:--</span>
                 </div>
                 <?php endif; ?>
 
@@ -131,13 +128,62 @@ include_once ROOT_PATH . "/includes/head.php";
 
                             </div>
                         </div>
+
+                        <div class="vm-cobro vm-cobro--page d-lg-none mt-3">
+                            <div class="vm-cobro__head">
+                                <div>
+                                    <h6>Cobro</h6>
+                                    <span class="vm-cobro__rifa" id="lblRifaResumenMob">Sin rifa</span>
+                                </div>
+                                <?php if ($promo2x1Active): ?>
+                                <span class="vm-count promo2x1-countdown">--:--:--</span>
+                                <?php endif; ?>
+                            </div>
+                            <div class="vm-cobro__body">
+                                <div class="vm-row">
+                                    <span>Cliente</span>
+                                    <strong id="lblClienteResumenMob">Sin datos</strong>
+                                </div>
+                                <div class="vm-row">
+                                    <span>Números</span>
+                                    <strong id="lblCantidadMobileBadge">0</strong>
+                                </div>
+                                <div class="vm-row vm-row--promo d-none" id="lineaPreventaVenderMob">
+                                    <span>Preventa</span>
+                                    <strong id="lblPreventaVenderMob">—</strong>
+                                </div>
+                                <div class="d-none vm-row" id="lineaDescuentoVenderMob">
+                                    <span>Descuento APF15</span>
+                                    <strong id="montoDescuentoVenderMob">-$0</strong>
+                                </div>
+                                <div class="vm-total">
+                                    <span>Total</span>
+                                    <strong id="lblTotalMobile">$0</strong>
+                                </div>
+                            </div>
+                            <div class="vm-cobro__pay">
+                                <p class="vm-pay-label">Cómo pagó</p>
+                                <div class="vm-pay">
+                                    <input type="radio" class="btn-check" name="metodoPagoMobile" id="pagoEfecMob" value="Efectivo">
+                                    <label for="pagoEfecMob"><i class="ti ti-cash"></i>Efectivo</label>
+                                    <input type="radio" class="btn-check" name="metodoPagoMobile" id="pagoTransMob" value="Transferencia">
+                                    <label for="pagoTransMob"><i class="ti ti-building-bank"></i>Transferencia</label>
+                                </div>
+                                <button type="button" class="btn btn-success vm-confirm" onclick="procesarVentaMobile()">Cobrar</button>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-lg-4 d-none d-lg-block">
                         <div class="vm-cobro sticky-top" style="top: 90px;">
                             <div class="vm-cobro__head">
-                                <h6>Cobro</h6>
-                                <span class="vm-cobro__rifa" id="lblRifaResumen">Sin rifa</span>
+                                <div>
+                                    <h6>Cobro</h6>
+                                    <span class="vm-cobro__rifa" id="lblRifaResumen">Sin rifa</span>
+                                </div>
+                                <?php if ($promo2x1Active): ?>
+                                <span class="vm-count promo2x1-countdown">--:--:--</span>
+                                <?php endif; ?>
                             </div>
                             <div class="vm-cobro__body">
                                 <div class="vm-row">
@@ -180,27 +226,8 @@ include_once ROOT_PATH . "/includes/head.php";
 
                 </div>
 
-                <div class="d-lg-none" style="height:118px"></div>
-
             </div>
         </div>
-    </div>
-</div>
-
-<div class="fixed-bottom vm-bar d-lg-none">
-    <div class="vm-pay vm-pay--pills">
-        <input type="radio" class="btn-check" name="metodoPagoMobile" id="pagoEfecMob" value="Efectivo">
-        <label for="pagoEfecMob"><i class="ti ti-cash"></i>Efectivo</label>
-        <input type="radio" class="btn-check" name="metodoPagoMobile" id="pagoTransMob" value="Transferencia">
-        <label for="pagoTransMob"><i class="ti ti-building-bank"></i>Transferencia</label>
-    </div>
-    <div class="vm-bar__row">
-        <div class="vm-bar__total">
-            <small>Total <span id="lblCantidadMobileBadge"></span></small>
-            <span class="small text-success d-none" id="lineaDescuentoVenderMob">Desc. APF15: <span id="montoDescuentoVenderMob">-$0</span></span>
-            <strong id="lblTotalMobile">$0</strong>
-        </div>
-        <button type="button" class="btn btn-success vm-confirm" onclick="procesarVentaMobile()">Cobrar</button>
     </div>
 </div>
 
@@ -264,7 +291,7 @@ window.PROMO_2X1 = ' . json_encode([
 ], JSON_UNESCAPED_UNICODE) . ';
 </script>
 <script src="' . ASSETS_URL . '/js/promo-2x1.js?v=37"></script>
-<script src="' . ASSETS_URL . '/js/vender.js?v=38"></script>
+<script src="' . ASSETS_URL . '/js/vender.js?v=39"></script>
 ';
 include_once ROOT_PATH . "/includes/footer.php";
 ?>

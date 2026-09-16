@@ -428,8 +428,8 @@ function actualizarCarritoUI() {
     const textoNums = textoNumerosResumen(cantidad);
 
     $('#lblTotalDesktop, #lblTotalMobile').text(fmt(montos.total));
-    $('#lblClienteResumen').text(nombreClienteResumen());
-    $('#lblRifaResumen').text($('#selectRifa option:selected').text() || 'Sin rifa');
+    $('#lblClienteResumen, #lblClienteResumenMob').text(nombreClienteResumen());
+    $('#lblRifaResumen, #lblRifaResumenMob').text($('#selectRifa option:selected').text() || 'Sin rifa');
     $('#lblCantidadMobileBadge, #lblCantidadDesktop').text(textoNums);
 
     if (montos.descuento > 0) {
@@ -441,11 +441,11 @@ function actualizarCarritoUI() {
 
     if (aplica2x1) {
         const entregados = window.Promo2x1.entregados(cantidad);
-        $('#lineaPreventaVenderDesk').removeClass('d-none');
-        $('#lblPreventaVenderDesk').text('Paga ' + cantidad + ', recibe ' + entregados);
+        $('#lineaPreventaVenderDesk, #lineaPreventaVenderMob').removeClass('d-none');
+        $('#lblPreventaVenderDesk, #lblPreventaVenderMob').text('Paga ' + cantidad + ', recibe ' + entregados);
         $('#lineaVolumenVenderDesk').addClass('d-none');
     } else {
-        $('#lineaPreventaVenderDesk').addClass('d-none');
+        $('#lineaPreventaVenderDesk, #lineaPreventaVenderMob').addClass('d-none');
         const d = window.DINAMICA || {};
         const desde = d.desdePromo || 25;
         if (!d.preventaActiva && cantidad >= desde) {
