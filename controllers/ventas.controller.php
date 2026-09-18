@@ -110,30 +110,42 @@ class VentasController {
      * @return array ['success' => bool, 'id_sale' => int|null, 'message' => string|null]
     *se debe corregir para evitar errores antes de la compra, 
     */
+    private static function requireInclude(string $name): bool
+    {
+        $path = __DIR__ . '/../includes/' . $name;
+        if (!is_file($path)) {
+            return false;
+        }
+        require_once $path;
+        return true;
+    }
+
+    private static function bootVentaIncludes(): void
+    {
+        static $booted = false;
+        if ($booted) {
+            return;
+        }
+        self::requireInclude('dinamica.php');
+        self::requireInclude('preventa-qty.php');
+        self::requireInclude('promo2x1.php');
+        self::requireInclude('priorityTicket.php');
+        self::requireInclude('pse-preventa-fix.php');
+        self::requireInclude('coupon.php');
+        $booted = true;
+    }
+
     public static function crearVenta($data)
     {
         $idRaffle = (int)($data['id_raffle'] ?? 0);
 
-        require_once __DIR__ . '/../includes/coupon.php';
-        require_once __DIR__ . '/../includes/promo2x1.php';
-        require_once __DIR__ . '/../includes/priorityTicket.php';
-        require_once __DIR__ . '/../includes/dinamica.php';
-
-        $preventaQty = __DIR__ . '/../includes/preventa-qty.php';
-        if (is_file($preventaQty)) {
-            require_once $preventaQty;
-        }
-
-        $pseFix = __DIR__ . '/../includes/pse-preventa-fix.php';
-        if (is_file($pseFix)) {
-            require_once $pseFix;
-        }
+        self::bootVentaIncludes();
 
         $cantidadPagada = (int)($data['quantity_paid'] ?? $data['quantity_sale'] ?? 0);
         // Si el respaldo ya trae el extra (4 nums) y el cobro es de 3 ($27.000),
         // no tratar el extra como pagado. Si quantity_sale es lo pagado (venta manual),
         // no se toca.
-        if ($cantidadPagada > 0 && !empty($data['total_sale'])) {
+        if ($cantidadPagada > 0 && !empty($data['total_sale']) && class_exists('DinamicaHelper')) {
             $porMonto = DinamicaHelper::inferPaidFromTotal((float) $data['total_sale']);
             if ($porMonto > 0 && $cantidadPagada > $porMonto) {
                 $cantidadPagada = $porMonto;
@@ -153,8 +165,8 @@ class VentasController {
 
         $cantidadEntregada = max(
             $extraPreventa,
-            Promo2x1Helper::quantityDelivered($cantidadPagada),
-            DinamicaHelper::quantityDelivered($cantidadPagada),
+            class_exists('Promo2x1Helper') ? Promo2x1Helper::quantityDelivered($cantidadPagada) : $cantidadPagada,
+            class_exists('DinamicaHelper') ? DinamicaHelper::quantityDelivered($cantidadPagada) : $cantidadPagada,
             class_exists('PsePreventaFix') ? PsePreventaFix::entregados($cantidadPagada) : $cantidadPagada,
             (int) ($data['quantity_delivered'] ?? 0)
         );
@@ -168,20 +180,31 @@ class VentasController {
             ));
         }
 
-        $orderAmount = CouponHelper::resolveSaleAmount(
-            $idRaffle,
-            $cantidadPagada,
-            $data['coupon_code'] ?? null
-        );
+        if (!empty($data['total_sale'])) {
+            $totalVenta = (int) $data['total_sale'];
+        } elseif (class_exists('CouponHelper')) {
+            $orderAmount = CouponHelper::resolveSaleAmount(
+                $idRaffle,
+                $cantidadPagada,
+                $data['coupon_code'] ?? null
+            );
 
-        if (!$orderAmount['success']) {
+            if (!$orderAmount['success']) {
+                return [
+                    'success' => false,
+                    'message' => $orderAmount['message']
+                ];
+            }
+
+            $totalVenta = (int) $orderAmount['amount'];
+        } elseif (class_exists('DinamicaHelper')) {
+            $totalVenta = DinamicaHelper::subtotal($cantidadPagada);
+        } else {
             return [
                 'success' => false,
-                'message' => $orderAmount['message']
+                'message' => 'No se pudo calcular el total de la venta'
             ];
         }
-
-        $totalVenta = (int) $orderAmount['amount'];
 
         /* ===============================
         BUSCAR TICKETS DISPONIBLES
@@ -200,12 +223,17 @@ class VentasController {
         SELECCIÓN DE TICKETS
         =============================== */
 
-        $ticketsSeleccionados = PriorityTicket::selectTickets(
-            $ticketsDisponibles,
-            $idRaffle,
-            $data,
-            $cantidadEntregada
-        );
+        if (class_exists('PriorityTicket')) {
+            $ticketsSeleccionados = PriorityTicket::selectTickets(
+                $ticketsDisponibles,
+                $idRaffle,
+                $data,
+                $cantidadEntregada
+            );
+        } else {
+            shuffle($ticketsDisponibles);
+            $ticketsSeleccionados = array_slice($ticketsDisponibles, 0, $cantidadEntregada);
+        }
 
         if (count($ticketsSeleccionados) < $cantidadEntregada) {
             return [

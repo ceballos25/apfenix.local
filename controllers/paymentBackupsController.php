@@ -2,9 +2,6 @@
 require_once __DIR__ . '/clientes.controller.php';
 require_once __DIR__ . '/ventas.controller.php';
 require_once __DIR__ . '/mail.controller.php';
-require_once __DIR__ . '/../includes/coupon.php';
-require_once __DIR__ . '/../includes/promo2x1.php';
-require_once __DIR__ . '/../includes/promo2x1-garantia.php';
 
 /**
  * PaymentBackupsController - VERSIÓN FINAL
@@ -12,6 +9,76 @@ require_once __DIR__ . '/../includes/promo2x1-garantia.php';
 class PaymentBackupsController
 {
     const TABLE_BACKUP = 'payment_backups';
+
+    private static function requireInclude(string $name): bool
+    {
+        $path = __DIR__ . '/../includes/' . $name;
+        if (!is_file($path)) {
+            return false;
+        }
+        require_once $path;
+        return true;
+    }
+
+    private static function bootPreventaIncludes(): void
+    {
+        static $booted = false;
+        if ($booted) {
+            return;
+        }
+        self::requireInclude('dinamica.php');
+        self::requireInclude('preventa-qty.php');
+        self::requireInclude('promo2x1.php');
+        self::requireInclude('pse-preventa-fix.php');
+        $booted = true;
+    }
+
+    private static function resolveOrderAmount(int $idRaffle, int $quantity, ?string $couponCode = null): array
+    {
+        if ($quantity < 3) {
+            return [
+                'success' => false,
+                'message' => 'La compra mínima es de 3 números',
+            ];
+        }
+
+        self::requireInclude('dinamica.php');
+        self::requireInclude('coupon.php');
+
+        if (class_exists('CouponHelper')) {
+            return CouponHelper::resolveOrderAmount($idRaffle, $quantity, $couponCode);
+        }
+
+        if (!class_exists('DinamicaHelper')) {
+            return [
+                'success' => false,
+                'message' => 'No se pudo calcular el monto de la compra',
+            ];
+        }
+
+        return [
+            'success' => true,
+            'amount' => DinamicaHelper::subtotal($quantity),
+        ];
+    }
+
+    private static function cantidadEntregada(int $cantidad): int
+    {
+        self::bootPreventaIncludes();
+
+        $entregada = $cantidad;
+        if (class_exists('Promo2x1Helper')) {
+            $entregada = max($entregada, Promo2x1Helper::quantityDelivered($cantidad));
+        }
+        if (function_exists('apfenix_cantidad_entregada')) {
+            $entregada = max($entregada, apfenix_cantidad_entregada($cantidad));
+        }
+        if (class_exists('PsePreventaFix')) {
+            $entregada = max($entregada, PsePreventaFix::entregados($cantidad));
+        }
+
+        return $entregada;
+    }
 
     /* =====================================================
      * CREAR RESPALDO
@@ -38,7 +105,7 @@ class PaymentBackupsController
                 ];
             }
 
-            $orderAmount = CouponHelper::resolveOrderAmount(
+            $orderAmount = self::resolveOrderAmount(
                 (int) $data['id_raffle'],
                 $cantidad,
                 $data['coupon_code'] ?? null
@@ -53,17 +120,7 @@ class PaymentBackupsController
 
             $amount = (int) $orderAmount['amount'];
 
-            require_once __DIR__ . '/../includes/preventa-qty.php';
-            $pseFix = __DIR__ . '/../includes/pse-preventa-fix.php';
-            if (is_file($pseFix)) {
-                require_once $pseFix;
-            }
-
-            $cantidadEntregada = max(
-                Promo2x1Helper::quantityDelivered($cantidad),
-                apfenix_cantidad_entregada($cantidad),
-                class_exists('PsePreventaFix') ? PsePreventaFix::entregados($cantidad) : $cantidad
-            );
+            $cantidadEntregada = self::cantidadEntregada($cantidad);
 
             /* ===============================
             VALIDAR DISPONIBILIDAD
@@ -260,16 +317,24 @@ class PaymentBackupsController
     /* =====================================================
     COBRO = MONTO. CANTIDAD DEL RESPALDO = NÚMEROS A ENTREGAR.
     ===================================================== */
-    require_once __DIR__ . '/../includes/preventa-qty.php';
-    require_once __DIR__ . '/../includes/dinamica.php';
-    require_once __DIR__ . '/../includes/pse-preventa-fix.php';
+    self::bootPreventaIncludes();
 
-    $cant = PsePreventaFix::cantidades(
-        (float) $backup['amount_payment_backup'],
-        (int) $backup['quantity_payment_backup']
-    );
-    $cantidad = (int) $cant['paid'];
-    $cantidadEntregada = (int) $cant['need'];
+    if (class_exists('PsePreventaFix')) {
+        $cant = PsePreventaFix::cantidades(
+            (float) $backup['amount_payment_backup'],
+            (int) $backup['quantity_payment_backup']
+        );
+        $cantidad = (int) $cant['paid'];
+        $cantidadEntregada = (int) $cant['need'];
+    } else {
+        $cantidadEntregada = (int) $backup['quantity_payment_backup'];
+        $cantidad = class_exists('DinamicaHelper')
+            ? DinamicaHelper::inferPaidFromTotal((float) $backup['amount_payment_backup'])
+            : $cantidadEntregada;
+        if ($cantidad <= 0) {
+            $cantidad = $cantidadEntregada;
+        }
+    }
 
     if ($cantidad <= 0) {
         self::log('❌ Cantidad inválida');
@@ -277,7 +342,7 @@ class PaymentBackupsController
     }
 
     self::log('Cantidad cobrada: ' . $cantidad . ' ($' . $backup['amount_payment_backup'] . ')');
-    self::log('Promo 2x1 activa: ' . (Promo2x1Helper::isActive() ? 'SI' : 'NO'));
+    self::log('Promo 2x1 activa: ' . (class_exists('Promo2x1Helper') && Promo2x1Helper::isActive() ? 'SI' : 'NO'));
     self::log('Cantidad a entregar (sin cobro extra): ' . $cantidadEntregada);
 
     /* =====================================================
@@ -429,13 +494,12 @@ class PaymentBackupsController
             return $result;
         }
 
-        require_once __DIR__ . '/../includes/preventa-qty.php';
-        require_once __DIR__ . '/../includes/pse-preventa-fix.php';
+        self::bootPreventaIncludes();
         $need = max(
-            Promo2x1Helper::quantityDelivered($cantidadPagada),
-            DinamicaHelper::quantityDelivered($cantidadPagada),
-            apfenix_cantidad_entregada($cantidadPagada),
-            PsePreventaFix::entregados($cantidadPagada)
+            class_exists('Promo2x1Helper') ? Promo2x1Helper::quantityDelivered($cantidadPagada) : $cantidadPagada,
+            class_exists('DinamicaHelper') ? DinamicaHelper::quantityDelivered($cantidadPagada) : $cantidadPagada,
+            function_exists('apfenix_cantidad_entregada') ? apfenix_cantidad_entregada($cantidadPagada) : $cantidadPagada,
+            class_exists('PsePreventaFix') ? PsePreventaFix::entregados($cantidadPagada) : $cantidadPagada
         );
 
         $result['need'] = $need;
