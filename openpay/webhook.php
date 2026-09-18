@@ -12,6 +12,7 @@ if (function_exists('opcache_reset')) {
 foreach ([
     __DIR__ . '/../controllers/ventas.controller.php',
     __DIR__ . '/../controllers/paymentBackupsController.php',
+    __DIR__ . '/../controllers/mail.controller.php',
     __DIR__ . '/../includes/promo2x1.php',
     __DIR__ . '/../includes/promo2x1-garantia.php',
     __DIR__ . '/../includes/preventa-qty.php',

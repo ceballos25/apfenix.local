@@ -273,21 +273,24 @@ class VentasController {
 
         $mailSent = false;
         $warning  = null;
+        $skipMail = !empty($data['skip_mail']);
 
-        try {
-            if (!file_exists(ROOT_PATH . '/vendor/autoload.php')) {
-                $warning = 'Venta registrada. Correo no enviado: falta vendor/ (composer install en el servidor).';
-                self::logAvisoVenta($warning);
-            } else {
-                require_once __DIR__ . '/mail.controller.php';
-                $mailSent = MailController::enviarCorreoVenta((int) $idVenta);
-                if (!$mailSent) {
-                    $warning = 'Venta registrada. No se pudo enviar el correo de confirmación.';
+        if (!$skipMail) {
+            try {
+                if (!file_exists(ROOT_PATH . '/vendor/autoload.php')) {
+                    $warning = 'Venta registrada. Correo no enviado: falta vendor/ (composer install en el servidor).';
+                    self::logAvisoVenta($warning);
+                } else {
+                    require_once __DIR__ . '/mail.controller.php';
+                    $mailSent = MailController::enviarCorreoVenta((int) $idVenta);
+                    if (!$mailSent) {
+                        $warning = 'Venta registrada. No se pudo enviar el correo de confirmación.';
+                    }
                 }
+            } catch (Throwable $e) {
+                $warning = 'Venta registrada. Error al enviar correo.';
+                self::logAvisoVenta($e->getMessage());
             }
-        } catch (Throwable $e) {
-            $warning = 'Venta registrada. Error al enviar correo.';
-            self::logAvisoVenta($e->getMessage());
         }
 
         $response = [
@@ -581,7 +584,9 @@ public static function obtenerAdmins() {
         $res = ApiRequest::get('tickets', [
             'linkTo' => 'id_sale_ticket',
             'equalTo' => $idVenta,
-            'select' => 'number_ticket'
+            'select' => 'number_ticket',
+            'startAt' => 0,
+            'endAt' => 500,
         ]);
 
         return self::listarResultados($res);

@@ -60,27 +60,39 @@ class MailController {
     public static function enviarCorreoVenta(int $idSale): bool
     {
         if (!self::boot()) {
+            self::logMailError("Venta {$idSale}: no se pudo cargar PHPMailer (vendor).");
             return false;
         }
 
         $venta = VentasController::consultarVenta($idSale);
         if (!$venta) {
+            self::logMailError("Venta {$idSale}: no se encontró la venta para armar el correo.");
+            return false;
+        }
+
+        $email = trim((string) ($venta->email_customer ?? ''));
+        if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            self::logMailError("Venta {$idSale}: correo del cliente inválido ({$email}).");
             return false;
         }
 
         $tickets = VentasController::consultarTicketsVenta($idSale);
         $html = VentasController::generarRecibo($venta, $tickets);
         if (!$html) {
+            self::logMailError("Venta {$idSale}: no se pudo generar el HTML del recibo.");
             return false;
         }
 
         $mail = new PHPMailer(true);
 
         try {
+            $previousTimeout = ini_get('default_socket_timeout');
+            ini_set('default_socket_timeout', '30');
+
             self::configureSmtp($mail);
-            $mail->Timeout = 8;
+            $mail->Timeout = 30;
             $mail->setFrom(MAIL_FROM, MAIL_FROM_NAME);
-            $mail->addAddress($venta->email_customer, trim($venta->name_customer . ' ' . $venta->lastname_customer));
+            $mail->addAddress($email, trim($venta->name_customer . ' ' . $venta->lastname_customer));
 
             if (MAIL_BCC) {
                 $mail->addBCC(MAIL_BCC);
@@ -89,12 +101,16 @@ class MailController {
             $mail->isHTML(true);
             $mail->Subject = '🎟️ Confirmación de compra - ' . SITE_NAME . ' - ' . $idSale;
             $mail->Body    = $html;
+            $mail->AltBody = 'Gracias por tu compra. Revisa el comprobante en este correo.';
 
             $mail->send();
+            if ($previousTimeout !== false) {
+                ini_set('default_socket_timeout', (string) $previousTimeout);
+            }
             return true;
 
-        } catch (MailException $e) {
-            self::logMailError($e->getMessage());
+        } catch (Throwable $e) {
+            self::logMailError("Venta {$idSale}: " . $e->getMessage());
             return false;
         }
     }

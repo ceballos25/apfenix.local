@@ -314,7 +314,8 @@ class PaymentBackupsController
         'quantity_delivered' => $cantidadEntregada,
         'total_sale' => $backup['amount_payment_backup'],
         'code_sale' => $backup['code_payment_backup'],
-        'payment_method_sale' => 'Página Web'
+        'payment_method_sale' => 'Página Web',
+        'skip_mail' => true,
     ]);
 
     self::log('crearVenta quantity_delivered enviado: ' . $cantidadEntregada);
@@ -339,10 +340,14 @@ class PaymentBackupsController
         self::log('Promo 2x1 asegurada: ' . json_encode($promoFix, JSON_UNESCAPED_UNICODE));
 
         /* =====================================================
-        ENVIAR CORREO
+        ENVIAR CORREO (después de completar extras)
         ===================================================== */
-        MailController::enviarCorreoVenta((int)$resVenta['id_sale']);
-        self::log('✓ Correo enviado al cliente');
+        try {
+            $mailOk = MailController::enviarCorreoVenta((int)$resVenta['id_sale']);
+            self::log($mailOk ? '✓ Correo enviado al cliente' : '❌ Correo NO enviado — ver logs/mail.log');
+        } catch (Throwable $e) {
+            self::log('❌ Error enviando correo: ' . $e->getMessage());
+        }
 
         /* =====================================================
         LIMPIAR RESPALDO
