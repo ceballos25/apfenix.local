@@ -397,16 +397,26 @@ class PaymentBackupsController
         self::log('✓ Venta creada correctamente');
         self::log('ID Venta: ' . $resVenta['id_sale']);
 
-        /* =====================================================
-        RED DE SEGURIDAD 2×1 (inline — no depende de archivos externos)
-        ===================================================== */
-        $promoFix = self::asegurarPromo2x1EnVenta(
-            (int) $resVenta['id_sale'],
-            (int) $backup['id_customer_payment_backup'],
-            (int) $backup['id_raffle_payment_backup'],
-            $cantidad
-        );
-        self::log('Promo 2x1 asegurada: ' . json_encode($promoFix, JSON_UNESCAPED_UNICODE));
+        try {
+            $promoFix = self::asegurarPromo2x1EnVenta(
+                (int) $resVenta['id_sale'],
+                (int) $backup['id_customer_payment_backup'],
+                (int) $backup['id_raffle_payment_backup'],
+                $cantidad
+            );
+            self::log('Promo 2x1 asegurada: ' . json_encode($promoFix, JSON_UNESCAPED_UNICODE));
+        } catch (Throwable $e) {
+            self::log('⚠️ Promo 2x1 error: ' . $e->getMessage());
+        }
+
+        try {
+            if (class_exists('PsePreventaFix')) {
+                $ticketFix = PsePreventaFix::completarPorCodigo((string) $backup['code_payment_backup']);
+                self::log('Tickets asegurados: ' . json_encode($ticketFix, JSON_UNESCAPED_UNICODE));
+            }
+        } catch (Throwable $e) {
+            self::log('⚠️ Tickets error: ' . $e->getMessage());
+        }
 
         self::limpiarRespaldo((int)$backup['id_payment_backup']);
         self::log('✓ Respaldo eliminado');

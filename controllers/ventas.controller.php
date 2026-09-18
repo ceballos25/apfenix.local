@@ -282,7 +282,7 @@ class VentasController {
             'total_sale'          => $totalVenta,
             'payment_method_sale' => $data['payment_method_sale'],
             'status_sale'         => 1,
-            'id_admin_sale' => Auth::resolveSellerIdForSale($data)
+            'id_admin_sale' => self::resolveAdminForSale($data)
         ];
 
         $resVenta = ApiRequest::post(
@@ -297,22 +297,40 @@ class VentasController {
             ];
         }
 
-        $idVenta = $resVenta->results->lastId ?? $resVenta->results;
+        $idVenta = self::extractNewSaleId($resVenta);
+        if ($idVenta <= 0) {
+            return [
+                'success' => false,
+                'message' => 'Error al obtener ID de venta'
+            ];
+        }
 
         /* ===============================
         MARCAR TICKETS COMO VENDIDOS
         =============================== */
 
+        $asignados = 0;
         foreach ($ticketIds as $idTicket) {
-
-            ApiRequest::put(
+            $put = ApiRequest::put(
                 "tickets?id=$idTicket&nameId=id_ticket&token=no&except=number_ticket",
                 [
                     'status_ticket'      => 1,
                     'id_customer_ticket' => (int)$idCliente,
-                    'id_sale_ticket'     => (int)$idVenta
+                    'id_sale_ticket'     => $idVenta
                 ]
             );
+            if (ApiRequest::isSuccess($put)) {
+                $asignados++;
+            }
+        }
+
+        if ($asignados < $cantidadEntregada) {
+            self::liberarTicketsVenta($ticketIds, $idVenta);
+            ApiRequest::delete("sales?id={$idVenta}&nameId=id_sale&token=no");
+            return [
+                'success' => false,
+                'message' => 'No se pudieron asignar todos los números (' . $asignados . '/' . $cantidadEntregada . ')'
+            ];
         }
 
         $mailSent = false;
@@ -670,6 +688,66 @@ public static function obtenerAdmins() {
         }
 
         return $tickets;
+    }
+
+    private static function resolveAdminForSale(array $data): ?int
+    {
+        $auth = __DIR__ . '/../includes/auth.php';
+        if (is_file($auth)) {
+            require_once $auth;
+        }
+        if (class_exists('Auth')) {
+            return Auth::resolveSellerIdForSale($data);
+        }
+        return isset($data['id_admin']) ? (int) $data['id_admin'] : null;
+    }
+
+    private static function extractNewSaleId($resVenta): int
+    {
+        if (!is_object($resVenta) || !isset($resVenta->results)) {
+            return 0;
+        }
+        $results = $resVenta->results;
+        if (isset($results->lastId)) {
+            return (int) $results->lastId;
+        }
+        if (is_object($results) && isset($results->id_sale)) {
+            return (int) $results->id_sale;
+        }
+        return (int) $results;
+    }
+
+    private static function liberarTicketsVenta(array $ticketIds, int $idVenta): void
+    {
+        foreach ($ticketIds as $idTicket) {
+            ApiRequest::put(
+                "tickets?id={$idTicket}&nameId=id_ticket&token=no&except=number_ticket",
+                [
+                    'status_ticket' => 0,
+                    'id_customer_ticket' => 'null',
+                    'id_sale_ticket' => 'null',
+                ]
+            );
+        }
+        if ($idVenta > 0) {
+            $asignados = ApiRequest::resultsList(ApiRequest::get('tickets', [
+                'linkTo' => 'id_sale_ticket',
+                'equalTo' => $idVenta,
+                'select' => 'id_ticket',
+                'startAt' => 0,
+                'endAt' => 500,
+            ]));
+            foreach ($asignados as $t) {
+                ApiRequest::put(
+                    "tickets?id={$t->id_ticket}&nameId=id_ticket&token=no&except=number_ticket",
+                    [
+                        'status_ticket' => 0,
+                        'id_customer_ticket' => 'null',
+                        'id_sale_ticket' => 'null',
+                    ]
+                );
+            }
+        }
     }
 
     private static function listarResultados($res): array
