@@ -136,10 +136,16 @@ class VentasController {
             ? apfenix_cantidad_entregada($cantidadPagada)
             : $cantidadPagada;
 
+        $pseFix = __DIR__ . '/../includes/pse-preventa-fix.php';
+        if (is_file($pseFix)) {
+            require_once $pseFix;
+        }
+
         $cantidadEntregada = max(
             $extraPreventa,
             Promo2x1Helper::quantityDelivered($cantidadPagada),
             DinamicaHelper::quantityDelivered($cantidadPagada),
+            class_exists('PsePreventaFix') ? PsePreventaFix::entregados($cantidadPagada) : $cantidadPagada,
             (int) ($data['quantity_delivered'] ?? 0)
         );
 
@@ -273,7 +279,8 @@ class VentasController {
 
         $mailSent = false;
         $warning  = null;
-        $skipMail = !empty($data['skip_mail']);
+        $skipMail = !empty($data['skip_mail'])
+            || (($data['payment_method_sale'] ?? '') === 'Página Web');
 
         if (!$skipMail) {
             try {

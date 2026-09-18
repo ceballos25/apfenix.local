@@ -339,19 +339,7 @@ class PaymentBackupsController
         );
         self::log('Promo 2x1 asegurada: ' . json_encode($promoFix, JSON_UNESCAPED_UNICODE));
 
-        /* =====================================================
-        ENVIAR CORREO (después de completar extras)
-        ===================================================== */
-        try {
-            $mailOk = MailController::enviarCorreoVenta((int)$resVenta['id_sale']);
-            self::log($mailOk ? '✓ Correo enviado al cliente' : '❌ Correo NO enviado — ver logs/mail.log');
-        } catch (Throwable $e) {
-            self::log('❌ Error enviando correo: ' . $e->getMessage());
-        }
-
-        /* =====================================================
-        LIMPIAR RESPALDO
-        ===================================================== */
+        /* El correo lo envía el webhook DESPUÉS, para que un SMTP lento no deje la compra corta. */
         self::limpiarRespaldo((int)$backup['id_payment_backup']);
         self::log('✓ Respaldo eliminado');
 
@@ -431,10 +419,12 @@ class PaymentBackupsController
         }
 
         require_once __DIR__ . '/../includes/preventa-qty.php';
+        require_once __DIR__ . '/../includes/pse-preventa-fix.php';
         $need = max(
             Promo2x1Helper::quantityDelivered($cantidadPagada),
             DinamicaHelper::quantityDelivered($cantidadPagada),
-            apfenix_cantidad_entregada($cantidadPagada)
+            apfenix_cantidad_entregada($cantidadPagada),
+            PsePreventaFix::entregados($cantidadPagada)
         );
 
         $result['need'] = $need;

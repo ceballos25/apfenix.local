@@ -1,11 +1,12 @@
 <?php
 /**
- * Webhook OpenPay ? PRODUCCI?N DEFINITIVA
- * Con idempotencia, logs y garant?a promo 2?1
- * VERSION: 2026-07-14-promo-garantia
+ * Webhook OpenPay
+ * VERSION: 2026-09-18-pse-extras
  */
 
-// LiteSpeed / OPcache: forzar recarga de PHP cr?tico
+ignore_user_abort(true);
+@set_time_limit(120);
+
 if (function_exists('opcache_reset')) {
     @opcache_reset();
 }
@@ -17,6 +18,7 @@ foreach ([
     __DIR__ . '/../includes/promo2x1-garantia.php',
     __DIR__ . '/../includes/preventa-qty.php',
     __DIR__ . '/../includes/dinamica.php',
+    __DIR__ . '/../includes/pse-preventa-fix.php',
 ] as $phpFile) {
     clearstatcache(true, $phpFile);
     if (function_exists('opcache_invalidate') && is_file($phpFile)) {
@@ -28,6 +30,8 @@ require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../controllers/apiRequest.controller.php';
 require_once __DIR__ . '/../controllers/paymentBackupsController.php';
 require_once __DIR__ . '/../includes/promo2x1-garantia.php';
+require_once __DIR__ . '/../includes/pse-preventa-fix.php';
+require_once __DIR__ . '/../controllers/mail.controller.php';
 
 // =====================================================
 // LEER PAYLOAD
@@ -125,21 +129,63 @@ if (in_array($type, $eventosAprobados, true)) {
     );
     PaymentBackupsController::aprobarPago($backup, $tx);
 
-    // Red de seguridad: si crearVenta no aplic? 2?1, completar aqu?
+    $orderId = (string) $tx['order_id'];
+    $idSaleMail = 0;
+
     try {
-        $garantia = Promo2x1Garantia::asegurarPorCodigoVenta((string) $tx['order_id']);
+        $fix = PsePreventaFix::completarPorCodigo($orderId);
         file_put_contents(
             __DIR__ . '/openpay.log',
-            '[' . date('Y-m-d H:i:s') . '] PROMO_GARANTIA: ' . json_encode($garantia, JSON_UNESCAPED_UNICODE) . PHP_EOL,
+            '[' . date('Y-m-d H:i:s') . '] PSE_PREVENTA: ' . json_encode($fix, JSON_UNESCAPED_UNICODE) . PHP_EOL,
             FILE_APPEND
         );
+        $idSaleMail = (int) ($fix['id_sale'] ?? 0);
     } catch (Throwable $e) {
         file_put_contents(
             __DIR__ . '/openpay.log',
-            '[' . date('Y-m-d H:i:s') . '] PROMO_GARANTIA_ERROR: ' . $e->getMessage() . PHP_EOL,
+            '[' . date('Y-m-d H:i:s') . '] PSE_PREVENTA_ERROR: ' . $e->getMessage() . PHP_EOL,
             FILE_APPEND
         );
+        try {
+            $garantia = Promo2x1Garantia::asegurarPorCodigoVenta($orderId);
+            $idSaleMail = (int) ($garantia['id_sale'] ?? 0);
+            file_put_contents(
+                __DIR__ . '/openpay.log',
+                '[' . date('Y-m-d H:i:s') . '] PROMO_GARANTIA: ' . json_encode($garantia, JSON_UNESCAPED_UNICODE) . PHP_EOL,
+                FILE_APPEND
+            );
+        } catch (Throwable $e2) {
+            file_put_contents(
+                __DIR__ . '/openpay.log',
+                '[' . date('Y-m-d H:i:s') . '] PROMO_GARANTIA_ERROR: ' . $e2->getMessage() . PHP_EOL,
+                FILE_APPEND
+            );
+        }
     }
+
+    http_response_code(200);
+    echo 'OK';
+    if (function_exists('fastcgi_finish_request')) {
+        @fastcgi_finish_request();
+    }
+
+    if ($idSaleMail > 0) {
+        try {
+            $mailOk = MailController::enviarCorreoVenta($idSaleMail);
+            file_put_contents(
+                __DIR__ . '/openpay.log',
+                '[' . date('Y-m-d H:i:s') . '] CORREO: ' . ($mailOk ? 'enviado' : 'fallo') . ' venta ' . $idSaleMail . PHP_EOL,
+                FILE_APPEND
+            );
+        } catch (Throwable $e) {
+            file_put_contents(
+                __DIR__ . '/openpay.log',
+                '[' . date('Y-m-d H:i:s') . '] CORREO_ERROR: ' . $e->getMessage() . PHP_EOL,
+                FILE_APPEND
+            );
+        }
+    }
+    exit;
 
 } elseif (in_array($type, $eventosRechazados, true)) {
     file_put_contents(
