@@ -133,13 +133,13 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
                             <div class="splide__track">
                                 <ul class="splide__list">
                                     <li class="splide__slide">
-                                        <img src="assets/images/1.jpg" alt="DÚO FÉNIX" width="682" height="1024" fetchpriority="high" decoding="async">
+                                        <img src="assets/images/1.jpg?v=<?= (int) @filemtime(__DIR__ . '/assets/images/1.jpg') ?>" alt="DÚO FÉNIX" width="682" height="1024" fetchpriority="high" decoding="async">
                                     </li>
                                     <li class="splide__slide">
-                                        <img src="assets/images/2.jpg" alt="MT-15 DÚO FÉNIX" width="682" height="1024" loading="lazy" decoding="async">
+                                        <img src="assets/images/2.jpg?v=<?= (int) @filemtime(__DIR__ . '/assets/images/2.jpg') ?>" alt="MT-15 DÚO FÉNIX" width="682" height="1024" loading="lazy" decoding="async">
                                     </li>
                                     <li class="splide__slide">
-                                        <img src="assets/images/3.jpg" alt="MT-15 DÚO FÉNIX" width="682" height="1024" loading="lazy" decoding="async">
+                                        <img src="assets/images/3.jpg?v=<?= (int) @filemtime(__DIR__ . '/assets/images/3.jpg') ?>" alt="MT-15 DÚO FÉNIX" width="682" height="1024" loading="lazy" decoding="async">
                                     </li>
                                 </ul>
                             </div>
