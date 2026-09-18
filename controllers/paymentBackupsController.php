@@ -53,7 +53,11 @@ class PaymentBackupsController
 
             $amount = (int) $orderAmount['amount'];
 
-            $cantidadEntregada = Promo2x1Helper::quantityDelivered($cantidad);
+            require_once __DIR__ . '/../includes/preventa-qty.php';
+            $cantidadEntregada = max(
+                Promo2x1Helper::quantityDelivered($cantidad),
+                apfenix_cantidad_entregada($cantidad)
+            );
 
             /* ===============================
             VALIDAR DISPONIBILIDAD
@@ -62,7 +66,9 @@ class PaymentBackupsController
             $res = ApiRequest::get("tickets", [
                 'linkTo'  => 'id_raffle_ticket,status_ticket',
                 'equalTo' => $data['id_raffle'] . ',0',
-                'select'  => 'id_ticket'
+                'select'  => 'id_ticket',
+                'startAt' => 0,
+                'endAt'   => 100000,
             ]);
 
             if (!ApiRequest::isSuccess($res) || empty($res->results)) {
@@ -72,9 +78,7 @@ class PaymentBackupsController
                 ];
             }
 
-            $ticketsDisponibles = is_array($res->results)
-                ? $res->results
-                : [$res->results];
+            $ticketsDisponibles = ApiRequest::resultsList($res);
 
             if (count($ticketsDisponibles) < $cantidadEntregada) {
                 return [
@@ -258,6 +262,9 @@ class PaymentBackupsController
 
     $cantidadEntregada = Promo2x1Helper::quantityDelivered($cantidad);
 
+    require_once __DIR__ . '/../includes/preventa-qty.php';
+    $cantidadEntregada = max($cantidadEntregada, apfenix_cantidad_entregada($cantidad));
+
     self::log('Cantidad comprada: ' . $cantidad);
     self::log('Promo 2x1 activa: ' . (Promo2x1Helper::isActive() ? 'SI' : 'NO'));
     self::log('Cantidad a entregar: ' . $cantidadEntregada);
@@ -279,14 +286,13 @@ class PaymentBackupsController
         return;
     }
 
-    $ticketsDisponibles = is_array($res->results)
-        ? $res->results
-        : [$res->results];
+    $ticketsDisponibles = ApiRequest::resultsList($res);
 
     require_once __DIR__ . '/../includes/dinamica.php';
     $cantidadEntregada = max(
         $cantidadEntregada,
-        DinamicaHelper::quantityDelivered($cantidad)
+        DinamicaHelper::quantityDelivered($cantidad),
+        apfenix_cantidad_entregada($cantidad)
     );
 
     if (count($ticketsDisponibles) < $cantidadEntregada) {
@@ -419,10 +425,11 @@ class PaymentBackupsController
             return $result;
         }
 
-        require_once __DIR__ . '/../includes/dinamica.php';
+        require_once __DIR__ . '/../includes/preventa-qty.php';
         $need = max(
             Promo2x1Helper::quantityDelivered($cantidadPagada),
-            DinamicaHelper::quantityDelivered($cantidadPagada)
+            DinamicaHelper::quantityDelivered($cantidadPagada),
+            apfenix_cantidad_entregada($cantidadPagada)
         );
 
         $result['need'] = $need;

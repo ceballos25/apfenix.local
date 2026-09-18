@@ -29,7 +29,12 @@ class Promo2x1Helper
 
     public static function quantityDelivered(int $paidQuantity): int
     {
-        return DinamicaHelper::quantityDelivered($paidQuantity);
+        require_once __DIR__ . '/preventa-qty.php';
+
+        return max(
+            DinamicaHelper::quantityDelivered($paidQuantity),
+            apfenix_cantidad_entregada($paidQuantity)
+        );
     }
 
     public static function bonusQuantity(int $paidQuantity): int

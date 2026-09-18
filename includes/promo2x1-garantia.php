@@ -61,6 +61,8 @@ class Promo2x1Garantia
         }
 
         $need = Promo2x1Helper::quantityDelivered($paid);
+        require_once __DIR__ . '/preventa-qty.php';
+        $need = max($need, apfenix_cantidad_entregada($paid));
 
         $ticketsRes = ApiRequest::get('tickets', [
             'linkTo' => 'id_sale_ticket',
@@ -69,7 +71,7 @@ class Promo2x1Garantia
             'startAt' => 0,
             'endAt' => 500,
         ]);
-        $had = is_array($ticketsRes->results ?? null) ? count($ticketsRes->results) : 0;
+        $had = count(ApiRequest::resultsList($ticketsRes));
 
         $result = [
             'fixed' => false,
@@ -104,7 +106,7 @@ class Promo2x1Garantia
             'endAt' => 100000,
         ]);
 
-        $available = is_array($availRes->results ?? null) ? $availRes->results : [];
+        $available = ApiRequest::resultsList($availRes);
         if (count($available) < $bonus) {
             $result['message'] = 'No hay tickets suficientes para completar promo';
             return $result;
@@ -136,5 +138,67 @@ class Promo2x1Garantia
         $result['message'] = "Completados {$ok} tickets (había {$had}, necesitaba {$need})";
 
         return $result;
+    }
+
+    /**
+     * Recorre ventas de preventa y completa extras faltantes.
+     */
+    public static function completarVentasPreventa(): array
+    {
+        require_once __DIR__ . '/preventa-qty.php';
+        require_once __DIR__ . '/../controllers/apiRequest.controller.php';
+
+        $res = ApiRequest::get('sales', [
+            'select' => 'id_sale,code_sale,quantity_sale,total_sale,date_created_sale,payment_method_sale,id_customer_sale,id_raffle_sale,status_sale',
+            'orderBy' => 'id_sale',
+            'orderMode' => 'DESC',
+            'startAt' => 0,
+            'endAt' => 100000,
+        ]);
+
+        $ventas = ApiRequest::resultsList($res);
+        $desde = strtotime('2026-09-16 00:00:00');
+        $report = [
+            'revisadas' => 0,
+            'completas' => 0,
+            'corregidas' => [],
+            'errores' => [],
+        ];
+
+        foreach ($ventas as $v) {
+            $fecha = strtotime((string) ($v->date_created_sale ?? ''));
+            if ($fecha && $fecha < $desde) {
+                continue;
+            }
+            if ((int) ($v->status_sale ?? 1) === 0) {
+                continue;
+            }
+            $code = trim((string) ($v->code_sale ?? ''));
+            if ($code === '') {
+                continue;
+            }
+
+            $report['revisadas']++;
+            $out = self::asegurarPorCodigoVenta($code);
+            $fila = [
+                'code' => $code,
+                'nombre' => 'id_customer ' . (int) ($v->id_customer_sale ?? 0),
+                'telefono' => '',
+                'pagados' => $out['paid'],
+                'tenia' => $out['had'],
+                'necesita' => $out['need'],
+                'message' => $out['message'],
+            ];
+
+            if (!empty($out['fixed'])) {
+                $report['corregidas'][] = $fila;
+            } elseif (($out['need'] ?? 0) > ($out['had'] ?? 0)) {
+                $report['errores'][] = $fila;
+            } else {
+                $report['completas']++;
+            }
+        }
+
+        return $report;
     }
 }

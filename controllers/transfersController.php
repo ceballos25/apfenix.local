@@ -50,7 +50,11 @@ class TransfersController
 
         $amount = (int) $orderAmount['amount'];
 
-        $cantidadEntregada = Promo2x1Helper::quantityDelivered($cantidad);
+        require_once __DIR__ . '/../includes/preventa-qty.php';
+        $cantidadEntregada = max(
+            Promo2x1Helper::quantityDelivered($cantidad),
+            apfenix_cantidad_entregada($cantidad)
+        );
 
         /* ===============================
         VALIDAR DISPONIBILIDAD
@@ -59,7 +63,9 @@ class TransfersController
         $res = ApiRequest::get("tickets", [
             'linkTo'  => 'id_raffle_ticket,status_ticket',
             'equalTo' => $data['id_raffle'] . ',0',
-            'select'  => 'id_ticket'
+            'select'  => 'id_ticket',
+            'startAt' => 0,
+            'endAt'   => 100000,
         ]);
 
         if (!ApiRequest::isSuccess($res) || empty($res->results)) {
@@ -69,9 +75,7 @@ class TransfersController
             ];
         }
 
-        $ticketsDisponibles = is_array($res->results)
-            ? $res->results
-            : [$res->results];
+        $ticketsDisponibles = ApiRequest::resultsList($res);
 
         if (count($ticketsDisponibles) < $cantidadEntregada) {
             return [
@@ -229,7 +233,9 @@ class TransfersController
         $resVenta = VentasController::crearVenta([
             'id_customer' => $transfer['id_customer_transfer'],
             'id_raffle' => $transfer['id_raffle_transfer'],
+            'quantity_paid' => $cantidad,
             'quantity_sale' => $cantidad,
+            'quantity_delivered' => Promo2x1Helper::quantityDelivered($cantidad),
             'total_sale' => $transfer['amount_transfer'],
             'code_sale' => $transfer['code_transfer'],
             'payment_method_sale' => 'Transferencia',

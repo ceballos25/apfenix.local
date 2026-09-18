@@ -80,6 +80,30 @@ static public function post($url, $data = []) {
         return isset($response->status) && in_array($response->status, [200, 201]);
     }
 
+    /** Lista de resultados aunque la API devuelva 1 objeto o un objeto indexado. */
+    static public function resultsList($response): array
+    {
+        if (!is_object($response) || !isset($response->results) || $response->results === null || $response->results === '') {
+            return [];
+        }
+
+        $results = $response->results;
+
+        if (is_array($results)) {
+            return array_values($results);
+        }
+
+        if (is_object($results)) {
+            if (isset($results->id_ticket) || isset($results->id_sale) || isset($results->id_customer)) {
+                return [$results];
+            }
+
+            return array_values(get_object_vars($results));
+        }
+
+        return [];
+    }
+
     static public function getErrorMessage($response) {
         if (isset($response->results)) {
             return $response->results;

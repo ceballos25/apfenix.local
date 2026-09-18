@@ -14,6 +14,8 @@ foreach ([
     __DIR__ . '/../controllers/paymentBackupsController.php',
     __DIR__ . '/../includes/promo2x1.php',
     __DIR__ . '/../includes/promo2x1-garantia.php',
+    __DIR__ . '/../includes/preventa-qty.php',
+    __DIR__ . '/../includes/dinamica.php',
 ] as $phpFile) {
     clearstatcache(true, $phpFile);
     if (function_exists('opcache_invalidate') && is_file($phpFile)) {

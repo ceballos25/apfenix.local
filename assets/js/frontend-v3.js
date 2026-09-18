@@ -316,7 +316,17 @@ function formatearMoneda(n) {
     }).format(n);
 }
 
-function calcularMontos(cantidad) {
+function numerosAEntregar(cantidad) {
+    if (window.Promo2x1 && typeof window.Promo2x1.entregados === 'function') {
+        return window.Promo2x1.entregados(cantidad);
+    }
+    return parseInt(cantidad, 10) || 0;
+}
+
+function hayNumerosParaEntregar(cantidad) {
+    const entregados = numerosAEntregar(cantidad);
+    return entregados <= estado.inventarioCompleto.length;
+}
 
     const subtotal = cantidad * obtenerPrecioUnitario(cantidad);
     let descuento = 0;
@@ -662,7 +672,7 @@ if (!estado.cantidadSeleccionada || estado.cantidadSeleccionada < 3) {
 
 }
 
-    if (estado.cantidadSeleccionada > estado.inventarioCompleto.length) {
+    if (!hayNumerosParaEntregar(estado.cantidadSeleccionada)) {
 
         toastError('No hay suficientes números disponibles');
 
@@ -713,7 +723,7 @@ async function iniciarPagoPSE() {
     if (!datos) return;
 
 
-    if (estado.cantidadSeleccionada > estado.inventarioCompleto.length) {
+    if (!hayNumerosParaEntregar(estado.cantidadSeleccionada)) {
 
         toastError('No hay suficientes números disponibles');
 

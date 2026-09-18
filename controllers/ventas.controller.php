@@ -124,15 +124,20 @@ class VentasController {
 
         require_once __DIR__ . '/../includes/coupon.php';
         require_once __DIR__ . '/../includes/promo2x1.php';
+        require_once __DIR__ . '/../includes/preventa-qty.php';
         require_once __DIR__ . '/../includes/priorityTicket.php';
+        require_once __DIR__ . '/../includes/dinamica.php';
 
-        $cantidadEntregada = isset($data['quantity_delivered'])
-            ? (int) $data['quantity_delivered']
-            : Promo2x1Helper::quantityDelivered($cantidadPagada);
+        $cantidadEntregada = max(
+            apfenix_cantidad_entregada($cantidadPagada),
+            Promo2x1Helper::quantityDelivered($cantidadPagada),
+            DinamicaHelper::quantityDelivered($cantidadPagada),
+            (int) ($data['quantity_delivered'] ?? 0)
+        );
 
         if ($cantidadEntregada !== $cantidadPagada) {
             error_log(sprintf(
-                '[Promo2x1] Venta: pagados=%d entregados=%d rifa=%d',
+                '[Preventa] Venta: pagados=%d entregados=%d rifa=%d',
                 $cantidadPagada,
                 $cantidadEntregada,
                 $idRaffle
@@ -173,13 +178,12 @@ class VentasController {
             ];
         }
 
-        $ticketsDisponibles = is_array($res->results)
-            ? $res->results
-            : [$res->results];
+        $ticketsDisponibles = ApiRequest::resultsList($res);
 
         // Si alguien pasó quantity_delivered incorrecto, recalcular
         $cantidadEntregada = max(
             $cantidadEntregada,
+            apfenix_cantidad_entregada($cantidadPagada),
             Promo2x1Helper::quantityDelivered($cantidadPagada)
         );
 
