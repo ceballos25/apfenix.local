@@ -27,7 +27,7 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="assets/css/styles-v20.css?v=46">
+    <link rel="stylesheet" href="assets/css/styles-v20.css?v=47">
     <link rel="stylesheet" href="assets/css/paquetes.css?v=5">
     <link rel="stylesheet" href="assets/css/urgencia.css?v=7">
     <script src="https://t.contentsquare.net/uxa/8c88e0bc219df.js"></script>
