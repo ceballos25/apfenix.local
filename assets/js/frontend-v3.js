@@ -71,6 +71,26 @@ function initVentasCerradas() {
             return;
         }
 
+        if (document.getElementById('principal-carousel')) {
+            try {
+                new Splide('#principal-carousel', {
+                    type: 'fade',
+                    rewind: true,
+                    autoplay: true,
+                    interval: 4200,
+                    pauseOnHover: true,
+                    pauseOnFocus: true,
+                    speed: 700,
+                    arrows: true,
+                    pagination: true,
+                    drag: true,
+                    autoHeight: true,
+                }).mount();
+            } catch (err) {
+                console.warn('Carrusel principal:', err);
+            }
+        }
+
         if (document.getElementById('ganadores-carousel')) {
             try {
                 new Splide('#ganadores-carousel', {

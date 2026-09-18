@@ -764,6 +764,72 @@
         border-radius: 20px;
     }
 
+    .hero-fotos {
+        max-width: 32rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #principal-carousel {
+        overflow: hidden;
+        border-radius: 18px;
+        box-shadow: 0 10px 28px rgba(45, 4, 52, 0.12);
+        background: transparent;
+    }
+
+    #principal-carousel .splide__track,
+    #principal-carousel .splide__slide {
+        height: auto;
+    }
+
+    #principal-carousel .splide__slide img {
+        display: block;
+        width: auto;
+        max-width: 100%;
+        height: auto;
+        max-height: 420px;
+        margin: 0 auto;
+        object-fit: contain;
+        object-position: center center;
+        border-radius: 0;
+        transform: none !important;
+        image-rendering: auto;
+    }
+
+    #principal-carousel .splide__slide:hover img {
+        transform: none;
+    }
+
+    #principal-carousel .splide__arrow {
+        background: rgba(255, 255, 255, 0.92);
+        width: 2.1rem;
+        height: 2.1rem;
+    }
+
+    #principal-carousel .splide__pagination {
+        bottom: 0.45rem;
+    }
+
+    #principal-carousel .splide__pagination__page {
+        background: #fff;
+        opacity: 0.55;
+    }
+
+    #principal-carousel .splide__pagination__page.is-active {
+        background: #d500f9;
+        opacity: 1;
+    }
+
+    @media (max-width: 767px) {
+        .hero-fotos {
+            max-width: 100%;
+        }
+
+        #principal-carousel .splide__slide img {
+            max-height: 360px;
+        }
+    }
+
     .hero-fotos-col .card {
         width: 100%;
     }

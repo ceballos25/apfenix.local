@@ -235,7 +235,7 @@
     height: auto;
     max-height: min(62vh, 520px);
     object-fit: cover;
-    object-position: center 18%;
+    object-position: center 22%;
 }
 
 .ganador-card figcaption {
