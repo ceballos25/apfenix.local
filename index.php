@@ -604,7 +604,7 @@ $proximoAnticipado = DinamicaHelper::proximoAnticipado();
     <script src="assets/js/promo-2x1.js?v=38"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <script src="assets/js/countdown-urgencia.js?v=1"></script>
-    <script src="assets/js/frontend-v3.js?v=47"></script>
+    <script src="assets/js/frontend-v3.js?v=48"></script>
     <script src="assets/js/confeti-ganadores.js?v=2"></script>
     <script src="assets/js/progreso-ventas.js?v=29"></script>
     <script src="assets/js/buscarTickets.js?v=29"></script>

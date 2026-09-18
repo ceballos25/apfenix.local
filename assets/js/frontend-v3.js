@@ -328,6 +328,7 @@ function hayNumerosParaEntregar(cantidad) {
     return entregados <= estado.inventarioCompleto.length;
 }
 
+function calcularMontos(cantidad) {
     const subtotal = cantidad * obtenerPrecioUnitario(cantidad);
     let descuento = 0;
 
