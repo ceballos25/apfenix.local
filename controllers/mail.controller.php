@@ -78,6 +78,7 @@ class MailController {
 
         try {
             self::configureSmtp($mail);
+            $mail->Timeout = 8;
             $mail->setFrom(MAIL_FROM, MAIL_FROM_NAME);
             $mail->addAddress($venta->email_customer, trim($venta->name_customer . ' ' . $venta->lastname_customer));
 

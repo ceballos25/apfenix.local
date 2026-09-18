@@ -284,7 +284,7 @@ window.PROMO_2X1 = ' . json_encode([
 ], JSON_UNESCAPED_UNICODE) . ';
 </script>
 <script src="' . ASSETS_URL . '/js/promo-2x1.js?v=38"></script>
-<script src="' . ASSETS_URL . '/js/vender.js?v=41"></script>
+<script src="' . ASSETS_URL . '/js/vender.js?v=42"></script>
 ';
 include_once ROOT_PATH . "/includes/footer.php";
 ?>

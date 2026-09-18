@@ -29,11 +29,18 @@ class Promo2x1Helper
 
     public static function quantityDelivered(int $paidQuantity): int
     {
-        require_once __DIR__ . '/preventa-qty.php';
+        $extra = $paidQuantity;
+        $preventaQty = __DIR__ . '/preventa-qty.php';
+        if (is_file($preventaQty)) {
+            require_once $preventaQty;
+            if (function_exists('apfenix_cantidad_entregada')) {
+                $extra = apfenix_cantidad_entregada($paidQuantity);
+            }
+        }
 
         return max(
             DinamicaHelper::quantityDelivered($paidQuantity),
-            apfenix_cantidad_entregada($paidQuantity)
+            $extra
         );
     }
 

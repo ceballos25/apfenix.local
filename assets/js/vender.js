@@ -625,11 +625,12 @@ async function ejecutarVenta() {
             if (json.warning) {
                 alertify.warning(json.warning);
             }
-            generarReciboFinal(json.id_sale);
+            await generarReciboFinal(json.id_sale);
+            resetBotones();
 
         } else {
 
-            alertify.error(json.message);
+            alertify.error(json.message || 'No se pudo crear la venta');
             resetBotones();
         }
 
@@ -662,6 +663,10 @@ async function generarReciboFinal(idVenta) {
             $('.fixed-bottom').addClass('d-none');
 
             const container = document.querySelector('.body-wrapper-inner');
+            if (!container) {
+                alertify.success('Venta registrada. Recarga para una nueva venta.');
+                return;
+            }
 
             container.innerHTML = `
                 <div class="container py-5 animated fadeIn">

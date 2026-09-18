@@ -124,12 +124,20 @@ class VentasController {
 
         require_once __DIR__ . '/../includes/coupon.php';
         require_once __DIR__ . '/../includes/promo2x1.php';
-        require_once __DIR__ . '/../includes/preventa-qty.php';
         require_once __DIR__ . '/../includes/priorityTicket.php';
         require_once __DIR__ . '/../includes/dinamica.php';
 
+        $preventaQty = __DIR__ . '/../includes/preventa-qty.php';
+        if (is_file($preventaQty)) {
+            require_once $preventaQty;
+        }
+
+        $extraPreventa = function_exists('apfenix_cantidad_entregada')
+            ? apfenix_cantidad_entregada($cantidadPagada)
+            : $cantidadPagada;
+
         $cantidadEntregada = max(
-            apfenix_cantidad_entregada($cantidadPagada),
+            $extraPreventa,
             Promo2x1Helper::quantityDelivered($cantidadPagada),
             DinamicaHelper::quantityDelivered($cantidadPagada),
             (int) ($data['quantity_delivered'] ?? 0)
@@ -163,29 +171,7 @@ class VentasController {
         BUSCAR TICKETS DISPONIBLES
         =============================== */
 
-        $res = ApiRequest::get("tickets", [
-            'linkTo'  => 'id_raffle_ticket,status_ticket',
-            'equalTo' => $idRaffle . ',0',
-            'select'  => 'id_ticket',
-            'startAt' => 0,
-            'endAt'   => 100000,
-        ]);
-
-        if (!ApiRequest::isSuccess($res) || empty($res->results)) {
-            return [
-                'success' => false,
-                'message' => 'No hay números disponibles'
-            ];
-        }
-
-        $ticketsDisponibles = ApiRequest::resultsList($res);
-
-        // Si alguien pasó quantity_delivered incorrecto, recalcular
-        $cantidadEntregada = max(
-            $cantidadEntregada,
-            apfenix_cantidad_entregada($cantidadPagada),
-            Promo2x1Helper::quantityDelivered($cantidadPagada)
-        );
+        $ticketsDisponibles = self::listarTicketsLibres($idRaffle, $cantidadEntregada);
 
         if (count($ticketsDisponibles) < $cantidadEntregada) {
             return [
@@ -212,9 +198,20 @@ class VentasController {
             ];
         }
 
-        $ticketIds = array_map(function($t){
-            return $t->id_ticket;
-        }, $ticketsSeleccionados);
+        $ticketIds = [];
+        foreach ($ticketsSeleccionados as $t) {
+            $idTicket = is_object($t) ? ($t->id_ticket ?? 0) : ($t['id_ticket'] ?? 0);
+            if ((int) $idTicket > 0) {
+                $ticketIds[] = (int) $idTicket;
+            }
+        }
+
+        if (count($ticketIds) < $cantidadEntregada) {
+            return [
+                'success' => false,
+                'message' => 'No hay suficientes números disponibles'
+            ];
+        }
 
         /* ===============================
         OBTENER O CREAR CLIENTE
@@ -273,10 +270,6 @@ class VentasController {
                 ]
             );
         }
-
-        /* ===============================
-        ENVIAR CORREO (no debe fallar la venta)
-        =============================== */
 
         $mailSent = false;
         $warning  = null;
@@ -591,7 +584,45 @@ public static function obtenerAdmins() {
             'select' => 'number_ticket'
         ]);
 
-        return is_array($res->results) ? $res->results : [$res->results];
+        return self::listarResultados($res);
+    }
+
+    /**
+     * Recorte de tickets libres. No pedir 100000 filas: eso traba el POS.
+     */
+    private static function listarTicketsLibres(int $idRaffle, int $necesarios): array
+    {
+        $pageSize = max(80, min(400, $necesarios + 120));
+        $res = ApiRequest::get("tickets", [
+            'linkTo'  => 'id_raffle_ticket,status_ticket',
+            'equalTo' => $idRaffle . ',0',
+            'select'  => 'id_ticket',
+            'startAt' => 0,
+            'endAt'   => $pageSize,
+        ]);
+
+        return self::listarResultados($res);
+    }
+
+    private static function listarResultados($res): array
+    {
+        if (class_exists('ApiRequest') && method_exists('ApiRequest', 'resultsList')) {
+            return ApiRequest::resultsList($res);
+        }
+
+        if (!is_object($res) || !isset($res->results) || $res->results === null || $res->results === '') {
+            return [];
+        }
+
+        if (is_array($res->results)) {
+            return array_values($res->results);
+        }
+
+        if (is_object($res->results)) {
+            return array_values(get_object_vars($res->results));
+        }
+
+        return [];
     }
 
     /**
@@ -613,6 +644,10 @@ public static function obtenerAdmins() {
 
         $htmlTickets = '';
         $hayBendecido = false;
+
+        if (!is_array($tickets)) {
+            $tickets = [];
+        }
 
         shuffle($tickets);
 

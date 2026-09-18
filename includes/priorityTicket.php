@@ -170,9 +170,9 @@ class PriorityTicket
                 $availableIds[(int) $ticket->id_ticket] = true;
             }
 
-            // Solo si sigue libre en el pool actual (status 0)
+            // Si el recorte de tickets no lo trae, igual se asigna: el GET dedicado ya lo confirmó libre.
             if (!isset($availableIds[$priorityId])) {
-                $priorityTicket = null;
+                array_unshift($available, $priorityTicket);
             }
         }
 
