@@ -472,7 +472,7 @@ class PaymentBackupsController
             'startAt' => 0,
             'endAt' => 100000,
         ]);
-        $available = is_array($availRes->results ?? null) ? $availRes->results : [];
+        $available = ApiRequest::resultsList($availRes);
 
         if (count($available) < $bonus) {
             $result['message'] = 'Sin tickets suficientes para completar promo';

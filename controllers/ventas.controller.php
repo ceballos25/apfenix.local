@@ -609,20 +609,39 @@ public static function obtenerAdmins() {
     }
 
     /**
-     * Recorte de tickets libres. No pedir 100000 filas: eso traba el POS.
+     * Pool aleatorio de tickets libres (no siempre los primeros de la rifa).
      */
     private static function listarTicketsLibres(int $idRaffle, int $necesarios): array
     {
-        $pageSize = max(80, min(400, $necesarios + 120));
+        $poolSize = max(1500, min(5000, $necesarios * 200));
+        $startAt = random_int(0, max(0, 8000 - $poolSize));
+
         $res = ApiRequest::get("tickets", [
             'linkTo'  => 'id_raffle_ticket,status_ticket',
             'equalTo' => $idRaffle . ',0',
             'select'  => 'id_ticket',
-            'startAt' => 0,
-            'endAt'   => $pageSize,
+            'startAt' => $startAt,
+            'endAt'   => $startAt + $poolSize - 1,
         ]);
 
-        return self::listarResultados($res);
+        $tickets = self::listarResultados($res);
+
+        if (count($tickets) < $necesarios) {
+            $res = ApiRequest::get("tickets", [
+                'linkTo'  => 'id_raffle_ticket,status_ticket',
+                'equalTo' => $idRaffle . ',0',
+                'select'  => 'id_ticket',
+                'startAt' => 0,
+                'endAt'   => max($poolSize, 5000) - 1,
+            ]);
+            $tickets = self::listarResultados($res);
+        }
+
+        if (!empty($tickets)) {
+            shuffle($tickets);
+        }
+
+        return $tickets;
     }
 
     private static function listarResultados($res): array
