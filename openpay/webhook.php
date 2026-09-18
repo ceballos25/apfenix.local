@@ -1,7 +1,7 @@
 <?php
 /**
  * Webhook OpenPay
- * VERSION: 2026-09-18-pse-extras
+ * VERSION: 2026-09-18-pse-retry
  */
 
 ignore_user_abort(true);
@@ -70,47 +70,15 @@ if (!$type || !$tx || empty($tx['order_id'])) {
     exit;
 }
 
-// =====================================================
-// BUSCAR RESPALDO
-// =====================================================
-$backup = PaymentBackupsController::obtenerPorCode($tx['order_id']);
-if (!$backup) {
-    file_put_contents(
-        __DIR__ . '/openpay.log',
-        '[' . date('Y-m-d H:i:s') . '] ?7?2?1?5 Respaldo no encontrado: ' . $tx['order_id'] . PHP_EOL,
-        FILE_APPEND
-    );
-    http_response_code(200);
-    exit;
-}
+$orderId = (string) $tx['order_id'];
+$backup = PaymentBackupsController::obtenerPorCode($orderId);
 
-// =====================================================
-// IDEMPOTENCIA - CR?0?1TICO
-// Solo procesar si est?? PENDIENTE (status = 1)
-// =====================================================
-if ((int)$backup['status_payment_backup'] !== 1) {
-    file_put_contents(
-        __DIR__ . '/openpay.log',
-        '[' . date('Y-m-d H:i:s') . '] ?7?1?1?5 YA PROCESADO (status=' . 
-        $backup['status_payment_backup'] . ') - Ignorando evento: ' . $type . PHP_EOL,
-        FILE_APPEND
-    );
-    http_response_code(200);
-    exit;
-}
-
-// =====================================================
-// DECISI?0?7N POR TIPO DE EVENTO
-// =====================================================
-
-// ?7?3 EVENTOS QUE CREAN VENTA
 $eventosAprobados = [
     'charge.succeeded',
     'order.completed',
-    'order.payment.received'
+    'order.payment.received',
 ];
 
-// ?7?4 EVENTOS QUE CANCELAN / FALLAN
 $eventosRechazados = [
     'charge.failed',
     'charge.cancelled',
@@ -118,18 +86,23 @@ $eventosRechazados = [
     'charge.rescored.to.decline',
     'order.expired',
     'order.cancelled',
-    'order.payment.cancelled'
+    'order.payment.cancelled',
 ];
 
 if (in_array($type, $eventosAprobados, true)) {
-    file_put_contents(
+    @file_put_contents(
         __DIR__ . '/openpay.log',
-        '[' . date('Y-m-d H:i:s') . '] PROCESANDO APROBACION: ' . $type . ' - ' . $tx['order_id'] . PHP_EOL,
+        '[' . date('Y-m-d H:i:s') . '] PROCESANDO APROBACION: ' . $type . ' - ' . $orderId
+        . ' backup_status=' . ($backup['status_payment_backup'] ?? 'ninguno') . PHP_EOL,
         FILE_APPEND
     );
-    PaymentBackupsController::aprobarPago($backup, $tx);
 
-    $orderId = (string) $tx['order_id'];
+    // Crear venta solo si el respaldo sigue pendiente. Si OpenPay reintenta
+    // (status 2), NO ignorar: hay que completar extras de preventa.
+    if ($backup && (int) $backup['status_payment_backup'] === 1) {
+        PaymentBackupsController::aprobarPago($backup, $tx);
+    }
+
     $idSaleMail = 0;
 
     try {
@@ -188,13 +161,15 @@ if (in_array($type, $eventosAprobados, true)) {
     exit;
 
 } elseif (in_array($type, $eventosRechazados, true)) {
-    file_put_contents(
+    @file_put_contents(
         __DIR__ . '/openpay.log',
-        '[' . date('Y-m-d H:i:s') . '] ?7?4 PROCESANDO RECHAZO: ' . $type . ' - ' . $tx['order_id'] . PHP_EOL,
+        '[' . date('Y-m-d H:i:s') . '] PROCESANDO RECHAZO: ' . $type . ' - ' . $orderId . PHP_EOL,
         FILE_APPEND
     );
-    PaymentBackupsController::rechazarPago($backup, $tx);
-    
+    if ($backup) {
+        PaymentBackupsController::rechazarPago($backup, $tx);
+    }
+
 } else {
     file_put_contents(
         __DIR__ . '/openpay.log',
