@@ -45,24 +45,39 @@ class Promo2x1Garantia
         $idCustomer = (int) $venta->id_customer_sale;
         $idRaffle = (int) $venta->id_raffle_sale;
         require_once __DIR__ . '/dinamica.php';
-        $paid = DinamicaHelper::inferPaidFromTotal((float) $venta->total_sale);
+        require_once __DIR__ . '/preventa-qty.php';
+        $pseFix = __DIR__ . '/pse-preventa-fix.php';
+        if (is_file($pseFix)) {
+            require_once $pseFix;
+        }
 
-        // Preferir quantity del backup si existe
+        $qtyBackup = 0;
+        $amountBackup = (float) $venta->total_sale;
         $backup = ApiRequest::get('payment_backups', [
             'linkTo' => 'code_payment_backup',
             'equalTo' => $codeSale,
-            'select' => 'quantity_payment_backup',
+            'select' => 'quantity_payment_backup,amount_payment_backup',
         ]);
         if (ApiRequest::isSuccess($backup) && !empty($backup->results)) {
             $b = is_array($backup->results) ? $backup->results[0] : $backup->results;
-            if (!empty($b->quantity_payment_backup)) {
-                $paid = (int) $b->quantity_payment_backup;
+            $qtyBackup = (int) ($b->quantity_payment_backup ?? 0);
+            if (!empty($b->amount_payment_backup)) {
+                $amountBackup = (float) $b->amount_payment_backup;
             }
         }
 
-        $need = Promo2x1Helper::quantityDelivered($paid);
-        require_once __DIR__ . '/preventa-qty.php';
-        $need = max($need, apfenix_cantidad_entregada($paid));
+        if (class_exists('PsePreventaFix')) {
+            $cant = PsePreventaFix::cantidades($amountBackup, $qtyBackup);
+            $paid = $cant['paid'];
+            $need = $cant['need'];
+        } else {
+            $paid = DinamicaHelper::inferPaidFromTotal($amountBackup);
+            $need = max(
+                Promo2x1Helper::quantityDelivered($paid),
+                apfenix_cantidad_entregada($paid),
+                $qtyBackup
+            );
+        }
 
         $ticketsRes = ApiRequest::get('tickets', [
             'linkTo' => 'id_sale_ticket',

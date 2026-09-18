@@ -24,6 +24,38 @@ class PsePreventaFix
         return $pagados + max(1, (int) round($pagados * 0.30));
     }
 
+    /**
+     * Cobro = monto / 9000. El extra de preventa no se cobra.
+     * $qtyHint es lo que ya se debe entregar (respaldo), nunca lo pagado.
+     */
+    public static function cantidades(float $amount, int $qtyHint = 0): array
+    {
+        require_once __DIR__ . '/dinamica.php';
+        require_once __DIR__ . '/promo2x1.php';
+        $preventaQty = __DIR__ . '/preventa-qty.php';
+        if (is_file($preventaQty)) {
+            require_once $preventaQty;
+        }
+
+        $paid = DinamicaHelper::inferPaidFromTotal($amount);
+        if ($paid <= 0) {
+            $paid = max(0, $qtyHint);
+        }
+
+        $need = max(
+            self::entregados($paid),
+            Promo2x1Helper::quantityDelivered($paid),
+            DinamicaHelper::quantityDelivered($paid),
+            function_exists('apfenix_cantidad_entregada') ? apfenix_cantidad_entregada($paid) : $paid,
+            $qtyHint
+        );
+
+        return [
+            'paid' => $paid,
+            'need' => $need,
+        ];
+    }
+
     public static function completarPorCodigo(string $code): array
     {
         $empty = [
@@ -53,11 +85,13 @@ class PsePreventaFix
 
         $venta = is_array($res->results) ? $res->results[0] : $res->results;
 
+        require_once __DIR__ . '/dinamica.php';
+
         return self::completarVenta(
             (int) $venta->id_sale,
             (int) $venta->id_customer_sale,
             (int) $venta->id_raffle_sale,
-            (int) round((float) $venta->total_sale / 9000),
+            DinamicaHelper::inferPaidFromTotal((float) $venta->total_sale),
             (int) $venta->quantity_sale,
             $code
         );
@@ -72,26 +106,32 @@ class PsePreventaFix
         string $code = ''
     ): array {
         $paid = $paidGuess;
+        $qtyBackup = 0;
+        $amountBackup = 0.0;
 
         if ($code !== '') {
             $backup = ApiRequest::get('payment_backups', [
                 'linkTo' => 'code_payment_backup',
                 'equalTo' => $code,
-                'select' => 'quantity_payment_backup',
+                'select' => 'quantity_payment_backup,amount_payment_backup',
             ]);
             if (ApiRequest::isSuccess($backup) && !empty($backup->results)) {
                 $b = is_array($backup->results) ? $backup->results[0] : $backup->results;
-                if (!empty($b->quantity_payment_backup)) {
-                    $paid = (int) $b->quantity_payment_backup;
-                }
+                $qtyBackup = (int) ($b->quantity_payment_backup ?? 0);
+                $amountBackup = (float) ($b->amount_payment_backup ?? 0);
             }
         }
 
+        $amount = $amountBackup > 0 ? $amountBackup : ($paid > 0 ? $paid * 9000 : 0);
+        $cant = self::cantidades($amount, $qtyBackup);
+        $paid = $cant['paid'] > 0 ? $cant['paid'] : $paid;
         if ($paid <= 0) {
             $paid = max(3, $quantitySale);
+            $cant = self::cantidades($paid * 9000, $qtyBackup);
+            $paid = $cant['paid'];
         }
 
-        $need = self::entregados($paid);
+        $need = max($cant['need'], self::entregados($paid));
         $ticketsRes = ApiRequest::get('tickets', [
             'linkTo' => 'id_sale_ticket',
             'equalTo' => $idSale,

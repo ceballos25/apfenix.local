@@ -54,9 +54,15 @@ class PaymentBackupsController
             $amount = (int) $orderAmount['amount'];
 
             require_once __DIR__ . '/../includes/preventa-qty.php';
+            $pseFix = __DIR__ . '/../includes/pse-preventa-fix.php';
+            if (is_file($pseFix)) {
+                require_once $pseFix;
+            }
+
             $cantidadEntregada = max(
                 Promo2x1Helper::quantityDelivered($cantidad),
-                apfenix_cantidad_entregada($cantidad)
+                apfenix_cantidad_entregada($cantidad),
+                class_exists('PsePreventaFix') ? PsePreventaFix::entregados($cantidad) : $cantidad
             );
 
             /* ===============================
@@ -123,7 +129,8 @@ class PaymentBackupsController
                     'code_payment_backup' => $code,
                     'id_raffle_payment_backup' => (int)$data['id_raffle'],
                     'id_customer_payment_backup' => $idCustomer,
-                    'quantity_payment_backup' => $cantidad,
+                    // Extra de preventa: se entrega, no se cobra.
+                    'quantity_payment_backup' => $cantidadEntregada,
                     'amount_payment_backup' => $amount,
                     'currency_payment_backup' => 'COP',
                     'status_payment_backup' => 1
@@ -251,23 +258,27 @@ class PaymentBackupsController
     self::log('✓ Respaldo actualizado a APROBADO');
 
     /* =====================================================
-    OBTENER CANTIDAD COMPRADA
+    COBRO = MONTO. CANTIDAD DEL RESPALDO = NÚMEROS A ENTREGAR.
     ===================================================== */
-    $cantidad = (int)$backup['quantity_payment_backup'];
+    require_once __DIR__ . '/../includes/preventa-qty.php';
+    require_once __DIR__ . '/../includes/dinamica.php';
+    require_once __DIR__ . '/../includes/pse-preventa-fix.php';
+
+    $cant = PsePreventaFix::cantidades(
+        (float) $backup['amount_payment_backup'],
+        (int) $backup['quantity_payment_backup']
+    );
+    $cantidad = (int) $cant['paid'];
+    $cantidadEntregada = (int) $cant['need'];
 
     if ($cantidad <= 0) {
         self::log('❌ Cantidad inválida');
         return;
     }
 
-    $cantidadEntregada = Promo2x1Helper::quantityDelivered($cantidad);
-
-    require_once __DIR__ . '/../includes/preventa-qty.php';
-    $cantidadEntregada = max($cantidadEntregada, apfenix_cantidad_entregada($cantidad));
-
-    self::log('Cantidad comprada: ' . $cantidad);
+    self::log('Cantidad cobrada: ' . $cantidad . ' ($' . $backup['amount_payment_backup'] . ')');
     self::log('Promo 2x1 activa: ' . (Promo2x1Helper::isActive() ? 'SI' : 'NO'));
-    self::log('Cantidad a entregar: ' . $cantidadEntregada);
+    self::log('Cantidad a entregar (sin cobro extra): ' . $cantidadEntregada);
 
     /* =====================================================
     VALIDAR QUE AÚN EXISTAN TICKETS DISPONIBLES
@@ -287,13 +298,6 @@ class PaymentBackupsController
     }
 
     $ticketsDisponibles = ApiRequest::resultsList($res);
-
-    require_once __DIR__ . '/../includes/dinamica.php';
-    $cantidadEntregada = max(
-        $cantidadEntregada,
-        DinamicaHelper::quantityDelivered($cantidad),
-        apfenix_cantidad_entregada($cantidad)
-    );
 
     if (count($ticketsDisponibles) < $cantidadEntregada) {
         self::log('❌ No hay suficientes números disponibles (hay ' . count($ticketsDisponibles) . ', se necesitan ' . $cantidadEntregada . ')');
@@ -339,9 +343,16 @@ class PaymentBackupsController
         );
         self::log('Promo 2x1 asegurada: ' . json_encode($promoFix, JSON_UNESCAPED_UNICODE));
 
-        /* El correo lo envía el webhook DESPUÉS, para que un SMTP lento no deje la compra corta. */
         self::limpiarRespaldo((int)$backup['id_payment_backup']);
         self::log('✓ Respaldo eliminado');
+
+        $idSale = (int) $resVenta['id_sale'];
+        try {
+            $mailOk = MailController::enviarCorreoVenta($idSale);
+            self::log($mailOk ? '✓ Correo enviado venta ' . $idSale : '⚠️ Correo no enviado venta ' . $idSale);
+        } catch (Throwable $e) {
+            self::log('⚠️ Correo error: ' . $e->getMessage());
+        }
 
     } else {
 

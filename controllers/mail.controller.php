@@ -5,6 +5,9 @@ use PHPMailer\PHPMailer\Exception as MailException;
 
 class MailController {
 
+    /** @var array<int, bool> */
+    private static $enviados = [];
+
     /**
      * Carga Composer solo al enviar correo. Retorna false si vendor/ no existe.
      */
@@ -36,6 +39,14 @@ class MailController {
         $mail->Username   = SMTP_USER;
         $mail->Password   = SMTP_PASS;
         $mail->Port       = SMTP_PORT;
+        $mail->Timeout    = 20;
+        $mail->SMTPOptions = [
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true,
+            ],
+        ];
 
         if (SMTP_ENCRYPTION === 'ssl') {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
@@ -48,9 +59,9 @@ class MailController {
     {
         $dir = ROOT_PATH . '/logs';
         if (!is_dir($dir)) {
-            mkdir($dir, 0755, true);
+            @mkdir($dir, 0755, true);
         }
-        file_put_contents(
+        @file_put_contents(
             $dir . '/mail.log',
             '[' . date('Y-m-d H:i:s') . '] ' . $message . PHP_EOL,
             FILE_APPEND
@@ -59,9 +70,16 @@ class MailController {
 
     public static function enviarCorreoVenta(int $idSale): bool
     {
+        if ($idSale <= 0) {
+            return false;
+        }
+        if (array_key_exists($idSale, self::$enviados)) {
+            return self::$enviados[$idSale];
+        }
+
         if (!self::boot()) {
             self::logMailError("Venta {$idSale}: no se pudo cargar PHPMailer (vendor).");
-            return false;
+            return self::$enviados[$idSale] = false;
         }
 
         $venta = VentasController::consultarVenta($idSale);
@@ -90,7 +108,6 @@ class MailController {
             ini_set('default_socket_timeout', '30');
 
             self::configureSmtp($mail);
-            $mail->Timeout = 30;
             $mail->setFrom(MAIL_FROM, MAIL_FROM_NAME);
             $mail->addAddress($email, trim($venta->name_customer . ' ' . $venta->lastname_customer));
 
@@ -107,11 +124,34 @@ class MailController {
             if ($previousTimeout !== false) {
                 ini_set('default_socket_timeout', (string) $previousTimeout);
             }
-            return true;
+            self::logMailError("Venta {$idSale}: enviado a {$email}");
+            return self::$enviados[$idSale] = true;
 
         } catch (Throwable $e) {
-            self::logMailError("Venta {$idSale}: " . $e->getMessage());
-            return false;
+            self::logMailError("Venta {$idSale} via " . SMTP_HOST . ': ' . $e->getMessage());
+            $retryHost = strtolower((string) SMTP_HOST);
+            if ($retryHost !== 'localhost' && $retryHost !== '127.0.0.1') {
+                try {
+                    $mail = new PHPMailer(true);
+                    self::configureSmtp($mail);
+                    $mail->Host = 'localhost';
+                    $mail->setFrom(MAIL_FROM, MAIL_FROM_NAME);
+                    $mail->addAddress($email, trim($venta->name_customer . ' ' . $venta->lastname_customer));
+                    if (MAIL_BCC) {
+                        $mail->addBCC(MAIL_BCC);
+                    }
+                    $mail->isHTML(true);
+                    $mail->Subject = 'Confirmación de compra - ' . SITE_NAME . ' - ' . $idSale;
+                    $mail->Body    = $html;
+                    $mail->AltBody = 'Gracias por tu compra. Revisa el comprobante en este correo.';
+                    $mail->send();
+                    self::logMailError("Venta {$idSale}: enviado a {$email} vía localhost");
+                    return self::$enviados[$idSale] = true;
+                } catch (Throwable $e2) {
+                    self::logMailError("Venta {$idSale} via localhost: " . $e2->getMessage());
+                }
+            }
+            return self::$enviados[$idSale] = false;
         }
     }
 

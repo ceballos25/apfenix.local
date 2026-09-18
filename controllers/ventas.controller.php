@@ -112,15 +112,7 @@ class VentasController {
     */
     public static function crearVenta($data)
     {
-        $cantidadPagada = (int)($data['quantity_paid'] ?? $data['quantity_sale'] ?? 0);
         $idRaffle = (int)($data['id_raffle'] ?? 0);
-
-        if ($cantidadPagada <= 0 || $idRaffle <= 0) {
-            return [
-                'success' => false,
-                'message' => 'Datos inválidos para crear venta'
-            ];
-        }
 
         require_once __DIR__ . '/../includes/coupon.php';
         require_once __DIR__ . '/../includes/promo2x1.php';
@@ -132,14 +124,32 @@ class VentasController {
             require_once $preventaQty;
         }
 
-        $extraPreventa = function_exists('apfenix_cantidad_entregada')
-            ? apfenix_cantidad_entregada($cantidadPagada)
-            : $cantidadPagada;
-
         $pseFix = __DIR__ . '/../includes/pse-preventa-fix.php';
         if (is_file($pseFix)) {
             require_once $pseFix;
         }
+
+        $cantidadPagada = (int)($data['quantity_paid'] ?? $data['quantity_sale'] ?? 0);
+        // Si el respaldo ya trae el extra (4 nums) y el cobro es de 3 ($27.000),
+        // no tratar el extra como pagado. Si quantity_sale es lo pagado (venta manual),
+        // no se toca.
+        if ($cantidadPagada > 0 && !empty($data['total_sale'])) {
+            $porMonto = DinamicaHelper::inferPaidFromTotal((float) $data['total_sale']);
+            if ($porMonto > 0 && $cantidadPagada > $porMonto) {
+                $cantidadPagada = $porMonto;
+            }
+        }
+
+        if ($cantidadPagada <= 0 || $idRaffle <= 0) {
+            return [
+                'success' => false,
+                'message' => 'Datos inválidos para crear venta'
+            ];
+        }
+
+        $extraPreventa = function_exists('apfenix_cantidad_entregada')
+            ? apfenix_cantidad_entregada($cantidadPagada)
+            : $cantidadPagada;
 
         $cantidadEntregada = max(
             $extraPreventa,
@@ -279,8 +289,7 @@ class VentasController {
 
         $mailSent = false;
         $warning  = null;
-        $skipMail = !empty($data['skip_mail'])
-            || (($data['payment_method_sale'] ?? '') === 'Página Web');
+        $skipMail = !empty($data['skip_mail']);
 
         if (!$skipMail) {
             try {

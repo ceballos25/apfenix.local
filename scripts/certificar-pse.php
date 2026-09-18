@@ -83,6 +83,16 @@ $idSale = 0;
 $ticketNums = [];
 
 if ($code !== '') {
+    $backupRes = ApiRequest::get('payment_backups', [
+        'linkTo' => 'code_payment_backup',
+        'equalTo' => $code,
+        'select' => 'quantity_payment_backup,amount_payment_backup',
+    ]);
+    $backupRow = ApiRequest::resultsList($backupRes)[0] ?? null;
+    $backupQty = (int) ($backupRow->quantity_payment_backup ?? 0);
+    $backupAmt = (int) ($backupRow->amount_payment_backup ?? 0);
+    step('1b. respaldo entrega 4 y cobra $27.000', $backupQty === 4 && $backupAmt === 27000, "qty={$backupQty} amount={$backupAmt}");
+
     $t0 = microtime(true);
     $hook = httpPostJson("$base/openpay/webhook.php", [
         'type' => 'charge.succeeded',
@@ -118,6 +128,7 @@ if ($code !== '') {
         }
         step('3. venta creada por Página Web', ($sale->payment_method_sale ?? '') === 'Página Web', "id=$idSale method={$sale->payment_method_sale}");
         step('4. pagó 3 y quantity_sale=4', (int) $sale->quantity_sale === 4, "qty={$sale->quantity_sale} total={$sale->total_sale}");
+        step('4b. total cobrado $27.000 (no $36.000)', (int) $sale->total_sale === 27000, "total={$sale->total_sale}");
         step('5. hay 4 tickets asignados', count($tickets) === 4, 'nums=' . implode(',', $ticketNums));
     } else {
         step('3. venta creada', false, 'no existe sale con ' . $code);
