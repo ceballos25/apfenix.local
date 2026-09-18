@@ -692,14 +692,26 @@ public static function obtenerAdmins() {
 
     private static function resolveAdminForSale(array $data): ?int
     {
+        if (isset($data['id_admin']) && (int) $data['id_admin'] > 0) {
+            return (int) $data['id_admin'];
+        }
+
         $auth = __DIR__ . '/../includes/auth.php';
         if (is_file($auth)) {
             require_once $auth;
         }
         if (class_exists('Auth')) {
-            return Auth::resolveSellerIdForSale($data);
+            $id = Auth::resolveSellerIdForSale($data);
+            if ($id !== null && (int) $id > 0) {
+                return (int) $id;
+            }
         }
-        return isset($data['id_admin']) ? (int) $data['id_admin'] : null;
+
+        if (($data['payment_method_sale'] ?? '') === 'Página Web') {
+            return (int) (function_exists('env') ? (env('WEB_SELLER_ID') ?: 99) : 99);
+        }
+
+        return null;
     }
 
     private static function extractNewSaleId($resVenta): int

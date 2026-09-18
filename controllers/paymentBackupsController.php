@@ -384,6 +384,7 @@ class PaymentBackupsController
         'total_sale' => $backup['amount_payment_backup'],
         'code_sale' => $backup['code_payment_backup'],
         'payment_method_sale' => 'Página Web',
+        'id_admin' => (int) (function_exists('env') ? (env('WEB_SELLER_ID') ?: 99) : 99),
         'skip_mail' => true,
     ]);
 
